@@ -1,1 +1,0 @@
-#Fatto sull'altro pc
