@@ -1,14 +1,15 @@
 # Creazione tabella e lettura file
+
 schieramento = []
 elementi = []
-infile = open("schieramento2.txt", "r")
+infile = open("schieramento.txt", "r")
 line = infile.readline().rstrip()
 
 while line != "":
     row = []
     for element in line:
         row.append(element)
-        elementi.append(element)
+        elementi.append(element) # Lista con tutti gli elementi per calcolare il numero di file
     schieramento.append(row)
     line = infile.readline().rstrip()
 
@@ -20,24 +21,24 @@ infile.close()
 larghezza = 0
 coord = None
 
-file = max(elementi) # File
+file = max(elementi) # Numero di file
 
 for i in range(len(schieramento)):
     for j in range(len(schieramento[i])):
         if schieramento[i][j] == "1":
-            # Larghezza
+            # Larghezza delle file
             larghezza += 1
             if coord == None:
-                coord = (i, j)
+                coord = (i, j) # Coordinate del primo 1 incontrato
 
-            # Direzione
+            # Direzione dello schieramento
             if schieramento[i + 1][j] == "2":
                 direzione = "Nord"
-            if schieramento[i][j - 1] == "2":
+            elif schieramento[i][j - 1] == "2":
                 direzione = "Est"
-            if schieramento[i - 1][j] == "2":
+            elif schieramento[i - 1][j] == "2":
                 direzione = "Sud"
-            if schieramento[i][j + 1] == "2":
+            elif schieramento[i][j + 1] == "2":
                 direzione = "Ovest"
 
 # Numero di buchi
@@ -45,7 +46,7 @@ for i in range(len(schieramento)):
 buchiMax = 0
 
 if direzione == "Nord":
-    for i in range(coord[0], coord[0] + int(file)):
+    for i in range(coord[0] + 1, coord[0] + int(file)):
         buchi = 0
         for j in range(coord[1], coord[1] + larghezza):
             if schieramento[i][j] == "0":
@@ -55,7 +56,7 @@ if direzione == "Nord":
             filaBuchiMax = schieramento[i][coord[1]]
 
 if direzione == "Sud":
-    for i in range(coord[0], coord[0] - int(file)):
+    for i in range(coord[0] - int(file) + 1, coord[0]):
         buchi = 0
         for j in range(coord[1], coord[1] + larghezza):
             if schieramento[i][j] == "0":
@@ -64,14 +65,35 @@ if direzione == "Sud":
             buchiMax = buchi
             filaBuchiMax = schieramento[i][coord[1]]
 
-
-
 if direzione == "Est":
-    for j in range(coord[1], coord[1] + larghezza):
-        for i in range(coord[0], coord[0] - int(file)):
-            print(schieramento[i][j], end="")
-        print()
+    for j in range(coord[0] - int(file) + 1, coord[0]):
+        buchi = 0
+        for i in range(coord[1], coord[1] + larghezza):
+            if schieramento[i][j] == "0":
+                buchi += 1
+        if buchi > buchiMax:
+            buchiMax = buchi
+            filaBuchiMax = schieramento[coord[0]][j]
 
+if direzione == "Ovest":
+    for j in range(coord[0] + 1, coord[0] + int(file)):
+        buchi = 0
+        for i in range(coord[1], coord[1] + larghezza):
+            if schieramento[i][j] == "0":
+                buchi += 1
+        if buchi > buchiMax:
+            buchiMax = buchi
+            filaBuchiMax = schieramento[coord[0]][j]
+
+
+# Stampa della tabella
+
+print("\nSchieramento:")
+
+for i in range(len(schieramento)):
+    for j in range(len(schieramento[i])):
+        print(schieramento[i][j], end="")
+    print()
 
 
 # Stampa risultati
@@ -80,13 +102,3 @@ print("\nLa larghezza dello schieramento è " + str(larghezza))
 print("Il numero di file è " + file)
 print("La direzione è " + direzione)
 print("La fila con più buchi è " + str(filaBuchiMax))
-
-print(coord)
-
-# Stampa della tabella
-
-print("\nSchieramento:")
-for i in range(len(schieramento)):
-    for j in range(len(schieramento[i])):
-        print(schieramento[i][j], end="")
-    print()
