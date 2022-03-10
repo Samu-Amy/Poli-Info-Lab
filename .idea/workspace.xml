@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="64a112dc-8203-4ee2-a0f6-ecd1590a77d3" name="Changes" comment="">
+    <list default="true" id="64a112dc-8203-4ee2-a0f6-ecd1590a77d3" name="Changes" comment="Completato il laboratorio 2">
+      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lab_2/test3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Lab_2/test4.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Lab_2/Es1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lab_2/Es1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab_2/schieramento2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Lab_2/test2.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +36,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
@@ -129,6 +134,14 @@
       <option name="presentableId" value="Default" />
       <updated>1646490752695</updated>
     </task>
+    <task id="LOCAL-00001" summary="Completato il laboratorio 2">
+      <created>1646931018362</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1646931018362</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,15 +155,8 @@
       </map>
     </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Lab_2/Es1.py</url>
-          <line>56</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Completato il laboratorio 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completato il laboratorio 2" />
   </component>
 </project>
