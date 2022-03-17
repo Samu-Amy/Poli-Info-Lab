@@ -41,7 +41,7 @@ for i in range(len(schieramento)):
             elif schieramento[i][j + 1] == "2":
                 direzione = "Ovest"
 
-# Numero di buchi (oppure un dizionario con il numero di num != 0 per ogni riga)
+# Numero di buchi
 
 buchiMax = 0
 
@@ -84,6 +84,20 @@ if direzione == "Ovest":
         if buchi > buchiMax:
             buchiMax = buchi
             filaBuchiMax = schieramento[coord[0]][j]
+
+# Versione alternativa per il numero di buchi
+
+# buchi = {}
+#
+# for i in range(len(schieramento)):
+#     for j in range(len(schieramento[i])):
+#         if schieramento[i][j] != 0:
+#             if buchi.get(schieramento[i][j]) == None:
+#                 buchi[schieramento[i][j]] = 0
+#             else:
+#                 buchi[schieramento[i][j]] += 1
+#
+# print(buchi)
 
 
 # Stampa della tabella
