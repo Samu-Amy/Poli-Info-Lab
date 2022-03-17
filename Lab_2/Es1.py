@@ -41,7 +41,7 @@ for i in range(len(schieramento)):
             elif schieramento[i][j + 1] == "2":
                 direzione = "Ovest"
 
-# Numero di buchi
+# Numero di buchi (oppure un dizionario con il numero di num != 0 per ogni riga)
 
 buchiMax = 0
 
