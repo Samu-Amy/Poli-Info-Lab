@@ -19,7 +19,6 @@ infile.close()
 # Algoritmo principale
 
 larghezza = 0
-coord = None
 
 file = max(elementi) # Numero di file
 
@@ -28,8 +27,6 @@ for i in range(len(schieramento)):
         if schieramento[i][j] == "1":
             # Larghezza delle file
             larghezza += 1
-            if coord == None:
-                coord = (i, j) # Coordinate del primo 1 incontrato
 
             # Direzione dello schieramento
             if schieramento[i + 1][j] == "2":
@@ -41,63 +38,17 @@ for i in range(len(schieramento)):
             elif schieramento[i][j + 1] == "2":
                 direzione = "Ovest"
 
+
 # Numero di buchi
 
-buchiMax = 0
+buchi = [0]*(int(file) + 1)
 
-if direzione == "Nord":
-    for i in range(coord[0] + 1, coord[0] + int(file)):
-        buchi = 0
-        for j in range(coord[1], coord[1] + larghezza):
-            if schieramento[i][j] == "0":
-                buchi += 1
-        if buchi > buchiMax:
-            buchiMax = buchi
-            filaBuchiMax = schieramento[i][coord[1]]
 
-if direzione == "Sud":
-    for i in range(coord[0] - int(file) + 1, coord[0]):
-        buchi = 0
-        for j in range(coord[1], coord[1] + larghezza):
-            if schieramento[i][j] == "0":
-                buchi += 1
-        if buchi > buchiMax:
-            buchiMax = buchi
-            filaBuchiMax = schieramento[i][coord[1]]
+for i in range(len(schieramento)):
+    for j in range(len(schieramento[i])):
+        buchi[int(schieramento[i][j])] += 1
 
-if direzione == "Est":
-    for j in range(coord[0] - int(file) + 1, coord[0]):
-        buchi = 0
-        for i in range(coord[1], coord[1] + larghezza):
-            if schieramento[i][j] == "0":
-                buchi += 1
-        if buchi > buchiMax:
-            buchiMax = buchi
-            filaBuchiMax = schieramento[coord[0]][j]
-
-if direzione == "Ovest":
-    for j in range(coord[0] + 1, coord[0] + int(file)):
-        buchi = 0
-        for i in range(coord[1], coord[1] + larghezza):
-            if schieramento[i][j] == "0":
-                buchi += 1
-        if buchi > buchiMax:
-            buchiMax = buchi
-            filaBuchiMax = schieramento[coord[0]][j]
-
-# Versione alternativa per il numero di buchi
-
-# buchi = {}
-#
-# for i in range(len(schieramento)):
-#     for j in range(len(schieramento[i])):
-#         if schieramento[i][j] != 0:
-#             if buchi.get(schieramento[i][j]) == None:
-#                 buchi[schieramento[i][j]] = 0
-#             else:
-#                 buchi[schieramento[i][j]] += 1
-#
-# print(buchi)
+filaBuchiMax = buchi.index(min(buchi))
 
 
 # Stampa della tabella
