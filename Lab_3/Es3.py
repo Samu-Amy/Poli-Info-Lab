@@ -11,17 +11,16 @@ for line in inFile:
 root = Tk()
 root.title("Il sabato del villaggio") # Upgrade: prendilo dal file
 root.geometry("+500+200")
-root.rowconfigure(0, weight=1)
-root.columnconfigure(0, weight=1)
 
-textDisplay = Text(root, state="")
-textDisplay.grid(row=0, column=0)
+fullTextVar = StringVar(value=fullText)
 
-for index in range(len(fullText)):
-    textDisplay.insert(str(index) + ".0", fullText[index])
+textDisplay = Listbox(root, listvariable=fullTextVar, width=50, height=25)
+textDisplay.pack(side=LEFT, fill=BOTH)
 
 scrollBar = ttk.Scrollbar(root, orient="vertical", command=textDisplay.yview)
-scrollBar.grid(row=0, column=1)
+scrollBar.pack(side=RIGHT, fill=Y)
+
+textDisplay["yscrollcommand"] = scrollBar.set
 
 
 root.mainloop()

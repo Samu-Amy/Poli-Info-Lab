@@ -4,7 +4,6 @@ from tkinter import ttk
 
 def colorChange(color):
     testo["background"] = color
-    print("ok")
 
 
 root = Tk()

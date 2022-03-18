@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64a112dc-8203-4ee2-a0f6-ecd1590a77d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Lab_3/sabato.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab_3/Es1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lab_3/Es1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Lab_3/Es2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lab_3/Es2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Lab_3/Es3.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lab_3/Es3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab_3/Es4.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lab_3/Es4.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +36,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Lab_3" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -45,7 +44,7 @@
       <recent name="C:\Users\LENOVO\Desktop\Studio\Secondo anno - secondo semestre\Algoritmi e programmazione a oggetti\Repository lab\Poli-Info-Lab\Lab_2" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Es3">
+  <component name="RunManager" selected="Python.Es4 (1)">
     <configuration name="Es1 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Poli-Info-Lab" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -53,9 +52,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="D:\Users\samut\Lab 1\Lab4Es\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Lab_3" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="software.aws.toolkits.jetbrains.core.execution.PythonAwsConnectionExtension">
@@ -105,9 +104,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="D:\Users\samut\Lab 1\Lab4Es\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Lab_3" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="software.aws.toolkits.jetbrains.core.execution.PythonAwsConnectionExtension">
@@ -157,11 +156,16 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="D:\Users\samut\Lab 1\Lab4Es\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Lab_3" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="software.aws.toolkits.jetbrains.core.execution.PythonAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </EXTENSION>
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Lab_3/Es3.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -171,19 +175,24 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Es4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Es4 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Poli-Info-Lab" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Lab_1" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="SDK_HOME" value="D:\Users\samut\Lab 1\Lab4Es\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Lab_3" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Lab_1/Es4.py" />
+      <EXTENSION ID="software.aws.toolkits.jetbrains.core.execution.PythonAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </EXTENSION>
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Lab_3/Es4.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -197,16 +206,16 @@
       <item itemvalue="Python.Es1 (1)" />
       <item itemvalue="Python.Es2" />
       <item itemvalue="Python.Es2 (1)" />
-      <item itemvalue="Python.Es4" />
       <item itemvalue="Python.Es3" />
+      <item itemvalue="Python.Es4 (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Es4 (1)" />
         <item itemvalue="Python.Es3" />
-        <item itemvalue="Python.Es1 (1)" />
         <item itemvalue="Python.Es2 (1)" />
+        <item itemvalue="Python.Es1 (1)" />
         <item itemvalue="Python.Es2" />
-        <item itemvalue="Python.Es4" />
       </list>
     </recent_temporary>
   </component>
