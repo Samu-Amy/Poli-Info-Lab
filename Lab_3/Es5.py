@@ -59,10 +59,6 @@ def submit(event):
                     bestPlayersVar.set(bestPlayers)
                     bestScoresVar.set(bestScores)
 
-                print(bestPlayersList)
-                print(bestPlayers)
-                print(bestScores)
-
 
         except ValueError:
             errorMessage.set("Punteggio non valido")
