@@ -3,13 +3,24 @@ from tkinter import ttk
 
 fullText=[]
 
-inFile=open("sabato.txt", "r")
+inFile=open("sabato.txt", "r", encoding="UTF-8")
 for line in inFile:
     fullText.append(line)
 
+# Titolo del testo
+
+title = fullText[0][0].upper() + fullText[0][1:].lower()
+
+#
+
+if fullText[1].strip() == "":
+    fullText.pop(1)
+
+fullText.pop(0)
+
 
 root = Tk()
-root.title("Il sabato del villaggio") # Upgrade: prendilo dal file
+root.title(title)
 root.geometry("+500+200")
 
 fullTextVar = StringVar(value=fullText)
