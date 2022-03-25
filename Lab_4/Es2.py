@@ -146,5 +146,7 @@ window = Toplevel(root) #TODO: Dovrebbe aprirsi sopra
 window.title("Nomi")
 window.geometry("+500+200")
 
+# Inserimento nomi
+
 
 root.mainloop()
