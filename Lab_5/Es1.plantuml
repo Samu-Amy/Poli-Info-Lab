@@ -1,0 +1,63 @@
+@startuml Es1
+!define DARKORANGE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+
+
+class Corso {
+    codice
+    insegnamento
+    cfu
+    studenti
+    getStudenti()
+}
+
+class Studente {
+    nome
+    matricola
+    età
+    corsi
+    iscrizioneCorso()
+    getCorsi()
+}
+
+Class TimeSlot {
+    numeroAula
+    oraInizio
+    oraFine
+    corso
+    numeroIscritti
+    prenotazione()
+    iscrizioneStudenti()
+    getCorso()
+    getNumeroIscritti()
+}
+
+Corso "0..*" <-- Studente
+TimeSlot "0..*" <-- "1" Corso
+TimeSlot <-- Studente
+
+
+
+' Esempi
+
+' class MyClass {
+'     - count: int
+'     + int number
+'     # String name
+
+'     - methodOne()
+'     + methodTwo()
+'     # methodThree()
+' }
+
+' class SecondClass {
+'     int aSecretField
+'     aSecretMethod()
+' }
+' note left: this class in\na secretClass
+
+' MyClass <|-- "1..*" SecondClass
+' MyClass "0..1" <-right- ThirdClass
+
+
+@enduml
