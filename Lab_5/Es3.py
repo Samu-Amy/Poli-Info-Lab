@@ -1,4 +1,4 @@
-import time
+import gc
 from tkinter import *
 from tkinter import ttk
 from random import randint
@@ -13,20 +13,16 @@ root.columnconfigure(0, weight=1)
 end = False
 score = 0
 scoreVar = StringVar()
-scoreVar.set(str(score))
-lista = []
+scoreVar.set("Score: " + str(score))
+errorMessageVar = StringVar()
+list = []
 
 
 # Grafica
 
-scoreFrame = ttk.Frame(root)
-scoreFrame.grid(row=0, column=0, pady=10)
 
-text = ttk.Label(scoreFrame, text="Score:", font=("", 16))
-text.grid(row=0, column=0, padx=(0, 20))
-
-scoreText = ttk.Label(scoreFrame, textvariable=scoreVar, font=("", 16))
-scoreText.grid(row=0, column=1)
+scoreText = ttk.Label(root, textvariable=scoreVar, font=("", 16))
+scoreText.grid(row=0, column=0)
 
 
 canvas = Canvas(root, width=300, height=300, background="#0d1a51")
@@ -51,8 +47,10 @@ def movePlayer(event, direction):
 
 
 class Meteor:
+    id = 0 #TODO: rimuovi
 
     def __init__(self):
+        Meteor.id += 1 #TODO: rimuovi
         self.passed = False
         self.size = randint(25, 50)
         self.xCoord = randint(0 + self.size, 300 - self.size)
@@ -60,11 +58,19 @@ class Meteor:
         self.collision()
         self.scoreUpdate(self.meteor)
 
+    def getObject(self):
+        return self.meteor
+
     def spawnObject(self):
         self.size = randint(25, 50)
         self.xCoord = randint(0 + self.size, 300 - self.size)
         self.meteor = canvas.create_oval(self.xCoord, 0, self.xCoord + self.size, self.size, outline="white")
         self.moveObject(self.meteor)
+
+    def cleanUp(self):
+        if self.passed:
+            del self
+            gc.collect()
 
     def moveObject(self, meteor):
         canvas.move(meteor, 0, 5)
@@ -85,33 +91,69 @@ class Meteor:
         if not end:
             if canvas.coords(meteor)[1] >= 300 and not self.passed:
                 score += 1
-                scoreVar.set(str(score))
+                scoreVar.set("Score: " + str(score))
                 self.passed = True
             canvas.after(200, lambda: self.scoreUpdate(self.meteor))
 
+    def __del__(self):
+        print("Rimosso") #TODO: rimuovi
 
-def endRound():
-    window = Toplevel()
-    window.title("Game over")
-    window.geometry("+550+300")
-    window.focus()
-
-    message = ttk.Label(window, text="")
 
 def spawn():
     if not end:
         temp = Meteor()
-        lista.append(temp)
+        list.append(temp)
         root.after(800, spawn)
     else:
-        for object in lista:
+        for object in list:
             del object
 
-def reset():
-    player = canvas.create_polygon(150, 150, 160, 180, 140, 180, 150, 150, outline="white", fill="#0d1a51")
-    end = False
+def remove():
+    i = 0
+    if not end:
+        while i < len(list):
+            object = list[i]
+            if object.passed:
+                list.remove(object) # NON FUNZIONA (distrugge gli oggetti solo alla fine)
+                del object
+                i = 0
+                print(list) #TODO: rimuovi
+                print(Meteor.id) #TODO: rimuovi
+            else:
+                i += 1
+
+    root.after(50, remove)
+
+def endRound():
+    window = Toplevel()
+    window.title("Game over")
+    window.geometry("200x200+550+300")
+    window.focus()
+    window.columnconfigure(0, weight=1)
+
+    scoreVar.set("Your score is: " + str(score))
+    message = ttk.Label(window, textvariable=scoreVar)
+    message.grid(row=0, column=0, padx=20, pady=20)
+
+    resetButton = ttk.Button(window, text="Reset", command=lambda: reset(window))
+    resetButton.grid(row=1, column=0, padx=20, pady=20)
+
+    errorMessage = ttk.Label(window, textvariable=errorMessageVar)
+    errorMessage.grid(row=2, column=0)
+
+def reset(window): #NON FUNZIONA
+    global end, player
+    try:
+        window.destroy()
+        end = False
+        player = canvas.create_polygon(150, 150, 160, 180, 140, 180, 150, 150, outline="white", fill="#0d1a51")
+        spawn()
+        remove()
+    except:
+        errorMessageVar.set("Errore")
 
 spawn()
+remove()
 
 
 root.bind("<Up>", lambda event: movePlayer(event, "up"))
