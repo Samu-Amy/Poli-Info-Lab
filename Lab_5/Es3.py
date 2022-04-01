@@ -127,7 +127,7 @@ def remove():
 def endRound():
     window = Toplevel()
     window.title("Game over")
-    window.geometry("200x200+550+300")
+    window.geometry("200x200+550+300")l
     window.focus()
     window.columnconfigure(0, weight=1)
 
