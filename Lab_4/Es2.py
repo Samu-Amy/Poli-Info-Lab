@@ -151,6 +151,7 @@ def message(mex):
     winnerWindow.title("Fine partita")
     winnerWindow.geometry("+500+200")
     winnerWindow.lift(root)
+    window.focus()
 
     for i in range(2):
         winnerWindow.rowconfigure(i, weight=1)
