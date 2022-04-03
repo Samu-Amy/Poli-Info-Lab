@@ -1,0 +1,55 @@
+@startuml Es2
+!define DARKORANGE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+'skinparam groupInheritance 2
+
+class SistemaFluviale {
+
+}
+
+class Affluente {
+
+}
+
+class AgenziaAmbientale {
+- nome : String
+- regione : String
+- elementiIdrici : List
+assignElementoIdrico()
+getElementiIdrici()
+}
+
+class ElementoIdrico {
+- nome : String
+- portata : Float
+- affluenti : List
+getAffluenti()
+}
+
+class Sorgente {
+- comune : String
+- altezza : Float
+}
+
+class Fiume {
+- lunghezza : Float
+- comuni : List<String>
+}
+
+class Foce {
+- comune : String
+}
+
+SistemaFluviale o-- "1..*" ElementoIdrico
+
+ElementoIdrico <|-- Sorgente
+ElementoIdrico <|-- Fiume
+ElementoIdrico <|-- Foce
+
+ElementoIdrico "1" -- "1..*" Affluente
+Affluente <-- "0" Foce
+Sorgente <-- "0" Affluente
+
+ElementoIdrico "0..*  " <-- "1" AgenziaAmbientale
+
+@enduml

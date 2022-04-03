@@ -4,60 +4,36 @@
 
 
 class Corso {
-    codice
-    insegnamento
-    cfu
-    studenti
+    - codice : Integer
+    - insegnamento : String
+    - cfu : Float
+    - studenti : List<object>
     getStudenti()
 }
 
 class Studente {
-    nome
-    matricola
-    età
-    corsi
+    - nome : String
+    - matricola : Integer
+    - età : Integer
+    - corsi : List<object>
     iscrizioneCorso()
     getCorsi()
 }
 
 Class TimeSlot {
-    numeroAula
-    oraInizio
-    oraFine
-    corso
-    numeroIscritti
+    - numeroAula : Integer
+    - oraInizio : String
+    - oraFine : String
+    - corso : Object
+    - numeroIscritti : Integer
     prenotazione()
     iscrizioneStudenti()
     getCorso()
     getNumeroIscritti()
 }
 
-Corso "0..*" <-- Studente
-TimeSlot "0..*" <-- "1" Corso
+Corso "0..*" -- "1..*"Studente
+TimeSlot "0..*" -- "1" Corso
 TimeSlot <-- Studente
-
-
-
-' Esempi
-
-' class MyClass {
-'     - count: int
-'     + int number
-'     # String name
-
-'     - methodOne()
-'     + methodTwo()
-'     # methodThree()
-' }
-
-' class SecondClass {
-'     int aSecretField
-'     aSecretMethod()
-' }
-' note left: this class in\na secretClass
-
-' MyClass <|-- "1..*" SecondClass
-' MyClass "0..1" <-right- ThirdClass
-
 
 @enduml
