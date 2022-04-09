@@ -113,7 +113,7 @@ def main():
     else:
         print("Sono diverse")
 
-    print(f"Stringa matrice 1: {str(matrice1)}")
+    print(f"\nStringa matrice 1: {str(matrice1)}")
 
 
 main()
