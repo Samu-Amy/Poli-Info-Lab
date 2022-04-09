@@ -20,8 +20,15 @@ class Biblioteca:
 
     def add_user(self, name, idCode):
         self.users.append(Utente(name, idCode))
-        
+
+        # TODO: elimina
+        print("\nUtenti:\n")
+        print(self.users)
+        for book in self.users:
+            print(f"{book.name}, {book.idCode}, {book.loans}\n")
+
     def add_book(self, title, author, shelf, room):
+        self.message = ""
         self.error = False
         self.newBook = Libro(title, author, shelf, room)
 
@@ -56,6 +63,54 @@ class Biblioteca:
 
         return not self.error, self.message
 
+    def get_book(self, title, author, idCode):
+        self.message = ""
+        self.error = False
+
+        if len(self.books) > 0:
+            if len(self.users) > 0:
+                for user in self.users:
+                    try:
+                        if user.idCode == int(idCode):  # L'utente è registrato
+
+                            for book in self.books:
+                                if book.title == title and book.author == author:  # Il libro esiste
+
+                                    if not book.loaned:
+                                        if user.loans < Utente.maxLoans:
+                                            self.error = False
+                                            book.loaned = True
+                                            user.loans += 1
+                                            self.message = "Book successfully borrowed"  #TODO: aggiungi controllo prestiti utente
+                                            break
+
+                                        else:
+                                            self.error = True
+                                            self.message = "Max loans reached"
+
+                                    else:
+                                        self.error = True
+                                        self.message = "This book is on loan to someone else"
+
+                                else:  # Il libro non esiste
+                                    self.error = True
+                                    self.message = "This book does not exist"
+
+                        else:  # L'utente non è registrato
+                            self.error = True
+                            self.message = "This user is not registered"
+                    except ValueError:
+                        self.error = True
+                        self.message = "User id not valid"
+            else:
+                self.error = True
+                self.message = "There are no registered users"
+        else:
+            self.error = True
+            self.message = "There are no books"
+
+        return self.error, self.message
+
 
 class Libro:
 
@@ -88,20 +143,10 @@ def resetVar(*var):
         var[i].set("")
 
 
-def setMessage(section, var, message, color):
+def setMessage(section, var, message, color, duration=800):
     section.config(foreground=color)
     var.set(message)
-    root.after(800, resetMessage)
-
-
-def resetMessage():
-    registerMessageVar.set("")
-    borrowMessageVar.set("")
-    returnMessageVar.set("")
-    addBookMessageVar.set("")
-    findBookMessageVar.set("")
-    findShelfMessageVar.set("")
-    loanBookMessageVar.set("")
+    root.after(duration, lambda: resetVar(var))
 
 
 #  - Registrazione
@@ -116,14 +161,26 @@ def addUser():
     if registerUserNameVar.get() != "":
         library.add_user(name, idCode)
         setMessage(registerMessage, registerMessageVar, "Successfully registered", "green")
+        setMessage(idMessage, idCodeMessageVar, f"Your id is: {idCode}", "blue", 2000)
         resetVar(registerUserNameVar)
     else:
         setMessage(registerMessage, registerMessageVar, "Registration failed", "red")
 
-    #TODO: elimina
-    for user in library.users:
-        print(user.name, user.idCode)
-    print()
+
+# - Prestito
+
+def getBook():
+    title = borrowTitleVar.get()
+    author = borrowAuthorVar.get()
+    idCode = borrowUserCodeVar.get()
+
+    result = library.get_book(title, author, idCode)
+    if result[0]:
+        setMessage(borrowMessage, borrowMessageVar, result[1], "red")
+    else:
+        setMessage(borrowMessage, borrowMessageVar, result[1], "green")
+        resetVar(borrowTitleVar, borrowAuthorVar, borrowUserCodeVar)
+
 
 #  - Aggiunta libro
 
@@ -135,7 +192,7 @@ def addBook():
         shelf = int(addBookShelfVar.get())
         room = int(addBookRoomVar.get())
         error = False
-    except:
+    except ValueError:
         error = True
         shelf = ""  # Solo per eliminare l'avviso di pycharm
         room = ""
@@ -187,6 +244,7 @@ loanBookMessageVar = StringVar()
 
 registerUserNameVar = StringVar()
 registerMessageVar = StringVar()
+idCodeMessageVar = StringVar()
 
 borrowTitleVar = StringVar()
 borrowAuthorVar = StringVar()
@@ -340,6 +398,9 @@ userNameSubmit.grid(row=2, column=1, sticky="e", padx=(20, 0))
 registerMessage = ttk.Label(registerSection, textvariable=registerMessageVar)
 registerMessage.grid(row=3, column=0, columnspan=2, sticky="w", padx=(5, 0))
 
+idMessage = ttk.Label(registerSection, textvariable=idCodeMessageVar)
+idMessage.grid(row=4, column=0, columnspan=2, sticky="w", padx=(5, 0))
+
 
 # - Prestito
 
@@ -365,7 +426,7 @@ codeLabel.grid(row=3, column=0, columnspan=2, sticky="w", padx=(5, 0))
 labelUserCode = ttk.Entry(borrowSection, textvariable=borrowUserCodeVar)
 labelUserCode.grid(row=4, column=0, sticky="w", padx=(0, 20))
 
-borrowBookSubmit = ttk.Button(borrowSection, text="Get book", command=addUser)
+borrowBookSubmit = ttk.Button(borrowSection, text="Get book", command=getBook)
 borrowBookSubmit.grid(row=4, column=1, sticky="e")
 
 borrowMessage = ttk.Label(borrowSection, textvariable=borrowMessageVar)
