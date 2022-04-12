@@ -10,13 +10,18 @@ class Biblioteca:
     idCodes = []
 
     def __init__(self):
+        self.keep = True
+        self.valid = True
         self.error = False
         self.duplicate = False
         self.busy = False
         self.newBook = ""
+        self.currentUser = ""
         self.message = ""
         self.users = []
         self.books = []
+
+    # Aggiunta utente
 
     def add_user(self, name, idCode):
         self.users.append(Utente(name, idCode))
@@ -26,6 +31,95 @@ class Biblioteca:
         print(self.users)
         for book in self.users:
             print(f"{book.name}, {book.idCode}, {book.loans}\n")
+
+    # Prestito libro
+
+    def get_book(self, title, author, idCode):
+        self.message = ""
+        self.error = False
+        self.keep = True
+
+        if len(self.books) > 0:
+            pass
+        else:
+            self.keep = False
+            self.error = True
+            self.message = "There are no books"
+
+        if self.keep:
+            if len(self.users) > 0:
+                pass
+            else:
+                self.keep = False
+                self.error = True
+                self.message = "There are no registered users"
+
+        for user in self.users:
+            if self.keep:
+                try:
+                    idCode = int(idCode)
+                except ValueError:
+                    self.error = True
+                    self.message = "User id not valid"
+                    break
+
+                if user.idCode == int(idCode):  # L'utente è registrato
+                    self.currentUser = user
+                    break
+                else:  # L'utente non è registrato
+                    self.error = True
+                    self.message = "This user is not registered"
+
+        for book in self.books:
+            if book.title == title and book.author == author:  # Il libro esiste
+                if not book.loaned:
+                    if self.currentUser.loans < Utente.maxLoans:
+                        book.loaned = True
+                        book.currentLoan = self.currentUser  # L'oggetto libro riceve l'utente, per la sottrazione del numero di prestiti con la restituzione
+                        self.currentUser.loans += 1
+                        self.error = False
+                        self.message = "Book successfully borrowed"  # TODO: aggiungi controllo prestiti utente
+                        break
+                    else:
+                        self.error = True
+                        self.message = "Max loans reached"
+                else:
+                    self.error = True
+                    self.message = "This book is on loan to someone else"
+                    break
+            else:  # Il libro non esiste
+                self.error = True
+                self.message = "This book does not exist"
+
+        return self.error, self.message
+
+    # Restituzione libro
+
+    def return_book(self, title, author):
+        self.message = ""
+        self.valid = True
+        self.error = False
+
+        for book in self.books:
+            if book.title == title and book.author == author:  # Il libro esiste
+                if book.loaned:
+                    book.loaned = False
+                    book.currentLoan.loans -= 1
+                    self.error = False
+                    self.message = "Book successfully returned"
+                    break
+                else:
+                    self.error = True
+                    self.valid = False
+                    self.message = "This book isn't on loan"
+                    break
+            else:
+                self.error = True
+                self.message = "This book does not exist"
+
+        return self.error, self.valid, self.message
+
+    # Aggiunta libro
 
     def add_book(self, title, author, shelf, room):
         self.message = ""
@@ -63,53 +157,6 @@ class Biblioteca:
 
         return not self.error, self.message
 
-    def get_book(self, title, author, idCode):
-        self.message = ""
-        self.error = False
-
-        if len(self.books) > 0:
-            if len(self.users) > 0:
-                for user in self.users:
-                    try:
-                        if user.idCode == int(idCode):  # L'utente è registrato
-
-                            for book in self.books:
-                                if book.title == title and book.author == author:  # Il libro esiste
-
-                                    if not book.loaned:
-                                        if user.loans < Utente.maxLoans:
-                                            self.error = False
-                                            book.loaned = True
-                                            user.loans += 1
-                                            self.message = "Book successfully borrowed"  #TODO: aggiungi controllo prestiti utente
-                                            break
-
-                                        else:
-                                            self.error = True
-                                            self.message = "Max loans reached"
-
-                                    else:
-                                        self.error = True
-                                        self.message = "This book is on loan to someone else"
-
-                                else:  # Il libro non esiste
-                                    self.error = True
-                                    self.message = "This book does not exist"
-
-                        else:  # L'utente non è registrato
-                            self.error = True
-                            self.message = "This user is not registered"
-                    except ValueError:
-                        self.error = True
-                        self.message = "User id not valid"
-            else:
-                self.error = True
-                self.message = "There are no registered users"
-        else:
-            self.error = True
-            self.message = "There are no books"
-
-        return self.error, self.message
 
 
 class Libro:
@@ -120,6 +167,7 @@ class Libro:
         self.shelf = shelf
         self.room = room
         self.loaned = False
+        self.currentLoan = ""
 
 
 class Utente:
@@ -174,12 +222,34 @@ def getBook():
     author = borrowAuthorVar.get()
     idCode = borrowUserCodeVar.get()
 
-    result = library.get_book(title, author, idCode)
+    result = library.get_book(title, author, idCode)  # Metodo biblioteca
+
     if result[0]:
         setMessage(borrowMessage, borrowMessageVar, result[1], "red")
     else:
         setMessage(borrowMessage, borrowMessageVar, result[1], "green")
         resetVar(borrowTitleVar, borrowAuthorVar, borrowUserCodeVar)
+
+
+# - Restituzione
+
+def returnBook():
+    title = returnTitleVar.get()
+    author = returnAuthorVar.get()
+
+    result = library.return_book(title, author)  # Metodo biblioteca
+
+    if title != "" and author != "":  # Controllo errore nell'input di titolo o autore
+        if not result[0]:
+            setMessage(returnMessage, returnMessageVar, result[2], "green")
+            resetVar(returnTitleVar, returnAuthorVar, )
+        else:
+            if result[1]:
+                setMessage(returnMessage, returnMessageVar, result[2], "red")
+            else:
+                setMessage(returnMessage, returnMessageVar, result[2], "orange")
+    else:
+        setMessage(returnMessage, returnMessageVar, "Book title or author invalid", "red")
 
 
 #  - Aggiunta libro
@@ -188,21 +258,24 @@ def addBook():
     error = False
     title = addBookTitleVar.get()
     author = addBookAuthorVar.get()
+
     try:
         shelf = int(addBookShelfVar.get())
         room = int(addBookRoomVar.get())
         error = False
-    except ValueError:
+    except ValueError:  # Controllo errore nell'input di sala o scaffale
         error = True
-        shelf = ""  # Solo per eliminare l'avviso di pycharm
-        room = ""
 
-    if title != "" and author != "":
+    if title != "" and author != "":  # Controllo errore nell'input di titolo o autore
         if not error:
-            result = library.add_book(title, author, shelf, room)
+            result = library.add_book(title, author, shelf, room)  # Metodo biblioteca
+
+            # Aggiunta avvenuta
             if result[0]:
                 setMessage(addBookMessage, addBookMessageVar, "Book successfully added", "green")
                 resetVar(addBookTitleVar, addBookAuthorVar, addBookShelfVar, addBookRoomVar)
+
+            # Errore nell'aggiunta
             else:
                 setMessage(addBookMessage, addBookMessageVar, result[1], "red")
         else:
@@ -451,7 +524,7 @@ authorLabel.grid(row=1, column=1, columnspan=2, sticky="w", padx=(5, 0))
 labelauthor = ttk.Entry(returnSection, textvariable=returnAuthorVar)
 labelauthor.grid(row=2, column=1, sticky="w", pady=(0, 20))
 
-returnBookSubmit = ttk.Button(returnSection, text="Return book", command=addUser)
+returnBookSubmit = ttk.Button(returnSection, text="Return book", command=returnBook)
 returnBookSubmit.grid(row=4, column=1, sticky="e")
 
 returnMessage = ttk.Label(returnSection, textvariable=returnMessageVar)
