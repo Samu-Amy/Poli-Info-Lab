@@ -68,7 +68,7 @@ class Matrix:
     def stampa(self):
         for i in range(len(self.matrice)):
             for j in range(len(self.matrice[i])):
-                print(self.matrice[i][j], end=" ")
+                print(self.matrice[i][j], end=" ")a
             print()
 
 
