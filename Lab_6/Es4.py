@@ -35,8 +35,6 @@ class Matrix:
     def __mul__(self, other):
         tab = [[0,0], [0,0]]
         matrice2 = [[other.matrice[0][0], other.matrice[1][0]], [other.matrice[0][1], other.matrice[1][1]]]
-        colonna1 = []
-        colonna2 = []
         for i in range(len(self.matrice)):
             riga = self.matrice[i]
             for j in range(len(matrice2)):
