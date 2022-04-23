@@ -1,6 +1,3 @@
-from courses import *
-
-
 class Student:
 
     def __init__(self, name: str, surname: str) -> None:
@@ -21,7 +18,7 @@ class Student:
     def add_course(self, course: object) -> None:
         self._coursesList.append(course)
 
-    def get_courses(self) -> str:
+    def get_courses(self) -> list:
         for index in range(len(self._coursesList)):
             self._string = ""
             self._courseInfo = self._coursesList[index].get_course_info()

@@ -71,6 +71,7 @@ class University:
                     self._courseInfo = course.get_course_info()
                     if self._courseInfo[0] == course_id:
                         course.register(student)
+                        student.add_course(course)
 
     def get_attendees(self, course_id: int) -> str:
         for course in self._coursesList:

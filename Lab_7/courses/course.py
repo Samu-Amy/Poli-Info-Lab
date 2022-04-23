@@ -1,6 +1,3 @@
-from students import *
-
-
 class Course:
 
     def __init__(self, title: str, teacher: str) -> None:
@@ -19,7 +16,6 @@ class Course:
 
     def register(self, student: object) -> None:
         self._courseStudentsList.append(student)
-        student.add_course(self)
 
     def get_students(self) -> str:
         self._string = ""

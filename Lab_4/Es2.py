@@ -1,6 +1,5 @@
-import os
 from tkinter import *
-from tkinter import messagebox, ttk
+from tkinter import ttk
 
 
 root = Tk()
