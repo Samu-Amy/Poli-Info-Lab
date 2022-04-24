@@ -6,11 +6,7 @@ from tkinter import ttk
 root = Tk()
 root.title("University")
 root.minsize(400, 200)
-
-# Comandi:
-# add/get/register student (interfaccia)
-# add/get course (interfaccia)
-# get students/courses (menu)
+root.columnconfigure(0, weight=1)
 
 
 # -- Variabili --
@@ -21,20 +17,31 @@ rectorSurname = StringVar()
 studentName = StringVar()
 studentSurname = StringVar()
 studentId = StringVar()
+studentId2 = StringVar()  #Per evitare che si veda la modifica nell'interfaccia
 courseTitle = StringVar()
 courseTeacher = StringVar()
 courseId = StringVar()
+courseId2 = StringVar()  #Per evitare che si veda la modifica nell'interfaccia
+width1 = 15
+label1 = StringVar()
+label2 = StringVar()
+label3 = StringVar()
+labelOut1 = StringVar()
+labelOut2 = StringVar()
+labelOut3 = StringVar()
+
+label1.set("Prova")
+label2.set("Prova")
+label3.set("Prova")
+labelOut1.set("Prova")
+labelOut2.set("Prova")
+labelOut3.set("Prova")
 
 
 uni = University("PoliTo")
 universityName.set(uni.get_name())
 
 # -- Funzioni --
-def submit_rector_name():
-    global uni
-    uni.set_rector(rectorName.get(), rectorSurname.get())
-    window.destroy()
-    root.attributes('-topmost', True)
 
 def set_rector():
     window = Toplevel(root)
@@ -56,9 +63,8 @@ def set_rector():
 
     textEntry = ttk.Entry(frame, textvariable=rectorSurname)
     textEntry.grid(row=3, column=0)
-    textEntry.focus_set()
 
-    button = ttk.Button(frame, text="Set name", command=submit_rector_name)
+    button = ttk.Button(frame, text="Set name", command=lambda: submit_rector_name(window))
     button.grid(row=4, column=0, pady=(20, 0))
 
 
@@ -71,9 +77,6 @@ def set_rector():
     window.geometry(f"+{int((screenWidth / 2) - (windowWidth / 2))}+{int((screenHeight / 2) - (windowHeight / 2))}")
     window.update()
 
-def get_rector():  #TODO: compila
-    global uni
-    print(uni.get_rector())
 
 def get_students():
     window = Toplevel(root)
@@ -90,7 +93,7 @@ def get_students():
     textEntry.grid(row=1, column=0)
     textEntry.focus_set()
 
-    button = ttk.Button(frame, text="Get students", command=get_students_list)
+    button = ttk.Button(frame, text="Get students", command=lambda: get_students_list(window))
     button.grid(row=2, column=0, pady=(20, 0))
 
     # Centro la finestra
@@ -101,6 +104,7 @@ def get_students():
     windowHeight = window.winfo_height()
     window.geometry(f"+{int((screenWidth / 2) - (windowWidth / 2))}+{int((screenHeight / 2) - (windowHeight / 2))}")
     window.update()
+
 
 def get_courses():
     window = Toplevel(root)
@@ -117,7 +121,7 @@ def get_courses():
     textEntry.grid(row=1, column=0)
     textEntry.focus_set()
 
-    button = ttk.Button(frame, text="Get courses", command=get_courses_list)
+    button = ttk.Button(frame, text="Get courses", command=lambda: get_courses_list(window))
     button.grid(row=2, column=0, pady=(20, 0))
 
     # Centro la finestra
@@ -128,6 +132,7 @@ def get_courses():
     windowHeight = window.winfo_height()
     window.geometry(f"+{int((screenWidth / 2) - (windowWidth / 2))}+{int((screenHeight / 2) - (windowHeight / 2))}")
     window.update()
+
 
 def get_student():
     window = Toplevel(root)
@@ -144,7 +149,7 @@ def get_student():
     textEntry.grid(row=1, column=0)
     textEntry.focus_set()
 
-    button = ttk.Button(frame, text="Get info", command=get_student_info)
+    button = ttk.Button(frame, text="Get info", command=lambda: get_student_info(window))
     button.grid(row=2, column=0, pady=(20, 0))
 
     # Centro la finestra
@@ -155,6 +160,7 @@ def get_student():
     windowHeight = window.winfo_height()
     window.geometry(f"+{int((screenWidth / 2) - (windowWidth / 2))}+{int((screenHeight / 2) - (windowHeight / 2))}")
     window.update()
+
 
 def get_course():
     window = Toplevel(root)
@@ -171,7 +177,7 @@ def get_course():
     textEntry.grid(row=1, column=0)
     textEntry.focus_set()
 
-    button = ttk.Button(frame, text="Get info", command=get_students_list)
+    button = ttk.Button(frame, text="Get info", command=lambda: get_course_info(window))
     button.grid(row=2, column=0, pady=(20, 0))
 
     # Centro la finestra
@@ -183,28 +189,70 @@ def get_course():
     window.geometry(f"+{int((screenWidth / 2) - (windowWidth / 2))}+{int((screenHeight / 2) - (windowHeight / 2))}")
     window.update()
 
-def get_student_info():
+
+def submit_rector_name(window):
+    global uni
+    uni.set_rector(rectorName.get(), rectorSurname.get())
+    window.destroy()
+    root.attributes('-topmost', True)
+
+
+def get_rector():  # TODO: compila
+    global uni
+    print(uni.get_rector())
+
+
+def get_student_info(window):
     global uni
     print(uni.get_student_info(int(studentId.get())))
+    studentId.set("")
+    window.destroy()
+    root.attributes('-topmost', True)
 
-def get_course_info():
-    global uni
 
-def get_students_list():
+def get_course_info(window):
     global uni
-    students = uni.get_attendees(int(courseId.get())).split("\n")
-    print(students)
+    print(uni.get_course_info(int(courseId.get())))
+    courseId.set("")
+    window.destroy()
+    root.attributes('-topmost', True)
 
-def get_courses_list():
+
+def get_students_list(window):
     global uni
-    courses = uni.get_study_plan(int(studentId.get()))
-    print(courses)
+    print(uni.get_attendees(int(courseId.get())).split("\n"))
+    courseId.set("")
+    window.destroy()
+    root.attributes('-topmost', True)
+
+
+def get_courses_list(window):
+    global uni
+    print(uni.get_study_plan(int(studentId.get())))
+    studentId.set("")
+    window.destroy()
+    root.attributes('-topmost', True)
+
 
 def add_student():
     global uni
     uni.add_student(studentName.get(), studentSurname.get())
     studentName.set("")
     studentSurname.set("")
+
+
+def add_course():
+    global uni
+    uni.add_course(courseTitle.get(), courseTeacher.get())
+    courseTitle.set("")
+    courseTeacher.set("")
+
+
+def register():
+    global uni
+    uni.register_to_course(int(studentId2.get()), int(courseId2.get()))
+    studentId2.set("")
+    courseId2.set(" ")
 
 
 # -- Grafica --
@@ -227,27 +275,121 @@ menu_file.add_separator()
 menu_file.add_command(label="Get students", command=get_students)
 menu_file.add_command(label="Get courses", command=get_courses)
 
-name = ttk.Label(root, textvariable=universityName, font=("", 14))
-name.grid(row=0, column=0, sticky="we")
+
+# Main
+name = ttk.Label(root, textvariable=universityName, font=("", 14), anchor="center")
+name.grid(row=0, column=0, sticky="we", pady=10)
 
 frameMain = ttk.Frame(root)
-frameMain.grid(row=1, column=0, padx=20, pady=20)
+frameMain.grid(row=1, column=0, padx=20, pady=(0, 20))
+frameMain.columnconfigure(1, weight=1)
 
-studentFrame = ttk.Frame(frameMain)
-studentFrame.grid(row=0, column=0)
 
-label = ttk.Label(studentFrame, text="Student's name:")
-label.grid(row=0, column=0, sticky="w")
-entry = ttk.Entry(studentFrame, textvariable=studentName)
-entry.grid(row=0, column=1, padx=(20, 0))
+# Aggiungi studente
+secondaryFrame = ttk.Frame(frameMain)
+secondaryFrame.grid(row=1, column=1)
+secondaryFrame.rowconfigure(0, weight=1)
 
-label = ttk.Label(studentFrame, text="Student's surname:")
+label = ttk.Label(secondaryFrame, text="Add student", anchor="center", font=("", 12))
+label.grid(row=0, column=0, columnspan=2, sticky="we", pady=(0, 15))
+
+label = ttk.Label(secondaryFrame, text="Student name:", width=width1)
 label.grid(row=1, column=0, sticky="w")
-entry = ttk.Entry(studentFrame, textvariable=studentSurname)
-entry.grid(row=1, column=1, padx=(20, 0), pady=20)
+entry = ttk.Entry(secondaryFrame, textvariable=studentName)
+entry.grid(row=1, column=1, padx=(20, 0))
 
-button = ttk.Button(studentFrame, text="Add", command=add_student)
-button.grid(row=2, column=1, sticky="e")
+label = ttk.Label(secondaryFrame, text="Student surname:")
+label.grid(row=2, column=0, sticky="w")
+entry = ttk.Entry(secondaryFrame, textvariable=studentSurname)
+entry.grid(row=2, column=1, padx=(20, 0), pady=20)
+
+button = ttk.Button(secondaryFrame, text="Add", command=add_student)
+button.grid(row=3, column=1, sticky="e")
+
+
+# Aggiungi corso
+secondaryFrame = ttk.Frame(frameMain)
+secondaryFrame.grid(row=1, column=3)
+secondaryFrame.rowconfigure(0, weight=1)
+
+label = ttk.Label(secondaryFrame, text="Add course", anchor="center", font=("", 12))
+label.grid(row=0, column=0, columnspan=2, sticky="we", pady=(0, 15))
+
+label = ttk.Label(secondaryFrame, text="Course name:", width=width1)
+label.grid(row=1, column=0, sticky="w")
+entry = ttk.Entry(secondaryFrame, textvariable=courseTitle)
+entry.grid(row=1, column=1, padx=(20, 0))
+
+label = ttk.Label(secondaryFrame, text="Course teacher:")
+label.grid(row=2, column=0, sticky="w")
+entry = ttk.Entry(secondaryFrame, textvariable=courseTeacher)
+entry.grid(row=2, column=1, padx=(20, 0), pady=20)
+
+button = ttk.Button(secondaryFrame, text="Add", command=add_course)
+button.grid(row=3, column=1, sticky="e")
+
+
+# Stampa
+width2 = 12
+width3 = 25
+secondaryFrame = ttk.Frame(frameMain)
+secondaryFrame.grid(row=3, column=1)
+for i in range(4):
+    secondaryFrame.rowconfigure(i, weight=1)
+secondaryFrame.columnconfigure(0, weight=1)
+secondaryFrame.columnconfigure(1, weight=2)
+
+label = ttk.Label(secondaryFrame, text="Informazioni", anchor="center", font=("", 12))
+label.grid(row=0, column=0, columnspan=2, sticky="we", pady=(0, 15))
+
+label = ttk.Label(secondaryFrame, textvariable=label1, width=width2, background="#374046", foreground="white")
+label.grid(row=1, column=0, sticky="we", padx=(0, 20))
+label = ttk.Label(secondaryFrame, textvariable=labelOut1, width=width3, background="white")
+label.grid(row=1, column=1, sticky="we")
+
+label = ttk.Label(secondaryFrame, textvariable=label2, width=width2, background="#374046", foreground="white")
+label.grid(row=2, column=0, sticky="we", padx=(0, 20), pady=10)
+label = ttk.Label(secondaryFrame, textvariable=labelOut2, width=width3, background="white")
+label.grid(row=2, column=1, sticky="we")
+
+label = ttk.Label(secondaryFrame, textvariable=label3, width=width2, background="#374046", foreground="white")
+label.grid(row=3, column=0, sticky="we", padx=(0, 20))
+label = ttk.Label(secondaryFrame, textvariable=labelOut3, width=width3, background="white")
+label.grid(row=3, column=1, sticky="we")
+
+
+# Registra studente
+secondaryFrame = ttk.Frame(frameMain)
+secondaryFrame.grid(row=3, column=3)
+secondaryFrame.rowconfigure(0, weight=1)
+
+label = ttk.Label(secondaryFrame, text="Register", anchor="center", font=("", 12))
+label.grid(row=0, column=0, columnspan=2, sticky="we", pady=(0, 15))
+
+label = ttk.Label(secondaryFrame, text="Student id:", width=width1)
+label.grid(row=1, column=0, sticky="w")
+entry = ttk.Entry(secondaryFrame, textvariable=studentId2)
+entry.grid(row=1, column=1, padx=(20, 0))
+
+label = ttk.Label(secondaryFrame, text="Course id:")
+label.grid(row=2, column=0, sticky="w")
+entry = ttk.Entry(secondaryFrame, textvariable=courseId2)
+entry.grid(row=2, column=1, padx=(20, 0), pady=20)
+
+button = ttk.Button(secondaryFrame, text="Add", command=register)
+button.grid(row=3, column=1, sticky="e")
+
+
+
+# Separatori
+Frame(frameMain, height=1, background="#121212").grid(row=0, column=0, columnspan=5, sticky="we", padx=10, pady=10)
+Frame(frameMain, height=1, background="#121212").grid(row=2, column=0, columnspan=5, sticky="we", padx=10, pady=10)
+Frame(frameMain, height=1, background="#121212").grid(row=4, column=0, columnspan=5, sticky="we", padx=10, pady=10)
+Frame(frameMain, width=1, background="#121212").grid(row=0, column=0, rowspan=5, sticky="ns", padx=10, pady=10)
+Frame(frameMain, width=1, background="#121212").grid(row=0, column=2, rowspan=5, sticky="ns", padx=10, pady=10)
+Frame(frameMain, width=1, background="#121212").grid(row=0, column=4, rowspan=5, sticky="ns", padx=10, pady=10)
+
+#TODO: togli separatori, usa colori
 
 
 # Centro la finestra
@@ -261,3 +403,9 @@ root.update()
 
 
 root.mainloop()
+
+
+# Comandi:
+# register student (interfaccia)
+# add/get course (interfaccia)
+# get students/courses (menu)
