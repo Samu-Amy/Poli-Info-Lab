@@ -29,13 +29,10 @@ label3 = StringVar()
 labelOut1 = StringVar()
 labelOut2 = StringVar()
 labelOut3 = StringVar()
-
-label1.set("Prova")
-label2.set("Prova")
-label3.set("Prova")
-labelOut1.set("Prova")
-labelOut2.set("Prova")
-labelOut3.set("Prova")
+defaultColor = root.cget('bg')
+bg1 = "white"
+bg2 = "white"
+bg3 = "white"
 
 
 uni = University("PoliTo")
@@ -197,14 +194,21 @@ def submit_rector_name(window):
     root.attributes('-topmost', True)
 
 
-def get_rector():  # TODO: compila
+def get_rector():
     global uni
-    print(uni.get_rector())
+    label1.set("Rettore:")
+    labelOut1.set(uni.get_rector())
 
 
 def get_student_info(window):
     global uni
-    print(uni.get_student_info(int(studentId.get())))
+    string = uni.get_student_info(int(studentId.get())).split()
+    label1.set("Nome:")
+    labelOut1.set(string[1])
+    label2.set("Cognome:")
+    labelOut2.set(string[2])
+    label3.set("Matricola:")
+    labelOut3.set(string[0])
     studentId.set("")
     window.destroy()
     root.attributes('-topmost', True)
@@ -212,7 +216,13 @@ def get_student_info(window):
 
 def get_course_info(window):
     global uni
-    print(uni.get_course_info(int(courseId.get())))
+    string = uni.get_course_info(int(courseId.get())).split(",")
+    label1.set("Corso:")
+    labelOut1.set(string[1])
+    label2.set("Insegnante:")
+    labelOut2.set(string[2])
+    label3.set("Codice:")
+    labelOut3.set(string[0])
     courseId.set("")
     window.destroy()
     root.attributes('-topmost', True)
@@ -342,19 +352,19 @@ secondaryFrame.columnconfigure(1, weight=2)
 label = ttk.Label(secondaryFrame, text="Informazioni", anchor="center", font=("", 12))
 label.grid(row=0, column=0, columnspan=2, sticky="we", pady=(0, 15))
 
-label = ttk.Label(secondaryFrame, textvariable=label1, width=width2, background="#374046", foreground="white")
+label = ttk.Label(secondaryFrame, textvariable=label1, width=width2, background=bg1)
 label.grid(row=1, column=0, sticky="we", padx=(0, 20))
-label = ttk.Label(secondaryFrame, textvariable=labelOut1, width=width3, background="white")
+label = ttk.Label(secondaryFrame, textvariable=labelOut1, width=width3, background=bg1)
 label.grid(row=1, column=1, sticky="we")
 
-label = ttk.Label(secondaryFrame, textvariable=label2, width=width2, background="#374046", foreground="white")
+label = ttk.Label(secondaryFrame, textvariable=label2, width=width2, background=bg2)
 label.grid(row=2, column=0, sticky="we", padx=(0, 20), pady=10)
-label = ttk.Label(secondaryFrame, textvariable=labelOut2, width=width3, background="white")
+label = ttk.Label(secondaryFrame, textvariable=labelOut2, width=width3, background=bg2)
 label.grid(row=2, column=1, sticky="we")
 
-label = ttk.Label(secondaryFrame, textvariable=label3, width=width2, background="#374046", foreground="white")
+label = ttk.Label(secondaryFrame, textvariable=label3, width=width2, background=bg3)
 label.grid(row=3, column=0, sticky="we", padx=(0, 20))
-label = ttk.Label(secondaryFrame, textvariable=labelOut3, width=width3, background="white")
+label = ttk.Label(secondaryFrame, textvariable=labelOut3, width=width3, background=bg3)
 label.grid(row=3, column=1, sticky="we")
 
 
