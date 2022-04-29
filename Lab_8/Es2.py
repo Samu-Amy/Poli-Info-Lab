@@ -53,30 +53,31 @@ class BipMap(File):
 
 
 def main():
+    if __name__ == "__main__":
 
-    file = File("empty.info")
+        file = File("empty.info")
 
-    print(file.get_name())
-    print(file.get_dim())
-    print(file.get_info())
+        print(file.get_name())
+        print(file.get_dim())
+        print(file.get_info())
 
-    text = TextFile("text.txt")
-    text.add_line("Riga 1 del file di testo")
-    text.add_line("seconda riga del file")
-    text.add_line("ultima riga.")
+        text = TextFile("text.txt")
+        text.add_line("Riga 1 del file di testo")
+        text.add_line("seconda riga del file")
+        text.add_line("ultima riga.")
 
-    print("\n" + text.get_name())
-    print(text.get_dim())
-    print(text.get_info())
-    print("\n" + text.__repr__())
+        print("\n" + text.get_name())
+        print(text.get_dim())
+        print(text.get_info())
+        print("\n" + text.__repr__())
 
-    img = [[150, 0, 232], [255, 15, 26], [45, 124, 62]]
-    bipmap = BipMap("image.bmp", img)
+        img = [[150, 0, 232], [255, 15, 26], [45, 124, 62]]
+        bipmap = BipMap("image.bmp", img)
 
-    print("\n" + bipmap.get_name())
-    print(bipmap.get_dim())
-    print(bipmap.get_info())
-    print("\n" + bipmap.__repr__())
+        print("\n" + bipmap.get_name())
+        print(bipmap.get_dim())
+        print(bipmap.get_info())
+        print("\n" + bipmap.__repr__())
 
 
 main()
