@@ -21,58 +21,77 @@ class HSystem:
         splitOutFlow = None
         previous = None
         next = None
+
         for element in self._components:
+            valid = False
             if isinstance(element, Source):
                 type = "Source"
-                outFlow = [element.get_flow()]  # Uso una lista per la selezione dagli split con l'indice
+                outFlow = element.get_flow()
                 next = [element.get_output()]  # Uso una lista per il ciclo for successivo (altrimenti non funziona)
+                valid = True
+
+            while not valid:
+                for index in range(len(next)):  # Controlla una connessione per volta
+
+                    if element == next[index]:  # Controllo il collegamento
+                        valid = True
+                    else:
+                        i = 0
+                        while i < len(self._components) and not valid:
+                            try:
+                                nextItem = self._components[i].get_output()
+                            except:
+                                nextItem = self._components[i].get_outputs()[0]
+
+                            if element == nextItem:
+                                inFlow = self._simulationOutput[i].split()[-1]  # Prendo il flusso in uscita dell'elemento precedente
+                                valid = True
+
+                            i += 1
+
+            if isinstance(element, Tap):
+                previous = type  # Salvo il tipo dell'oggetto precedente
+                type = "Tap"
+
+                if previous != "Sink":
+                    inFlow = outFlow
+                else:
+                    inFlow = splitOutFlow[index]
+
+                if element.get_status():  # Aperto
+                    outFlow = inFlow
+                else:                     # Chiuso
+                    outFlow = 0
+
+                next = [element.get_output()]
 
 
-            for index in range(len(next)):  # Controlla una connessione per volta
+            elif isinstance(element, Split):
+                previous = type
+                type = "Split"
 
-                if element == next[index]:
+                if previous != "Sink":
+                    inFlow = outFlow
+                else:
+                    inFlow = splitOutFlow[index]
 
-                    if isinstance(element, Tap):
-                        previous = type  # Salvo il tipo dell'oggetto precedente
-                        type = "Tap"
+                outFlow = (inFlow/2, inFlow/2)
+                splitOutFlow = outFlow
+                outFlow = splitOutFlow[index]
 
-                        if previous != "Sink":
-                            inFlow = outFlow[index]
-                        else:
-                            inFlow = splitOutFlow[index]
+                next = element.get_outputs()
 
-                        if element.get_status():  # Aperto
-                            outFlow = [inFlow]
-                        else:                     # Chiuso
-                            outFlow = [0]
-
-                        next = [element.get_output()]
-
-
-                    elif isinstance(element, Split):
-                        previous = type
-                        type = "Tap"
-
-                        if previous != "Sink":
-                            inFlow = outFlow[index]
-                        else:
-                            inFlow = splitOutFlow[index]
-
-                        outFlow = (inFlow/2, inFlow/2)
-                        splitOutFlow = outFlow
-
-                        next = element.get_outputs()
-
-                    elif isinstance(element, Sink):
-                        type = "Sink"
-                        inFlow = outFlow[index]  # TODO: devo salvare l'outFlow dello split
-                        outFlow = [0]
+            elif isinstance(element, Sink):
+                previous = type
+                type = "Sink"
+                inFlow = splitOutFlow[index]
+                outFlow = 0
 
 
             if type != "Split":
-                self._simulationOutput.append(f"{type} {element.get_name()} {inFlow :.3f} {outFlow[0] :.3f}")
+                self._simulationOutput.append(f"{type} {element.get_name()} {inFlow :.3f} {outFlow :.3f}")
             else:
-                self._simulationOutput.append(f"{type} {element.get_name()} {inFlow :.3f} {outFlow[0] :.3f} {outFlow[1] :.3f}")
+                self._simulationOutput.append(f"{type} {element.get_name()} {inFlow :.3f} {splitOutFlow[0] :.3f} {splitOutFlow[1] :.3f}")
 
         return self._simulationOutput
 

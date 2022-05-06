@@ -64,5 +64,44 @@ def main():
     # ]
 
 
+
+    #TODO -----------------------------------------------------------------------
+    # create HSystem
+    h_sys = HSystem()
+
+    # create elements
+    src_1 = Source("Source_1")
+    tap_1 = Tap("Tap_1")
+    spl_1 = Split("Split_1")
+    spl_2 = Split("Split_2")
+    snk_1 = Sink("Sink_1")
+    snk_2 = Sink("Sink_2")
+    snk_3 = Sink("Sink_3")
+
+    # add elements to System
+    h_sys.add_element(src_1)
+    h_sys.add_element(tap_1)
+    h_sys.add_element(spl_1)
+    h_sys.add_element(spl_2)
+    h_sys.add_element(snk_1)
+    h_sys.add_element(snk_2)
+    h_sys.add_element(snk_3)
+
+    src_1.connect(tap_1)
+    tap_1.connect(spl_1)
+    spl_1.connect_at(snk_1, 0)
+    spl_1.connect_at(spl_2, 1)
+    spl_2.connect_at(snk_2, 0)
+    spl_2.connect_at(snk_3, 1)
+
+    src_1.set_flow(20)
+    tap_1.set_status(to_open=True)
+
+    print("Third simulation:")
+    print(h_sys.simulate())
+
+    #TODO -----------------------------------------------------------------------
+
+
 if __name__ == "__main__":
     main()
