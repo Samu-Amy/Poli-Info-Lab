@@ -5,7 +5,7 @@ from abc import ABC
 class Element(ABC):
     def __init__(self, name: str) -> None:
         self._name = name
-        self._connection = None  # Elemento a cui è connessa l'uscita dell'elemento
+        self._connection = None  # Elemento a cui è connessa l'uscita di questo elemento
 
     def get_name(self) -> str:
         return self._name
@@ -23,17 +23,25 @@ class Element(ABC):
 class Source(Element):
     def __init__(self, name: str) -> None:
         super().__init__(name)
+        self._flow = 0
 
     def set_flow(self, flow: float) -> None:
-        pass
+        self._flow = flow
+
+    def get_flow(self) -> float:
+        return self._flow
 
 
 class Tap(Element):
     def __init__(self, name: str) -> None:
         super().__init__(name)
+        self._open = None
 
     def set_status(self, to_open: bool = True) -> None:
-        pass
+        self._open = to_open
+
+    def get_status(self) -> bool:
+        return self._open
 
 
 class Sink(Element):
