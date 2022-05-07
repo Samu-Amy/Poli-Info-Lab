@@ -44,7 +44,7 @@ class HSystem:
                                 nextItem = self._components[i].get_outputs()[0]
 
                             if element == nextItem:
-                                inFlow = self._simulationOutput[i].split()[-1]  # Prendo il flusso in uscita dell'elemento precedente
+                                outFlow = float(self._simulationOutput[i].split()[-1])  # Prendo il flusso in uscita dell'elemento precedente
                                 valid = True
 
                             i += 1
@@ -84,7 +84,10 @@ class HSystem:
             elif isinstance(element, Sink):
                 previous = type
                 type = "Sink"
-                inFlow = splitOutFlow[index]
+                if previous != "Sink":
+                    inFlow = outFlow
+                else:
+                    inFlow = splitOutFlow[index]
                 outFlow = 0
 
 
