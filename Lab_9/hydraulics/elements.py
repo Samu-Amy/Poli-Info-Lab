@@ -51,7 +51,7 @@ class Sink(Element):
 
 class Split(Element):
     def __init__(self, name: str) -> None:
-        self._name = name
+        super().__init__(name)
         self._connections = [None, None]
 
     def connect_at(self, elm: Element, pos: int) -> None:
