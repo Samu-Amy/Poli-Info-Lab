@@ -35,6 +35,7 @@ class HSystem:
 
                     if element == next[index]:  # Controllo il collegamento
                         valid = True
+                        break
                     else:
                         i = 0
                         while i < len(self._components) and not valid:
@@ -46,6 +47,7 @@ class HSystem:
                             if element == nextItem:
                                 outFlow = float(self._simulationOutput[i].split()[-1])  # Prendo il flusso in uscita dell'elemento precedente
                                 valid = True
+                                break
 
                             i += 1
 
