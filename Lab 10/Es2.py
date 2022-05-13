@@ -1,27 +1,26 @@
 class Thermostat:
 
     def __init__(self, target_temp: float, is_celsius: bool) -> None:
-        self._targetTemp = target_temp
-        self._isCelsius = is_celsius
+        self._target_temp = target_temp
+        self._is_celsius = is_celsius
 
-    def decor_get_temp(function):
-        def inner(self):
-            print("The target temperature is: ", end="")
-            function(self)
-        return inner
+    @target_temp.setter
+    def temp(self, target_temp: float) -> None:
+        self._target_temp = target_temp
 
-    def set_target_temp(self, target_temp: float) -> None:
-        self._targetTemp = target_temp
+    @property
+    def is_celsius(self, is_celsius: bool) -> None:
+        self._is_celsius = is_celsius
 
-    def set_is_celsius(self, is_celsius: bool) -> None:
-        self._isCelsius = is_celsius
+    @property
+    def target_temp(self) -> float:
+        """Target temperature"""
+        return self._target_temp
 
-    @decor_get_temp
-    def get_target_temp(self) -> float:
-        return self._targetTemp
-
-    def get_is_celsius(self) -> bool:
-        return self._isCelsius
+    @property
+    def is_celsius(self) -> bool:
+        """Unit of measure"""
+        return self._is_celsius
 
     @staticmethod
     def convert_to_celsius(target_temp) -> float:
