@@ -58,4 +58,5 @@ def main():
     print(sorted(couple_list, key=lambda sort_c: couple_sorter(sort_c)))
 
 
-main()
+if __name__ == "__main__":
+    main()
