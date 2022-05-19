@@ -8,10 +8,12 @@ class Food:
     def __init__(self) -> None:
         self._material = None
         self._product = None
+        self._recipe = None
         self._material_list = []
         self._material_names = set()
         self._product_list = []
         self._product_names = set()
+        self._recipe_list = []
 
     # R1
     def define_raw_material(self, name: str, calories: float, proteins: float, carbs: float, fats: float) -> None:  # Per 100g
@@ -52,14 +54,18 @@ class Food:
 
     # R3
     def create_recipe(self, name: str) -> Recipe:
-        pass
+        self._recipe = Recipe(name, self)
+        self._recipe_list.append(self._recipe)
+        return self._recipe
 
     @property
     def recipes(self) -> List[Recipe]:
-        pass
+        return self._recipe_list
 
     def get_recipe(self, name: str) -> Recipe:
-        pass
+        for recipe in self._recipe_list:
+            if recipe.name == name:
+                return recipe
 
     # R5
     def create_menu(self, name: str) -> Menu:
