@@ -95,6 +95,29 @@ def main():
         )
     )   # Name: Pasta al Pomodoro, Calories: 286.5, Proteins: 8.6, Carbs: 49.6, Fats: 5.8, per100: True
 
+
+    # print("Name: {}, Calories: {:.1f}, Proteins: {:.1f}, Carbs: {:.1f}, Fats: {:.1f}, per100: {}".format(
+    #     r1.name,
+    #     r1.calories,
+    #     r1.proteins,
+    #     r1.carbs,
+    #     r1.fats,
+    #     r1.per100g
+    # )
+    # )
+    # r1.add_ingredient("Pasta", 30)
+    #
+    # print("Name: {}, Calories: {:.1f}, Proteins: {:.1f}, Carbs: {:.1f}, Fats: {:.1f}, per100: {}".format(
+    #     r1.name,
+    #     r1.calories,
+    #     r1.proteins,
+    #     r1.carbs,
+    #     r1.fats,
+    #     r1.per100g
+    # )
+    # )
+
+
     # --------- R5 -----------
     # creo un menù
     menu = food.create_menu("M1");

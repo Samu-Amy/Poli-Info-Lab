@@ -9,11 +9,13 @@ class Food:
         self._material = None
         self._product = None
         self._recipe = None
+        self._menu = None
         self._material_list = []
         self._material_names = set()
         self._product_list = []
         self._product_names = set()
         self._recipe_list = []
+        self._menu_list = []
 
     # R1
     def define_raw_material(self, name: str, calories: float, proteins: float, carbs: float, fats: float) -> None:  # Per 100g
@@ -69,7 +71,8 @@ class Food:
 
     # R5
     def create_menu(self, name: str) -> Menu:
-        pass
+        self._menu = Menu(name, self)
+        return self._menu
 
 
 
