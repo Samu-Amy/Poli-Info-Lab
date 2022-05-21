@@ -1,1 +1,0 @@
-# TODO: fai le classi per gestire la logica e aggiornare la grafica (come su slide)

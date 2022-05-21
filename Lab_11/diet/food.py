@@ -47,7 +47,7 @@ class Food:
 
     @property
     def products(self) -> List[NutritionalElement]:
-        return self._product_list
+        return sorted(self._product_list)
 
     def get_product(self, name: str) -> NutritionalElement:
         for prod in self._product_list:
@@ -62,7 +62,7 @@ class Food:
 
     @property
     def recipes(self) -> List[Recipe]:
-        return self._recipe_list
+        return sorted(self._recipe_list)
 
     def get_recipe(self, name: str) -> Recipe:
         for recipe in self._recipe_list:

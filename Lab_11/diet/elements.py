@@ -81,6 +81,9 @@ class Recipe(NutritionalElement):
             string += f"{material[0]} {material[1]:.1f}\n"
         return string
 
+    def __lt__(self, other) -> bool:
+        return self.name < other.name
+
 
 class Menu(NutritionalElement):
 
