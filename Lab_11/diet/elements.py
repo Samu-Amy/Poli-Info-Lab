@@ -78,7 +78,7 @@ class Recipe(NutritionalElement):
         string = ""
         self._calories = 0
         for material in self._ingredients.items():
-            string += f"{material[0]} {material[1] : .1f}\n"
+            string += f"{material[0]} {material[1]:.1f}\n"
         return string
 
 
@@ -111,28 +111,50 @@ class Menu(NutritionalElement):
         return self._name
 
     def calculate(self):
-
+        self._calories = 0
+        self._proteins = 0
+        self._carbs = 0
+        self._fats = 0
+        quantity = 0
+        for element in self._recipes.items():
+            recipe = self._food.get_recipe(element[0])
+            self._calories += recipe.calories * element[1] / 100
+            self._proteins += recipe.proteins * element[1] / 100
+            self._carbs += recipe.carbs * element[1] / 100
+            self._fats += recipe.fats * element[1] / 100
+            quantity += element[1]
+        for element in self._products:
+            product = self._food.get_product(element)
+            self._calories += product.calories
+            self._proteins += product.proteins
+            self._carbs += product.carbs
+            self._fats += product.fats
         self._update = True
 
     @property
     def calories(self) -> float:
-        self._calories = 0
-        for element in self._recipes.items():
-            recipe = self._food.get_recipe(element[0])
-
+        if not self._update:
+            self.calculate()
+        return self._calories
 
     @property
     def proteins(self) -> float:
-        pass
+        if not self._update:
+            self.calculate()
+        return self._proteins
 
     @property
     def carbs(self) -> float:
-        pass
+        if not self._update:
+            self.calculate()
+        return self._carbs
 
     @property
     def fats(self) -> float:
-        pass
+        if not self._update:
+            self.calculate()
+        return self._fats
 
     @property
     def per100g(self) -> bool:
-        pass
+        return self._per100g
