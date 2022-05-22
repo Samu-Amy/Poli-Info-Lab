@@ -21,6 +21,7 @@ class View(Tk):
         self._errorMessage = StringVar()
         self._materialList = []
         self._rawMaterialList = StringVar(value=self._materialList)
+        self._rawData = [self._name.get(), self._calories.get(), self._proteins.get(), self._carbs.get(), self._fats.get()]
 
         # Grafica
 
@@ -47,7 +48,7 @@ class View(Tk):
 
         self._errorMessageEntry = ttk.Label(self._frame1, textvariable=self._errorMessage)
         self._errorMessageEntry.grid(row=6, column=0, columnspan=2, sticky="e", padx=(20, 0))
-        ttk.Button(self._frame1, text="Submit").grid(row=7, column=1, padx=(10, 20), pady=(10, 20))
+        ttk.Button(self._frame1, text="Submit", command=self.submit).grid(row=7, column=1, padx=(10, 20), pady=(10, 20))
 
         # Parte di output
         self._frame2 = ttk.Frame(self)
@@ -59,11 +60,14 @@ class View(Tk):
         # Divisore
         ttk.Separator(self, orient="vertical").grid(row=0, column=1, sticky="ns")
 
-
-    def create_material(self):
-        pass
-
-    def setMessage(self, message, color):
+    def set_message(self, message, color):
         self._errorMessageEntry.config(foreground=color)
         self._errorMessage.set(message)
         self.after(800, lambda: self._errorMessage.set(""))
+
+    def submit(self):
+        self._model.set_data(self._rawData)
+        self._controller.define()
+
+    def update(self):
+        pass

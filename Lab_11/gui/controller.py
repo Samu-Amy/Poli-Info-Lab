@@ -9,3 +9,7 @@ class Controller:
 
     def set_view(self, view):
         self._view = view
+
+    def define(self):
+        self._model.define_material()
+        # self._view.update()
