@@ -1,9 +1,9 @@
 
-def summation(n):
-    if n == 1:
-        return 1
+def somma(n):
+    x = 1
+    ris = 0
+    if x > n:
+        return ris
     else:
-        return n + summation(n-1)
+        ris += x
 
-
-print(summation(5))
