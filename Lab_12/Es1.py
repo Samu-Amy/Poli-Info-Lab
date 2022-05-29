@@ -1,9 +1,11 @@
 
 def somma(n):
-    x = 1
     ris = 0
-    if x > n:
-        return ris
+    if n > 1:
+        return ris + n + somma(n-1)
     else:
-        ris += x
+        return 1
 
+
+num = int(input("Inserisci un numero: "))
+print(somma(num))
