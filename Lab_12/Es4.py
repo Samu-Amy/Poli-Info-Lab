@@ -19,13 +19,12 @@ array2 = [23, 12, 1, 134, 6, 13, 45, 0]
 
 
 print(array)
-
 merge_sort_rec(array)
 print(array)
 
+print()
 
 print(array2)
-
 merge_sort_rec(array2)
 print(array2)
 
