@@ -1,4 +1,6 @@
 
+# Algoritmo sbagliato (non era inteso così)
+
 def merge_sort_rec(array, n=2):
     n = n
     for i in range(0, len(array) - n, n):  # Sezioni di n-elementi della lista
