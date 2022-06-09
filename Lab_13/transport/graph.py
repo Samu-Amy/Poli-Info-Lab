@@ -1,7 +1,7 @@
 import abc
 from abc import ABC
 from typing import Any, Set, List
-from transport.elements import Node, Branch
+from transport.elements import Node, Branch, Depth_First_Search
 
 
 class Graph(ABC):
@@ -106,12 +106,13 @@ class DirectedGraph(Graph):
     def get_children(self, node_id: int) -> Set[int]:
         self._node = self.get_node_obj(node_id)
         ids = set()
-        for branch in self._node.get_out_branches():
+        for branch in self._node.out_branches:
             ids.add(branch.get_link()[1])
         return ids
 
     def find_path(self, from_id: int, to_id: int) -> List[int]:
-        pass
+        dfs = Depth_First_Search(self.get_node_obj(from_id), self.get_node_obj(to_id), self._nodes, self)
+        dfs.search()
 
 
 class GraphCreator:
@@ -138,8 +139,12 @@ print("Peso collegamento tra 1 e 3:", graph.get_edge(1, 3))
 print("Il nodo 3 è connesso al nodo 1?", graph.is_connected(3, 1))
 print("Il nodo 2 è connesso al nodo 3?", graph.is_connected(2, 3))
 print(len(graph))
-print(graph.get_node_obj(2).get_out_branches()[0].get_link())
-print(graph.get_node_obj(2).get_out_branches()[0].get_link())
-l = graph.get_node_obj(3).get_in_branches()
+print(graph.get_node_obj(2).out_branches[0].get_link())
+print(graph.get_node_obj(2).out_branches[0].get_link())
+l = graph.get_node_obj(3).in_branches
 print(l[0].get_link(), l[1].get_link())
 print(graph.get_children(1))
+
+print(graph.get_node_obj(n1).visited)
+
+graph.find_path(1, 3)
