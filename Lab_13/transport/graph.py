@@ -112,7 +112,8 @@ class DirectedGraph(Graph):
 
     def find_path(self, from_id: int, to_id: int) -> List[int]:
         dfs = Depth_First_Search(self.get_node_obj(from_id), self.get_node_obj(to_id), self._nodes, self)
-        dfs.search()
+        path = dfs.search()
+        print(path)
 
 
 class GraphCreator:
@@ -129,22 +130,31 @@ graph = GraphCreator.get_empty_graph()
 n1 = graph.add_node(5)
 n2 = graph.add_node(15)
 n3 = graph.add_node(25)
+n4 = graph.add_node(50)
+n5 = graph.add_node(75)
+n6 = graph.add_node(100)
 b1 = graph.add_edge(1, 1, 2)
 b2 = graph.add_edge(2, 1, 3)
-b3 = graph.add_edge(5, 2, 3)
+b3 = graph.add_edge(6, 1, 5)
+b4 = graph.add_edge(5, 2, 3)
+b5 = graph.add_edge(2, 2, 4)
+b6 = graph.add_edge(6, 3, 5)
+b7 = graph.add_edge(6, 3, 6)
+b8 = graph.add_edge(6, 4, 5)
+b9 = graph.add_edge(6, 5, 6)
 
-print("Id primo nodo:", n1, end="; ")
-print("contenuto secondo nodo:", graph.get_node(2))
-print("Peso collegamento tra 1 e 3:", graph.get_edge(1, 3))
-print("Il nodo 3 è connesso al nodo 1?", graph.is_connected(3, 1))
-print("Il nodo 2 è connesso al nodo 3?", graph.is_connected(2, 3))
-print(len(graph))
-print(graph.get_node_obj(2).out_branches[0].get_link())
-print(graph.get_node_obj(2).out_branches[0].get_link())
-l = graph.get_node_obj(3).in_branches
-print(l[0].get_link(), l[1].get_link())
-print(graph.get_children(1))
+# print("Id primo nodo:", n1, end="; ")
+# print("contenuto secondo nodo:", graph.get_node(2))
+# print("Peso collegamento tra 1 e 3:", graph.get_edge(1, 3))
+# print("Il nodo 3 è connesso al nodo 1?", graph.is_connected(3, 1))
+# print("Il nodo 2 è connesso al nodo 3?", graph.is_connected(2, 3))
+# print(len(graph))
+# print(graph.get_node_obj(2).out_branches[0].get_link())
+# print(graph.get_node_obj(2).out_branches[0].get_link())
+# l = graph.get_node_obj(3).in_branches
+# print(l[0].get_link(), l[1].get_link())
+# print(graph.get_children(1))
+#
+# print(graph.get_node_obj(n1).visited)
 
-print(graph.get_node_obj(n1).visited)
-
-graph.find_path(1, 3)
+graph.find_path(1, 5)
