@@ -1,7 +1,7 @@
 import abc
 from abc import ABC
 from typing import Any, Set, List
-from transport.elements import Node, Branch, Depth_First_Search
+from transport.elements import Node, Branch, DepthFirstSearch
 
 
 class Graph(ABC):
@@ -99,7 +99,7 @@ class DirectedGraph(Graph):
     def get_parents(self, node_id: int) -> Set[int]:
         self._node = self.get_node_obj(node_id)
         ids = set()
-        for branch in self._node.get_in_branches():
+        for branch in self._node.in_branches:
             ids.add(branch.get_link()[0])
         return ids
 
@@ -111,9 +111,9 @@ class DirectedGraph(Graph):
         return ids
 
     def find_path(self, from_id: int, to_id: int) -> List[int]:
-        dfs = Depth_First_Search(self.get_node_obj(from_id), self.get_node_obj(to_id), self._nodes, self)
-        path = dfs.search()
-        print(path)
+        dfs = DepthFirstSearch(self.get_node_obj(from_id), self.get_node_obj(to_id), self._nodes, self)
+        dfs.search()
+        return dfs.best_path()
 
 
 class GraphCreator:
@@ -157,4 +157,4 @@ b9 = graph.add_edge(6, 5, 6)
 #
 # print(graph.get_node_obj(n1).visited)
 
-graph.find_path(1, 5)
+print(graph.find_path(1, 5))
