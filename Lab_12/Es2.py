@@ -1,18 +1,21 @@
 
-def binary_numbers_rec(lenght, number, end, pos=0):
+def binary_numbers_rec(number, end, pos):
     print(number)
+
+    number[pos] += 1
+    for i in range(pos, -1, -1):
+        if number[i] == 2:
+            number[i] -= 2
+            number[i-1] += 1
+
     if number == end:
         return number
-    elif number[pos] == "0":
-        number[pos] = "1"
-        return binary_numbers_rec(lenght, number, end, pos)
-    elif number[pos] == "1":
-        number[pos] = "0"
-        return binary_numbers_rec(lenght, number, end, pos-1)
+
+    return binary_numbers_rec(number, end, pos)
 
 
-def binary_numbers(lenght):
-    return binary_numbers_rec(lenght, ["0"] * lenght, ["1"] * lenght, lenght-1)
+def binary_numbers(nLenght):
+    return binary_numbers_rec([0] * nLenght, [1] * nLenght, nLenght-1)
 
 
 lenght = int(input("Inserisci un numero: "))
