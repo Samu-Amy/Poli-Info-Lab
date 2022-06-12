@@ -1,12 +1,15 @@
-from chess.board import Board
+from chess.board import Board, Piece, ChessException
 from chess.competition import Player
 from typing import List, Optional
+from chess.tournament import Tournament
 
 
 class ChessManager:
     def __init__(self) -> None:
         self._boards = []
         self._players = []
+        self._tournaments = []
+        self._tournaments_name = []
         self._assignment = {}
 
     # R2
@@ -37,17 +40,33 @@ class ChessManager:
 
     # R3
     def create_tournament(self, name: str) -> None:
-        pass
+        if name not in self._tournaments_name:
+            self._tournaments_name.append(name)
+            self._tournaments.append(Tournament(name))
+        else:
+            raise ChessException
 
     def add_player_score(self, tournament_name: str, player_name: str, score: int) -> None:
-        pass
+        if self.get_player(player_name) in self._players:
+            for tournament in self._tournaments:
+                if tournament.name == tournament_name:
+                    tournament.add_player(self.get_player(player_name), score)
+        else:
+            raise ChessException
 
     def get_leading_player(self, tournament_name: str) -> Optional[str]:
-        pass
+        for tournament in self._tournaments:
+            if tournament.name == tournament_name:
+                return tournament.get_leading()
 
     # R5
     def fill_queens(self, board_name: str, board_size: int) -> Board:
-        pass
+        board = Board(board_name, board_size)
+        for i in range(board_size):
+            for j in range(board_size):
+                if self.check_queen(board, i, j):
+                    board.add_piece(Piece.QUEEN, i, j)
+        return board
 
     @staticmethod
     # METODO GIÀ FORNITO
@@ -76,7 +95,6 @@ class ChessManager:
             x_pos += 1
             y_pos -= 1
         return True
-
 
 
 
