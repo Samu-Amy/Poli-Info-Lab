@@ -1,30 +1,7 @@
 from gui.controller import Controller
 from gui.model import Model
 from gui.view import View
-from chess.board import Board, Piece, ChessException
 
-board = Board("B1", 8)
-board.add_piece(Piece.ROOK, 0, 0)
-board.add_piece(Piece.KNIGHT, 0, 1)
-board.add_piece(Piece.BISHOP, 0, 2)
-board.add_piece(Piece.KING, 0, 3)
-board.add_piece(Piece.QUEEN, 0, 4)
-board.add_piece(Piece.BISHOP, 0, 5)
-board.add_piece(Piece.KNIGHT, 0, 6)
-board.add_piece(Piece.ROOK, 0, 7)
-for i in range(8):
-    board.add_piece(Piece.PAWN, 1, i)
-
-def print_board(b: Board) -> None:
-    if not b:
-        print(b)
-        return
-    for i in range(b.dim):
-        for j in range(b.dim):
-            print("{: >7}".format(b.get_piece(i, j) if b.get_piece(i, j) is not None else "None"), end="")
-        print("")
-
-print_board(board)
 
 m = Model()
 c = Controller(m)
