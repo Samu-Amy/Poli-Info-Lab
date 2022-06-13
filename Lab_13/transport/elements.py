@@ -76,6 +76,7 @@ class DepthFirstSearch:
         self._forks = []
         self._isFirst = True
         self._last_fork = None
+        self._pivot = None
 
     def search(self, current=-1):  # TODO: da sistemare
 
@@ -104,26 +105,26 @@ class DepthFirstSearch:
                     node.reset_path()
         self._last_fork = self._forks[-1]
 
-        # # TODO: elimina -----------------------------------
-        # print("\nNodo:", current.get_id())
-        # try:
-        #     print("Ultima diramazione:", self._last_fork.get_id(), self._last_fork)  # TODO: elimina
-        # except:
-        #     pass
-        # print("Percorso:", self._path)
-        # list = []
-        # for f in self._forks:
-        #     list.append(f.get_id())
-        # print("Diramazioni:", list)
-        # list = []
-        # for f in current.out_branches:
-        #     list.append(f.get_link())
-        # print("Branches:", list)
-        # list = []
-        # for f in current.visited:
-        #     list.append(f.get_id())
-        # print("Visited:", list)
-        # # TODO: elimina ------------------------------------
+        # TODO: elimina -----------------------------------
+        print("\nNodo:", current.get_id())
+        try:
+            print("Ultima diramazione:", self._last_fork.get_id(), self._last_fork)  # TODO: elimina
+        except:
+            pass
+        print("Percorso:", self._path)
+        list = []
+        for f in self._forks:
+            list.append(f.get_id())
+        print("Diramazioni:", list)
+        list = []
+        for f in current.out_branches:
+            list.append(f.get_link())
+        print("Branches:", list)
+        list = []
+        for f in current.visited:
+            list.append(f.get_id())
+        print("Visited:", list)
+        # TODO: elimina ------------------------------------
 
         # Raggiunta la meta
         if current == self._last:
@@ -131,25 +132,25 @@ class DepthFirstSearch:
             index = self._path.index(self._last_fork.get_id())  # --------
             self._path_list.append(self._path)
             self._path = self._path[:index + 1]
-            # print("Arrivato")  # TODO: elimina
+            print("Arrivato")  # TODO: elimina
 
         # Fine percorso
         elif len(current.out_branches) == 0:
             index = self._path.index(self._last_fork.get_id())  # --------
             self._path = self._path[:index + 1]
-            # print("Fine percorso")  # TODO: elimina
+            print("Fine percorso")  # TODO: elimina
 
         # Continua a cercare
         else:
             out_branches = current.out_branches
             i = 0
             while i < len(out_branches):
-                # print("i:", i)  # TODO: elimina
+                print("i:", i)  # TODO: elimina
                 node = self._graph.get_node_obj(current.out_branches[i].get_link()[1])
                 if node not in current.visited:
                     current.set_visited(node)
-                    # print(f"{current.get_id()} -> {node.get_id()}")  # TODO: elimina
-                    # print("Percorso:", self._path)  # TODO: elimina
+                    print(f"{current.get_id()} -> {node.get_id()}")  # TODO: elimina
+                    print("Percorso:", self._path)  # TODO: elimina
                     self.search(node)
                 i += 1
 
@@ -159,3 +160,55 @@ class DepthFirstSearch:
             indexes.append(len(path))
 
         return self._path_list[indexes.index(min(indexes))]
+
+    def search2(self, node=-1, last=-1, path=[]):
+
+        # Inizializzazione
+        if node == -1:
+            node = self._first
+        if last == -1:
+            last = self._last
+
+        path.append(node)
+        print("Nodo:", node.get_id())
+        print("Ultimo:", last.get_id())
+        print("Percorso:", end=" ")
+        for n in path:
+            print(n.get_id(), end=", ")
+        print("\n")
+
+        # Raggiunta la meta
+        if node == last:
+            self._path_list.append(path)
+            index = path.index(self._pivot)
+            path = path[:index + 1]
+            print(index, len(path[:index + 1]), len(path))
+            print("Percorso:", end=" ")
+            for n in path:
+                print(n.get_id(), end=", ")
+            print("\n")
+
+        # Fine percorso
+        elif len(node.out_branches) == 0:
+            index = path.index(self._pivot)
+            path = path[:index + 1]
+            print(index, len(path[:index + 1]), len(path))
+            print("Percorso:", end=" ")
+            for n in path:
+                print(n.get_id(), end=", ")
+            print("\n")
+
+        elif len(node.out_branches) > 0:
+            self._pivot = node
+            for branch in node.out_branches:
+                n = self._graph.get_node_obj(branch.get_link()[1])
+                self.search2(n, last, path)
+
+        print("EEEEEEEEEEEEEEEEEEEEEEEEE")
+
+        for i in range(len(self._path_list)):
+            for j in self._path_list[i]:
+                print(j.get_id(), end=", ")
+            print()
+
+        print("Pivot:", self._pivot.get_id())

@@ -112,8 +112,11 @@ class DirectedGraph(Graph):
 
     def find_path(self, from_id: int, to_id: int) -> List[int]:
         dfs = DepthFirstSearch(self.get_node_obj(from_id), self.get_node_obj(to_id), self._nodes, self)
-        dfs.search()
-        return dfs.best_path()
+        # dfs.search()
+        dfs.search2()
+
+        # return dfs.best_path()
+
 
 
 class GraphCreator:
@@ -133,6 +136,7 @@ n3 = graph.add_node(25)
 n4 = graph.add_node(50)
 n5 = graph.add_node(75)
 n6 = graph.add_node(100)
+n7 = graph.add_node(125)
 b1 = graph.add_edge(1, 1, 2)
 b2 = graph.add_edge(2, 1, 3)
 b3 = graph.add_edge(6, 1, 5)
@@ -140,8 +144,9 @@ b4 = graph.add_edge(5, 2, 3)
 b5 = graph.add_edge(2, 2, 4)
 b6 = graph.add_edge(6, 3, 5)
 b7 = graph.add_edge(6, 3, 6)
-b8 = graph.add_edge(6, 4, 5)
-b9 = graph.add_edge(6, 5, 6)
+b8 = graph.add_edge(6, 3, 7)
+b9 = graph.add_edge(6, 4, 5)
+b10 = graph.add_edge(6, 5, 6)
 
 # print("Id primo nodo:", n1, end="; ")
 # print("contenuto secondo nodo:", graph.get_node(2))
@@ -157,4 +162,5 @@ b9 = graph.add_edge(6, 5, 6)
 #
 # print(graph.get_node_obj(n1).visited)
 
-print(graph.find_path(1, 5))
+graph.find_path(1, 5)
+# print(graph.find_path(1, 5))
