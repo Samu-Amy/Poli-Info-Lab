@@ -1,9 +1,7 @@
-from controller import Controller
-from model import Model
-from view import View
-# import sys
-# sys.path.append('prova_esame/chess')
-# from chess.board import Board
+from gui.controller import Controller
+from gui.model import Model
+from gui.view import View
+from chess.board import Board, Piece, ChessException
 
 board = Board("B1", 8)
 board.add_piece(Piece.ROOK, 0, 0)
@@ -31,6 +29,7 @@ print_board(board)
 m = Model()
 c = Controller(m)
 v = View(m, c)
-c.set_view = v
+c.set_view(v)
+
 
 v.mainloop()
