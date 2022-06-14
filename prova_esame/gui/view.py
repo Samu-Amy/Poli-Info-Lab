@@ -52,3 +52,4 @@ class View(Tk):
     def reset_variable(self):
         self._x.set("")
         self._y.set("")
+        #  Aggiungi timer per resettare messaggio
