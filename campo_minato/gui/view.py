@@ -13,6 +13,7 @@ class View(Tk):
         self._controller = controller
         self._buttons = []
         self._flag = False
+        self._pressed = []
 
         # Grafica
         self.title("Minesweeper")
@@ -61,12 +62,16 @@ class View(Tk):
                 b.grid(row=i, column=j)
 
     def pressed(self, i, j):
-        self._model.pressed(i, j)
+        if (i, j) not in self._pressed:
+            self._controller.pressed(i, j)
+        self._pressed.append((i, j))
 
     def expose(self, i, j, value):
         self._buttons[i][j]["text"] = value
         self._buttons[i][j]["relief"] = "sunken"
-        self._buttons[i][j]["background"] = "#cbcbcb"
+        self._buttons[i][j]["background"] = "#bbb"
+        self._buttons[i][j]["foreground"] = "#000"
+        # self._buttons[i][j]["state"] = "disabled"
 
     def flag(self):
         self._flag = not self._flag

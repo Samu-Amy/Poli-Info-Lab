@@ -10,6 +10,6 @@ class Controller:
     def pressed(self, i, j):
         val = self._model.pressed(i, j)
         self._view.expose(i, j, val[0])
-        if len(val[1]) > 0:
-            for coord in val[1]:
-                self._view.pressed(*coord)
+        # if len(val[1]) > 0:
+        #     for coord in val[1]:
+        #         self._view.pressed(*coord)
