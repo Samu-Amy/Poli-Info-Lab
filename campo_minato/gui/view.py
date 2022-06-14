@@ -54,7 +54,7 @@ class View(Tk):
         print("\nDisposizione:")
         for i in range(x):
             for j in range(y):
-                b = Button(self, width=2, height=1, text="X", command=lambda r=i, c=j: self.pressed(r, c))
+                b = Button(self, width=2, height=1, command=lambda r=i, c=j: self.pressed(r, c))
                 self._buttons[i][j] = b
                 b.grid(row=i, column=j)
 
