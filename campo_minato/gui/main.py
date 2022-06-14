@@ -8,4 +8,6 @@ c = Controller(m)
 v = View(m, c)
 c.set_view(v)
 
+m.stampa()
+
 v.mainloop()
