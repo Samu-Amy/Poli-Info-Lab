@@ -11,3 +11,6 @@ c.set_view(v)
 m.stampa()
 
 v.mainloop()
+
+
+# Aggiungi counter punti, finestre di dialogo

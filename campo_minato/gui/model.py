@@ -37,11 +37,18 @@ class Model:
 
     def pressed(self, i, j):
         other = []
+        bomb = False
         if self._field[i][j] == 0:
             for r in range(max(0, i-1), min(self._x, i+2)):
                 for c in range(max(0, j-1), min(self._y, j+2)):
                     other.append((r, c))
-        return self._field[i][j], other
+        elif self._field[i][j] == "x":
+            bomb = True
+            for r in range(len(self._field)):
+                for c in range(len(self._field[r])):
+                    if self._field[r][c] == "x":
+                        other.append((r, c))
+        return self._field[i][j], other, bomb
 
     def stampa(self):
         for i in range(len(self._field)):

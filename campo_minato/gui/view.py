@@ -14,12 +14,14 @@ class View(Tk):
         self._buttons = []
         self._flag = False
         self._pressed = set()
+        self._score = 0
+        self._score_var = StringVar()
 
         # Grafica
         self.title("Minesweeper")
 
         self._game_frame = ttk.Frame(self)
-        self._game_frame.grid(row=1, column=0)
+        self._game_frame.grid(row=1, column=0, columnspan=2)
 
         menubar = Menu(self)
         self["menu"] = menubar
@@ -31,19 +33,24 @@ class View(Tk):
         game_menu.add_command(label="Medium", command=lambda d=Model.MEDIUM: self.initialization(d))
         game_menu.add_command(label="Hard", command=lambda d=Model.LARGE: self.initialization(d))
 
-        self._button_flag = Button(self, text=chr(128681), command=self.flag)
-        self._button_flag.grid(row=0, column=0, padx=25, pady=5, sticky="e")
+        score = ttk.Label(self, textvariable=self._score_var)
+        score.grid(row=0, column=0, padx=30, pady=5, sticky="w")
+        self._button_flag = Button(self, text=chr(128681), foreground="#f23b2c", command=self.flag)
+        self._button_flag.grid(row=0, column=1, padx=25, pady=5, sticky="e")
         self._default_b_color = self._button_flag.cget("background")
 
         # Primo avvio
-        dim = Model.SMALL
-        self.initialization(Model.SMALL)
+        self._dim = Model.SMALL
+        self.initialization(self._dim)
 
     def initialization(self, dim):
         x = dim[0]
         y = dim[1]
+        self._dim = dim
         self._pressed = set()
-        self._model.initialization(dim)
+        self._score = 0
+        self._update_score()
+        self._controller.initialization(dim)
 
         # Rimozione elementi
         for i in range(len(self._buttons)):
@@ -64,14 +71,27 @@ class View(Tk):
 
     def pressed(self, i, j):
         if (i, j) not in self._pressed:
-            print(i, j)  # TODO: elimina
-            self._controller.pressed(i, j)
-            self._pressed.add((i, j))
+            if not self._flag and self._buttons[i][j]["text"] != chr(128681):
+                self._controller.pressed(i, j)
+                self.check()
+            elif self._flag and self._buttons[i][j]["text"] == chr(128681):
+                self._buttons[i][j]["text"] = ""
+                self._buttons[i][j]["foreground"] = "#000"
+            else:
+                self._buttons[i][j]["text"] = chr(128681)
+                self._buttons[i][j]["foreground"] = "#f23b2c"
 
     def expose(self, i, j, value):
-        self._buttons[i][j]["text"] = value
+        self._pressed.add((i, j))
+        if value == "x":
+            self._buttons[i][j]["text"] = chr(128163)
+            self._buttons[i][j]["background"] = "#f23b2c"
+        else:
+            self._score += 1
+            self._update_score()
+            self._buttons[i][j]["text"] = value
+            self._buttons[i][j]["background"] = "#bbb"
         self._buttons[i][j]["relief"] = "sunken"
-        self._buttons[i][j]["background"] = "#bbb"
         self._buttons[i][j]["foreground"] = "#000"
         # self._buttons[i][j]["state"] = "disabled"
 
@@ -80,9 +100,21 @@ class View(Tk):
         if self._flag:
             self._button_flag["relief"] = "sunken"
             self._button_flag["background"] = "#f23b2c"
+            self._button_flag["foreground"] = "#000"
         else:
             self._button_flag["relief"] = "raised"
             self._button_flag["background"] = self._default_b_color
+            self._button_flag["foreground"] = "#f23b2c"
+
+    def check(self):
+        dim = self._dim
+        total = dim[0]*dim[1]
+        total_pressed = len(self._pressed)
+        if total-total_pressed == dim[2]:
+            print("Hai vinto")
+
+    def _update_score(self):
+        self._score_var.set(str(self._score))
 
     def stampa(self):
         for i in range(len(self._buttons)):
