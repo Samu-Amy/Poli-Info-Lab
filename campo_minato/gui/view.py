@@ -13,7 +13,7 @@ class View(Tk):
         self._controller = controller
         self._buttons = []
         self._flag = False
-        self._pressed = []
+        self._pressed = set()
 
         # Grafica
         self.title("Minesweeper")
@@ -42,6 +42,7 @@ class View(Tk):
     def initialization(self, dim):
         x = dim[0]
         y = dim[1]
+        self._pressed = set()
         self._model.initialization(dim)
 
         # Rimozione elementi
@@ -63,8 +64,9 @@ class View(Tk):
 
     def pressed(self, i, j):
         if (i, j) not in self._pressed:
+            print(i, j)  # TODO: elimina
             self._controller.pressed(i, j)
-        self._pressed.append((i, j))
+            self._pressed.add((i, j))
 
     def expose(self, i, j, value):
         self._buttons[i][j]["text"] = value

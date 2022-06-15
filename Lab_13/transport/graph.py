@@ -162,5 +162,5 @@ b10 = graph.add_edge(6, 5, 6)
 #
 # print(graph.get_node_obj(n1).visited)
 
-graph.find_path(1, 5)
+graph.find_path(1, 6)
 # print(graph.find_path(1, 5))

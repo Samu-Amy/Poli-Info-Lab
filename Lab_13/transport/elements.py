@@ -182,6 +182,7 @@ class DepthFirstSearch:
             self._path_list.append(path)
             index = path.index(self._pivot)
             path = path[:index + 1]
+            print("Arrivato")  # TODO: elimina
             print(index, len(path[:index + 1]), len(path))
             print("Percorso:", end=" ")
             for n in path:
@@ -198,7 +199,7 @@ class DepthFirstSearch:
                 print(n.get_id(), end=", ")
             print("\n")
 
-        elif len(node.out_branches) > 0:
+        elif len(node.out_branches) > 1:
             self._pivot = node
             for branch in node.out_branches:
                 n = self._graph.get_node_obj(branch.get_link()[1])
