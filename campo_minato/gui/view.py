@@ -129,17 +129,18 @@ class View(Tk):
             combobox.set("Easy")
             combobox.state(["readonly"])
             combobox.grid(row=1, column=0, sticky="w", padx=20, pady=(5, 20))
-            ttk.Button(self._window, text="New game", command=lambda dim=self._dim_var: self.new_game(dim)).grid(row=1, column=1, sticky="e", padx=20, pady=(5, 20))
+            ttk.Button(self._window, text="New game", command=lambda dim=self._dim_var: self.new_game(dim, True)).grid(row=1, column=1, sticky="e", padx=20, pady=(5, 20))
         else:
-            ttk.Button(self._window, text="Retry", command=lambda dim=self._dim: self.new_game(dim)).grid(row=1, column=1, sticky="e", padx=50, pady=(5, 20))
+            ttk.Button(self._window, text="Retry", command=lambda dim=self._dim: self.new_game(dim, False)).grid(row=1, column=1, sticky="e", padx=50, pady=(5, 20))
 
-    def new_game(self, dim):
-        if dim.get() == "Easy":
-            dim = Model.SMALL
-        elif dim.get() == "Medium":
-            dim = Model.MEDIUM
-        elif dim.get() == "Hard":
-            dim = Model.LARGE
+    def new_game(self, dim, get):
+        if get:
+            if dim.get() == "Easy":
+                dim = Model.SMALL
+            elif dim.get() == "Medium":
+                dim = Model.MEDIUM
+            elif dim.get() == "Hard":
+                dim = Model.LARGE
         self._window.destroy()
         self.initialization(dim)
 
