@@ -161,7 +161,7 @@ class DepthFirstSearch:
 
         return self._path_list[indexes.index(min(indexes))]
 
-    def search2(self, node=-1, last=-1, path=[]):
+    def search2(self, node=-1, last=-1):
 
         # Inizializzazione
         if node == -1:
@@ -169,33 +169,33 @@ class DepthFirstSearch:
         if last == -1:
             last = self._last
 
-        path.append(node)
+        self._path.append(node)
         print("Nodo:", node.get_id())
         print("Ultimo:", last.get_id())
         print("Percorso:", end=" ")
-        for n in path:
+        for n in self._path:
             print(n.get_id(), end=", ")
         print("\n")
 
         # Raggiunta la meta
         if node == last:
-            self._path_list.append(path)
-            index = path.index(self._pivot)
-            path = path[:index + 1]
+            self._path_list.append(self._path)
+            index = self._path.index(self._pivot)
+            self._path = self._path[:index + 1]
             print("Arrivato")  # TODO: elimina
-            print(index, len(path[:index + 1]), len(path))
+            print(index, len(self._path[:index + 1]), len(self._path))
             print("Percorso:", end=" ")
-            for n in path:
+            for n in self._path:
                 print(n.get_id(), end=", ")
             print("\n")
 
         # Fine percorso
         elif len(node.out_branches) == 0:
-            index = path.index(self._pivot)
-            path = path[:index + 1]
-            print(index, len(path[:index + 1]), len(path))
+            index = self._path.index(self._pivot)
+            self._path = self._path[:index + 1]
+            print(index, len(self._path[:index + 1]), len(self._path))
             print("Percorso:", end=" ")
-            for n in path:
+            for n in self._path:
                 print(n.get_id(), end=", ")
             print("\n")
 
@@ -203,7 +203,7 @@ class DepthFirstSearch:
             self._pivot = node
             for branch in node.out_branches:
                 n = self._graph.get_node_obj(branch.get_link()[1])
-                self.search2(n, last, path)
+                self.search2(n, last)
 
         print("EEEEEEEEEEEEEEEEEEEEEEEEE")
 

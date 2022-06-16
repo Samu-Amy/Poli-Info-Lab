@@ -53,6 +53,7 @@ class View(Tk):
         self._pressed = set()
         self._score = 0
         self._update_score()
+        self._button_flag["state"] = "normal"
         self._controller.initialization(dim)
 
         # Rimozione elementi
@@ -96,7 +97,6 @@ class View(Tk):
             self._buttons[i][j]["background"] = "#bbb"
         self._buttons[i][j]["relief"] = "sunken"
         self._buttons[i][j]["foreground"] = "#000"
-        # self._buttons[i][j]["state"] = "disabled"
 
     def flag(self):
         self._flag = not self._flag
@@ -120,6 +120,10 @@ class View(Tk):
         self._score_var.set(str(self._score))
 
     def show_message(self, message, color, win):
+        for i in range(len(self._buttons)):
+            for j in range(len(self._buttons[i])):
+                self._buttons[i][j]["state"] = "disabled"
+        self._button_flag["state"] = "disabled"
         self._window = Toplevel(self)
         self._window.geometry("+840+480")
         ttk.Label(self._window, text=message, foreground=color).grid(row=0, column=0, columnspan=2, padx=20, pady=(20, 5))
