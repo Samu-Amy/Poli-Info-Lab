@@ -25,3 +25,4 @@ class Controller:
             for coord in val[1]:
                 if coord not in self._pressed:
                     self._view.expose(*coord, val[0])
+            self._view.show_message("Hai perso", "red", False)

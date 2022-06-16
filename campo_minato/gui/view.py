@@ -16,9 +16,12 @@ class View(Tk):
         self._pressed = set()
         self._score = 0
         self._score_var = StringVar()
+        self._window = None
+        self._dim_var = StringVar()
 
         # Grafica
         self.title("Minesweeper")
+        self.geometry("+750+350")
 
         self._game_frame = ttk.Frame(self)
         self._game_frame.grid(row=1, column=0, columnspan=2)
@@ -111,10 +114,34 @@ class View(Tk):
         total = dim[0]*dim[1]
         total_pressed = len(self._pressed)
         if total-total_pressed == dim[2]:
-            print("Hai vinto")
+            self.show_message("Hai vinto", "green", True)
 
     def _update_score(self):
         self._score_var.set(str(self._score))
+
+    def show_message(self, message, color, win):
+        self._window = Toplevel(self)
+        self._window.geometry("+840+480")
+        ttk.Label(self._window, text=message, foreground=color).grid(row=0, column=0, columnspan=2, padx=20, pady=(20, 5))
+        if win:
+            combobox = ttk.Combobox(self._window, textvariable=self._dim_var)
+            combobox["values"] = ("Easy", "Medium", "Hard")
+            combobox.set("Easy")
+            combobox.state(["readonly"])
+            combobox.grid(row=1, column=0, sticky="w", padx=20, pady=(5, 20))
+            ttk.Button(self._window, text="New game", command=lambda dim=self._dim_var: self.new_game(dim)).grid(row=1, column=1, sticky="e", padx=20, pady=(5, 20))
+        else:
+            ttk.Button(self._window, text="Retry", command=lambda dim=self._dim: self.new_game(dim)).grid(row=1, column=1, sticky="e", padx=50, pady=(5, 20))
+
+    def new_game(self, dim):
+        if dim.get() == "Easy":
+            dim = Model.SMALL
+        elif dim.get() == "Medium":
+            dim = Model.MEDIUM
+        elif dim.get() == "Hard":
+            dim = Model.LARGE
+        self._window.destroy()
+        self.initialization(dim)
 
     def stampa(self):
         for i in range(len(self._buttons)):
