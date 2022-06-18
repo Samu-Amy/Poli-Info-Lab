@@ -10,7 +10,6 @@ class Node:
         self._in_branches = []
         self._out_branches = []
         self._visited = []
-        self._completed = False
 
     def set_in_branch(self, branch):
         self._in_branches.append(branch)
@@ -21,11 +20,14 @@ class Node:
     def set_visited(self, node):
         self._visited.append(node)
 
-    def set_completed(self, value):
-        self._completed = value
-
     def reset_path(self):
         self._visited = []
+
+    def get(self):
+        return self._data
+
+    def get_id(self):
+        return self._id
 
     @property
     def out_branches(self):
@@ -38,16 +40,6 @@ class Node:
     @property
     def visited(self):
         return self._visited
-
-    @property
-    def completed(self):
-        return self._completed
-
-    def get(self):
-        return self._data
-
-    def get_id(self):
-        return self._id
 
 
 class Branch:
@@ -78,6 +70,7 @@ class DepthFirstSearch:
         self._last_fork = None
         self._previous = None
         self._arrived = False
+        self._pivot = []
 
     def search2(self, node=-1, last=-1, pivot=None, branch=None):
 
@@ -95,8 +88,8 @@ class DepthFirstSearch:
         if pivot is not None:
             print("Prima:", pivot.get_id())  # TODO: elimina
         print("Percorso:", end=" ")
-        for n in self._path:
-            print(n.get_id(), end=", ")
+        for m in self._path:
+            print(m.get_id(), end=", ")
         print()
 
         # Raggiunta la meta
@@ -115,8 +108,25 @@ class DepthFirstSearch:
             print("Continua")  # TODO: elimina
             for branch in node.out_branches:
                 n = self._graph.get_node_obj(branch.get_link()[1])
+                node.set_visited(n)
                 if len(node.out_branches) > 1:
                     pivot = self._graph.get_node_obj(branch.get_link()[0])
+                #     if pivot not in self._pivot:
+                #         self._pivot.append(pivot)
+                #         print("Pivot:", end=" ")
+                #         for m in self._pivot:
+                #             print(m.get_id(), end=", ")
+                #         print()
+                # if len(node.out_branches) - len(node.visited) == 0:
+                #     print("Visitati:", end=" ")
+                #     for m in node.visited:
+                #         print(m.get_id(), end=", ")
+                #     print()
+                #     index = self._pivot.index(pivot)
+                #     try:
+                #         pivot = self._pivot[index - 1]
+                #     except IndexError:
+                #         pass
                     print("Prima:", pivot.get_id())  # TODO: elimina
                 self._arrived = False
                 print("Funzione:", n.get_id(), pivot.get_id(), branch.get_link())
@@ -129,8 +139,8 @@ class DepthFirstSearch:
             self._path = self._path[:index + 1]
             print(index, len(self._path))
             print("Percorso:", end=" ")
-            for n in self._path:
-                print(n.get_id(), end=", ")
+            for m in self._path:
+                print(m.get_id(), end=", ")
             print()
 
     def best_path(self):
