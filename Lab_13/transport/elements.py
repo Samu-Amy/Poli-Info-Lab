@@ -151,8 +151,6 @@ class DepthFirstSearch:
         return self._path_list[indexes.index(min(indexes))]
 
 
-
-
 #   def search(self, current=-1):
 #
 #     # Inizializzazione
