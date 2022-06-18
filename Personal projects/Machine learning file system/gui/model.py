@@ -30,7 +30,8 @@ class Model:
     @current_item.setter
     def current_item(self, index):
         self._current_item = self._items[index]
-        self._path.append(self._current_item)
+        if self._path[-1] != self._current_item:
+            self._path.append(self._current_item)
 
     @property
     def items(self):
