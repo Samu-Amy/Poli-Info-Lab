@@ -9,11 +9,7 @@ class View(Tk):
         self._model = model
         self._controller = controller
         self._controller.set_view(self)
-
-        # Stile
-        # style = ttk.Style(self)
-        # style.configure("TButton", padding=6, relief="flat", background="#efefef")
-        # style.map('TButton', background=[('active', 'red')])
+        self._buttons = []
 
         # Assets
         self._folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
@@ -37,25 +33,23 @@ class View(Tk):
         self._controller.update()
 
     def create(self, name, file_format, index):
+
         if file_format == "folder":
             image = self._folder_image
         else:
             image = self._file_image
 
-        b = Button(self._main, text=name, image=image, width=60, height=60, compound=TOP, background="#efefef", borderwidth=0, command= lambda item=index: self._controller.update(index))
-        self.changeOnHover(b, "#D6EAF8", "#efefef")
-        b.grid(row=0, column=index, padx=5, pady=5)
+        button = Button(self._main, text=name, image=image, width=60, height=60, compound=TOP, background="#efefef", borderwidth=0, command=lambda item=index: self._controller.open(index))
+        self.changeOnHover(button, "#D6EAF8", "#efefef")
+        self._buttons.append(button)
+        button.grid(row=0, column=index, padx=5, pady=5)
 
-        # b = ttk.Button(self._main, text=name, image=image, width=10, compound=TOP)
-        # b.grid(row=0, column=index, padx=10, pady=10)
+    def clear(self):
+        for button in self._buttons:
+            button.destroy()
 
     def changeOnHover(self, button, colorOnHover, colorOnLeave):
-
-        # adjusting backgroung of the widget
-        # background on entering widget
         button.bind("<Enter>", func=lambda e: button.config(
             background=colorOnHover))
-
-        # background color on leving widget
         button.bind("<Leave>", func=lambda e: button.config(
             background=colorOnLeave))

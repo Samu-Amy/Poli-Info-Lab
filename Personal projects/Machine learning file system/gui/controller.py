@@ -9,8 +9,10 @@ class Controller:
         self._view = view
 
     def update(self, folder="Desktop"):
+        self._view.clear()
+
         if folder == "Desktop":
-            folder = self._model.get_desktop()
+            folder = self._model.current_item
         else:
             pass
 
@@ -18,3 +20,7 @@ class Controller:
         for index in range(len(items)):
             item = items[index]
             self._view.create(item.name, item.format, index)
+
+    def open(self, index):
+        self._model.current_item = index
+        self.update()
