@@ -10,6 +10,7 @@ class View(Tk):
         self._controller = controller
         self._controller.set_view(self)
         self._buttons = []
+        self._path = StringVar()
 
         # Assets
         self._folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
@@ -19,12 +20,16 @@ class View(Tk):
         self.title("File System")
         self["background"] = "#efefef"
 
-        # Grafica
+        # Grafica root
         self._toolbar = Frame(self)
-        self._toolbar.grid(row=0, column=0, padx=10, pady=10)
+        self._toolbar.grid(row=0, column=0, padx=10, pady=10, sticky="we")
 
         self._main = Frame(self, background="#efefef")
         self._main.grid(row=1, column=0, padx=10, pady=10)
+
+        # Grafica toolbar
+        Button(self._toolbar, text="<", command=self._model.pop_path).grid(row=0, column=0)
+        ttk.Label(self._toolbar, textvariable=self._path).grid(row=0, column=1)
 
         # Inizializzazione
         self.initialize()
@@ -43,6 +48,14 @@ class View(Tk):
         self.changeOnHover(button, "#D6EAF8", "#efefef")
         self._buttons.append(button)
         button.grid(row=0, column=index, padx=5, pady=5)
+
+    def update_path(self, path):
+        string = ""
+        for index in range(len(path)):
+            string += path[index].name
+            if index < len(path) - 1:
+                string += " > "
+        self._path.set(string)
 
     def clear(self):
         for button in self._buttons:

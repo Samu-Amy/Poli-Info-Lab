@@ -13,10 +13,6 @@ class Model:
         else:
             self._items = []
 
-        print(self._path)
-        print(self._current_item.name)
-        print(self._items)
-
         # Prova
         folder = Folder("Files").add(File("Text 1")).add(File("Text 2"))
         self._desktop.add(folder).add(File("Text"))
@@ -34,6 +30,7 @@ class Model:
     @current_item.setter
     def current_item(self, index):
         self._current_item = self._items[index]
+        self._path.append(self._current_item)
 
     @property
     def items(self):
@@ -43,4 +40,6 @@ class Model:
         self._path.append(item)
 
     def pop_path(self):
-        self._path.pop()
+        if len(self._path) > 1:
+            self._path.pop()
+        print(self._path)

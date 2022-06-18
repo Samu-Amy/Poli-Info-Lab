@@ -21,6 +21,8 @@ class Controller:
             item = items[index]
             self._view.create(item.name, item.format, index)
 
+        self._view.update_path(self._model.path)
+
     def open(self, index):
         self._model.current_item = index
         self.update()
