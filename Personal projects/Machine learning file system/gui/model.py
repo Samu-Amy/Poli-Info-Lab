@@ -14,8 +14,11 @@ class Model:
             self._items = []
 
         # Prova
-        folder = Folder("Files").add(File("Text 1")).add(File("Text 2"))
-        self._desktop.add(folder).add(File("Text"))
+        file1 = File("Text 1").set_data("Primo testo")
+        file2 = File("Text 2").set_data("Altro testo")
+        folder = Folder("Files").add(file1).add(file2)
+        file = File("Text").set_data("File")
+        self._desktop.add(folder).add(file)
         folder = Folder("Images").add(File("Image 1")).add(File("Image 2"))
         self._desktop.add(folder)
 
@@ -27,20 +30,26 @@ class Model:
     def current_item(self):
         return self._current_item
 
-    @current_item.setter
-    def current_item(self, index):
+    def set_current_item(self, index):
+        to_update = False
         self._current_item = self._items[index]
+        self.update_items()
         if self._path[-1] != self._current_item:
             self._path.append(self._current_item)
+            to_update = True
 
     @property
     def items(self):
         return self._items
 
-    def add_path(self, item):
-        self._path.append(item)
-
     def pop_path(self):
-        if len(self._path) > 1:
-            self._path.pop()
-        print(self._path)
+        self._path.pop()
+        self.update_current_item()
+        self.update_items()
+
+    def update_current_item(self):
+        self._current_item = self._path[-1]
+
+    def update_items(self):
+        if not isinstance(self._current_item, File):
+            self._items = self._current_item.get_items()

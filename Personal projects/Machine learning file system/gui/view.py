@@ -11,10 +11,12 @@ class View(Tk):
         self._controller.set_view(self)
         self._buttons = []
         self._path = StringVar()
+        self._data = StringVar()
 
         # Assets
         self._folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
         self._file_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\file.png")
+        self._back_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\back.png")
 
         # Impostazioni finestra
         self.title("File System")
@@ -22,14 +24,15 @@ class View(Tk):
 
         # Grafica root
         self._toolbar = Frame(self)
-        self._toolbar.grid(row=0, column=0, padx=10, pady=10, sticky="we")
+        self._toolbar.grid(row=0, column=0, padx=10, pady=(10, 0), sticky="we")
 
         self._main = Frame(self, background="#efefef")
         self._main.grid(row=1, column=0, padx=10, pady=10)
 
         # Grafica toolbar
-        Button(self._toolbar, text="<", command=self._model.pop_path).grid(row=0, column=0)
-        ttk.Label(self._toolbar, textvariable=self._path).grid(row=0, column=1)
+        self._back = Button(self._toolbar, image=self._back_image, command=self._controller.return_back)
+        self._back.grid(row=0, column=0)
+        ttk.Label(self._toolbar, textvariable=self._path).grid(row=0, column=1, padx=10)
 
         # Inizializzazione
         self.initialize()
@@ -48,6 +51,13 @@ class View(Tk):
         self.changeOnHover(button, "#D6EAF8", "#efefef")
         self._buttons.append(button)
         button.grid(row=0, column=index, padx=5, pady=5)
+
+    def show(self, data):
+        self._data.set(data)
+        ttk.Label(self._main, textvariable=self._data).grid(row=0, column=0)
+
+    def set_return_back(self, state):
+        self._back["state"] = state
 
     def update_path(self, path):
         string = ""

@@ -4,6 +4,7 @@ class File:
         self._name = name
         self._format = format
         self._image = "file"
+        self._data = ""
         # Argomento
 
     @property
@@ -13,6 +14,14 @@ class File:
     @property
     def format(self):
         return self._format
+
+    @property
+    def data(self):
+        return self._data
+
+    def set_data(self, data):
+        self._data = data
+        return self
 
 
 class Folder:
