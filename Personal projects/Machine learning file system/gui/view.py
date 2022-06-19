@@ -10,9 +10,7 @@ class View(Tk):
         self._controller = controller
         self._controller.set_view(self)
         self._buttons = []
-        # self._datas = []
         self._path = StringVar()
-        self._data = StringVar()
 
         # Assets
         self._folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
@@ -22,6 +20,7 @@ class View(Tk):
         # Impostazioni finestra
         self.title("File System")
         self["background"] = "#efefef"
+        self.geometry("+750+300")
         self.rowconfigure(1, weight=1)
         self.columnconfigure(0, weight=1)
 
@@ -31,8 +30,6 @@ class View(Tk):
 
         self._main = Frame(self, background="#efefef")
         self._main.grid(row=1, column=0, padx=10, pady=10, sticky="news")
-        # self._main.rowconfigure(0, weight=1)
-        # self._main.columnconfigure(0, weight=1)
 
         # Menu
         self._main_menu = Menu(self, tearoff=0)
@@ -71,14 +68,13 @@ class View(Tk):
 
     # Mostra il contenuto del file
     def show(self, data, title):
-        # self._data.set(data)
         data_var = StringVar()
-        data_var.set("ghrer")
+        data_var.set(data)
         window = Toplevel(self)
         window.title(title)
-        data_label = ttk.Label(window, textvariable=data_var, anchor="center")
+        window.geometry("+800+350")
+        data_label = Label(window, textvariable=data_var, anchor="center")
         data_label.grid(row=0, column=0, padx=5, pady=5, sticky="news")
-        # self._datas.append(data)
 
     # Abilita o disabilita il tasto "indietro"
     def set_return_back(self, state):
@@ -97,8 +93,6 @@ class View(Tk):
     def clear(self):
         for button in self._buttons:
             button.destroy()
-        # for data in self._datas:
-        #     data.destroy()
 
     # Apre il menu (tasto destro)
     def do_popup(self, event, index=None):

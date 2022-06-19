@@ -16,6 +16,7 @@ class Controller:
         if item == "Desktop":
             item = self._model.current_item
 
+        # Abilita o disabilita il tasto "indietro"
         if len(self._model.path) <= 1:
             self._view.set_return_back("disabled")
         else:
@@ -41,11 +42,9 @@ class Controller:
         self._model.update_items()
         if to_update:
             self.update()
-        print(self._model.path) #TODO: elimina
 
     # Torna all'elemento precedente
     def return_back(self):
         if len(self._model.path) > 1:
             self._model.pop_path()
             self.update()
-        print(self._model.path) #TODO: elimina
