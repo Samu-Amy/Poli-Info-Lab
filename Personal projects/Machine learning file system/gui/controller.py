@@ -10,34 +10,42 @@ class Controller:
     def set_view(self, view):
         self._view = view
 
+    # Aggiorna la gui
     def update(self, item="Desktop"):
-        self._view.clear()
 
         if item == "Desktop":
             item = self._model.current_item
 
-        if isinstance(self._model.current_item, Desktop):
+        if len(self._model.path) <= 1:
             self._view.set_return_back("disabled")
         else:
             self._view.set_return_back("normal")
 
+        # Apre il file
         if isinstance(item, File):
-            self._view.show(item.data)
+            self._view.show(item.data, item.name)
+
+        # Elimina gli elementi e apre la cartella
         elif isinstance(item, Folder):
+            self._view.clear()
             items = item.get_items()
             for index in range(len(items)):
                 item = items[index]
                 self._view.create(item.name, item.format, index)
 
-        self._view.update_path(self._model.path)
+            self._view.update_path(self._model.path)
 
+    # Apre una cartella o un file
     def open(self, index):
         to_update = self._model.set_current_item(index)
         self._model.update_items()
-        if not to_update:
+        if to_update:
             self.update()
+        print(self._model.path) #TODO: elimina
 
+    # Torna all'elemento precedente
     def return_back(self):
-        if self._model.current_item.name != "Desktop":
+        if len(self._model.path) > 1:
             self._model.pop_path()
             self.update()
+        print(self._model.path) #TODO: elimina

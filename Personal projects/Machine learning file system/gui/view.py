@@ -10,7 +10,7 @@ class View(Tk):
         self._controller = controller
         self._controller.set_view(self)
         self._buttons = []
-        self._datas = []
+        # self._datas = []
         self._path = StringVar()
         self._data = StringVar()
 
@@ -55,6 +55,7 @@ class View(Tk):
     def initialize(self):
         self._controller.update()
 
+    # Crea i tasti
     def create(self, name, file_format, index):
 
         if file_format == "folder":
@@ -68,15 +69,22 @@ class View(Tk):
         button.bind("<Button-3>", lambda event, i=index: self.do_popup(i))
         button.grid(row=0, column=index, padx=5, pady=5, sticky="nw")
 
-    def show(self, data):
-        self._data.set(data)
-        data = ttk.Label(self._main, textvariable=self._data, anchor="center")
-        data.grid(row=0, column=0, padx=5, pady=5, sticky="news")
-        self._datas.append(data)
+    # Mostra il contenuto del file
+    def show(self, data, title):
+        # self._data.set(data)
+        data_var = StringVar()
+        data_var.set("ghrer")
+        window = Toplevel(self)
+        window.title(title)
+        data_label = ttk.Label(window, textvariable=data_var, anchor="center")
+        data_label.grid(row=0, column=0, padx=5, pady=5, sticky="news")
+        # self._datas.append(data)
 
+    # Abilita o disabilita il tasto "indietro"
     def set_return_back(self, state):
         self._back["state"] = state
 
+    # Aggiorna il percorso nella grafica
     def update_path(self, path):
         string = ""
         for index in range(len(path)):
@@ -85,18 +93,21 @@ class View(Tk):
                 string += " > "
         self._path.set(string)
 
+    # Elimina tutti gli elementi
     def clear(self):
         for button in self._buttons:
             button.destroy()
-        for data in self._datas:
-            data.destroy()
+        # for data in self._datas:
+        #     data.destroy()
 
+    # Apre il menu (tasto destro)
     def do_popup(self, event, index=None):
         try:
             self._main_menu.tk_popup(event.x_root, event.y_root)
         finally:
             self._main_menu.grab_release()
 
+    # Cambio colore tasto se il mouse è in hover
     def changeOnHover(self, button, colorOnHover, colorOnLeave):
         button.bind("<Enter>", func=lambda e: button.config(
             background=colorOnHover))
