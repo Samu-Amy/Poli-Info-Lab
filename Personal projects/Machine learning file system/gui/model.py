@@ -16,7 +16,8 @@ class Model:
         # Prova
         file1 = File("Text 1").set_data("Primo testo")
         file2 = File("Text 2").set_data("Altro testo")
-        folder = Folder("Files").add(file1).add(file2)
+        folder2 = Folder("Other files").add(file1).add(file2)
+        folder = Folder("Files").add(folder2).add(file1).add(file2)
         file = File("Text").set_data("File")
         self._desktop.add(folder).add(file)
         folder = Folder("Images").add(File("Image 1")).add(File("Image 2"))

@@ -10,6 +10,7 @@ class View(Tk):
         self._controller = controller
         self._controller.set_view(self)
         self._buttons = []
+        self._datas = []
         self._path = StringVar()
         self._data = StringVar()
 
@@ -21,18 +22,32 @@ class View(Tk):
         # Impostazioni finestra
         self.title("File System")
         self["background"] = "#efefef"
+        self.rowconfigure(1, weight=1)
+        self.columnconfigure(0, weight=1)
 
-        # Grafica root
+        # Frame
         self._toolbar = Frame(self)
         self._toolbar.grid(row=0, column=0, padx=10, pady=(10, 0), sticky="we")
 
         self._main = Frame(self, background="#efefef")
-        self._main.grid(row=1, column=0, padx=10, pady=10)
+        self._main.grid(row=1, column=0, padx=10, pady=10, sticky="news")
+        # self._main.rowconfigure(0, weight=1)
+        # self._main.columnconfigure(0, weight=1)
+
+        # Menu
+        self._main_menu = Menu(self, tearoff=0)
+        self._menu_new = Menu(self._main_menu, tearoff=0)
+        self._main_menu.add_cascade(menu=self._menu_new, label="New")
+        self._menu_new.add_command(label="Folder")
+        self._menu_new.add_command(label="File")
 
         # Grafica toolbar
         self._back = Button(self._toolbar, image=self._back_image, command=self._controller.return_back)
         self._back.grid(row=0, column=0)
         ttk.Label(self._toolbar, textvariable=self._path).grid(row=0, column=1, padx=10)
+
+        # Eventi
+        self._main.bind("<Button-3>", self.do_popup)
 
         # Inizializzazione
         self.initialize()
@@ -47,14 +62,17 @@ class View(Tk):
         else:
             image = self._file_image
 
-        button = Button(self._main, text=name, image=image, width=60, height=60, compound=TOP, background="#efefef", borderwidth=0, command=lambda item=index: self._controller.open(index))
+        button = Button(self._main, text=name, image=image, width=60, height=60, compound=TOP, background="#efefef", borderwidth=0, command=lambda: self._controller.open(index))
         self.changeOnHover(button, "#D6EAF8", "#efefef")
         self._buttons.append(button)
-        button.grid(row=0, column=index, padx=5, pady=5)
+        button.bind("<Button-3>", lambda event, i=index: self.do_popup(i))
+        button.grid(row=0, column=index, padx=5, pady=5, sticky="nw")
 
     def show(self, data):
         self._data.set(data)
-        ttk.Label(self._main, textvariable=self._data).grid(row=0, column=0)
+        data = ttk.Label(self._main, textvariable=self._data, anchor="center")
+        data.grid(row=0, column=0, padx=5, pady=5, sticky="news")
+        self._datas.append(data)
 
     def set_return_back(self, state):
         self._back["state"] = state
@@ -70,6 +88,14 @@ class View(Tk):
     def clear(self):
         for button in self._buttons:
             button.destroy()
+        for data in self._datas:
+            data.destroy()
+
+    def do_popup(self, event, index=None):
+        try:
+            self._main_menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            self._main_menu.grab_release()
 
     def changeOnHover(self, button, colorOnHover, colorOnLeave):
         button.bind("<Enter>", func=lambda e: button.config(

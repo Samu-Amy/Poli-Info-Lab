@@ -31,6 +31,8 @@ class Folder:
         self._format = "folder"
         self._items = []
 
+    #TODO: aggiungi ordinamento alfabetico
+
     @property
     def name(self):
         return self._name
