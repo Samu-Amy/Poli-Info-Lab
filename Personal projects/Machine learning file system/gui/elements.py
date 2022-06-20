@@ -1,11 +1,21 @@
 class File:
 
-    def __init__(self, name, format="txt"):
+    def __init__(self, name="", format="txt"):
         self._name = name
         self._format = format
         self._image = "file"
         self._data = ""
         # Argomento
+
+    #TODO: aggiungi formati e immagini corrispondenti
+
+    def set_name(self, name):
+        self._name = name
+        return self
+
+    def set_data(self, data):
+        self._data = data
+        return self
 
     @property
     def name(self):
@@ -19,10 +29,6 @@ class File:
     def data(self):
         return self._data
 
-    def set_data(self, data):
-        self._data = data
-        return self
-
 
 class Folder:
 
@@ -31,7 +37,16 @@ class Folder:
         self._format = "folder"
         self._items = []
 
-    #TODO: aggiungi ordinamento alfabetico
+    #TODO: aggiungi ordinamento alfabetico e altri tipi di file
+
+    def set_name(self, name):
+        self._name = name
+        return self
+
+    def add(self, *folders):
+        for folder in folders:
+            self._items.append(folder)
+        return self
 
     @property
     def name(self):
@@ -40,11 +55,6 @@ class Folder:
     @property
     def format(self):
         return self._format
-
-    def add(self, *folders):
-        for folder in folders:
-            self._items.append(folder)
-        return self
 
     def get_items(self):
         return self._items

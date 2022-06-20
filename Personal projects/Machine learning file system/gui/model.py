@@ -56,9 +56,18 @@ class Model:
 
     # Aggiorna l'elemento corrente all'ultimo del percorso
     def update_current_item(self):
-        self._current_item = self._path[-1]
+        if not isinstance(self._path[-1], File):
+            self._current_item = self._path[-1]
 
     # Aggiorna gli oggetti a quelli dell'elemento corrente
     def update_items(self):
         if not isinstance(self._current_item, File):
             self._items = self._current_item.get_items()
+
+    # Crea un file
+    def create_file(self):
+        self._current_item.add(File(""))
+
+    # Crea una cartella
+    def create_folder(self):
+        self._current_item.add(Folder(""))

@@ -35,13 +35,15 @@ class View(Tk):
         self._main_menu = Menu(self, tearoff=0)
         self._menu_new = Menu(self._main_menu, tearoff=0)
         self._main_menu.add_cascade(menu=self._menu_new, label="New")
-        self._menu_new.add_command(label="Folder")
-        self._menu_new.add_command(label="File")
+        self._menu_new.add_command(label="Folder", command=self._controller.create_folder)
+        self._menu_new.add_command(label="File", command= self._controller.create_file)
 
         # Grafica toolbar
         self._back = Button(self._toolbar, image=self._back_image, command=self._controller.return_back)
         self._back.grid(row=0, column=0)
         ttk.Label(self._toolbar, textvariable=self._path).grid(row=0, column=1, padx=10)
+
+        #TODO: aggiungi tasti per creare cartelle e file
 
         # Eventi
         self._main.bind("<Button-3>", self.do_popup)
@@ -55,6 +57,8 @@ class View(Tk):
     # Crea i tasti
     def create(self, name, file_format, index):
 
+        #TODO: metti numero massimo di elementi per riga, poi va a capo
+
         if file_format == "folder":
             image = self._folder_image
         else:
@@ -66,6 +70,8 @@ class View(Tk):
         button.bind("<Button-3>", lambda event, i=index: self.do_popup(i))
         button.grid(row=0, column=index, padx=5, pady=5, sticky="nw")
 
+    #TODO: crea rinomiazione file e cartelle e aggiunta formato e contenuto testo
+
     # Mostra il contenuto del file
     def show(self, data, title):
         data_var = StringVar()
@@ -73,6 +79,7 @@ class View(Tk):
         window = Toplevel(self)
         window.title(title)
         window.geometry("+800+350")
+        window.protocol("WM_DELETE_WINDOW", lambda: self.close_file(window))
         data_label = Label(window, textvariable=data_var, anchor="center")
         data_label.grid(row=0, column=0, padx=5, pady=5, sticky="news")
 
@@ -93,6 +100,11 @@ class View(Tk):
     def clear(self):
         for button in self._buttons:
             button.destroy()
+
+    # Chiude il file
+    def close_file(self, window):
+        window.destroy()
+        self._controller.close_file()
 
     # Apre il menu (tasto destro)
     def do_popup(self, event, index=None):

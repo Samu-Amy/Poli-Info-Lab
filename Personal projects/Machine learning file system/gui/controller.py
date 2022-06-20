@@ -48,3 +48,18 @@ class Controller:
         if len(self._model.path) > 1:
             self._model.pop_path()
             self.update()
+
+    # Chiude il file
+    def close_file(self):
+        self._model.update_current_item()
+        self.update()
+
+    # Crea un file
+    def create_file(self):
+        self._model.create_file()
+        self.update()
+
+    # Crea una cartella
+    def create_folder(self):
+        self._model.create_folder()
+        self.update()
