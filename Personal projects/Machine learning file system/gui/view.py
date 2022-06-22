@@ -99,6 +99,7 @@ class View(Tk):
         button.grid(row=self._rows, column=col, padx=5, pady=5, sticky="nw")
 
     #TODO: crea rinomiazione file e cartelle e aggiunta formato e contenuto testo
+    # (aggiornamento label durante la digitazione, con entry nascosta e bind "enter" per il submit)
 
     # Mostra il contenuto del file
     def show(self, data, title):
