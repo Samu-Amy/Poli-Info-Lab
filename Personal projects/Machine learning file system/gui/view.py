@@ -14,7 +14,8 @@ class View(Tk):
 
         # Layout
         self._rows = 0
-        self._max = 5
+        self._max = 10
+        self._current_multiple = 0
         self._multiples = []
         for i in range(50):
             self._multiples.append(self._max * i)
@@ -76,9 +77,13 @@ class View(Tk):
         #TODO: metti numero massimo di elementi per riga, poi va a capo
 
         # Gestisce il layout
-        if index >= self._max:
-            index -= self._max
-            self._rows += 1
+        if index in self._multiples:
+            i = self._multiples.index(index)
+            if self._multiples[i] != self._current_multiple:
+                self._current_multiple = self._multiples[i]
+                self._rows += 1
+
+        col = index - self._current_multiple
 
         # Gestisce le immagini
         if file_format == "folder":
@@ -90,7 +95,7 @@ class View(Tk):
         self.changeOnHover(button, "#D6EAF8", "#efefef")
         self._buttons.append(button)
         button.bind("<Button-3>", lambda event, i=index: self.do_popup(i))
-        button.grid(row=self._rows, column=index, padx=5, pady=5, sticky="nw")
+        button.grid(row=self._rows, column=col, padx=5, pady=5, sticky="nw")
 
     #TODO: crea rinomiazione file e cartelle e aggiunta formato e contenuto testo
 
