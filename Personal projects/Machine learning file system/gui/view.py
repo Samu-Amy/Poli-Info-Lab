@@ -70,10 +70,12 @@ class View(Tk):
 
         #TODO: metti numero massimo di elementi per riga, poi va a capo
 
+        # Gestisce il layout
         if index >= self._max:
             index -= self._max
             self._rows += 1
 
+        # Gestisce le immagini
         if file_format == "folder":
             image = self._folder_image
         else:
