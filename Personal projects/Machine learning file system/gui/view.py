@@ -74,8 +74,6 @@ class View(Tk):
     # Crea i tasti
     def create(self, name, file_format, index):
 
-        #TODO: metti numero massimo di elementi per riga, poi va a capo
-
         # Gestisce il layout
         if index in self._multiples:
             i = self._multiples.index(index)
