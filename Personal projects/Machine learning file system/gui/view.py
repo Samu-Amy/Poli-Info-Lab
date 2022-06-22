@@ -50,11 +50,16 @@ class View(Tk):
         self._menu_new.add_command(label="File", command= self._controller.create_file)
 
         # Grafica toolbar
-        self._back = Button(self._toolbar, image=self._back_image, command=self._controller.return_back)
+        self._back = Button(self._toolbar, image=self._back_image, width=20, height=20, borderwidth=0, command=self._controller.return_back)
         self._back.grid(row=0, column=0)
+        self.changeOnHover(self._back, "#C0DFF4", "#efefef")
         ttk.Label(self._toolbar, textvariable=self._path).grid(row=0, column=1, padx=10)
-        Button(self._toolbar, image=self._add_folder_image, command=self._controller.create_folder).grid(row=0, column=2, sticky="e")
-        Button(self._toolbar, image=self._add_file_image, command=self._controller.create_file).grid(row=0, column=3, padx=(10, 0), sticky="e")
+        button = Button(self._toolbar, image=self._add_folder_image, width=20, height=20, borderwidth=0, command=self._controller.create_folder)
+        button.grid(row=0, column=2, sticky="e")
+        self.changeOnHover(button, "#C0DFF4", "#efefef")
+        button = Button(self._toolbar, image=self._add_file_image, width=20, height=20, borderwidth=0, command=self._controller.create_file)
+        button.grid(row=0, column=3, padx=(10, 0), sticky="e")
+        self.changeOnHover(button, "#C0DFF4", "#efefef")
 
         # Eventi
         self._main.bind("<Button-3>", self.do_popup)
