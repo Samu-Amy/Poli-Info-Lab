@@ -12,9 +12,18 @@ class View(Tk):
         self._buttons = []
         self._path = StringVar()
 
+        # Layout
+        self._rows = 0
+        self._max = 5
+        self._multiples = []
+        for i in range(50):
+            self._multiples.append(self._max * i)
+
         # Assets
         self._folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
+        self._add_folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_folder.png")
         self._file_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\file.png")
+        self._add_file_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_file.png")
         self._back_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\back.png")
 
         # Impostazioni finestra
@@ -27,6 +36,8 @@ class View(Tk):
         # Frame
         self._toolbar = Frame(self)
         self._toolbar.grid(row=0, column=0, padx=10, pady=(10, 0), sticky="we")
+        self._toolbar.rowconfigure(0, weight=1)
+        self._toolbar.columnconfigure(2, weight=1)
 
         self._main = Frame(self, background="#efefef")
         self._main.grid(row=1, column=0, padx=10, pady=10, sticky="news")
@@ -42,8 +53,8 @@ class View(Tk):
         self._back = Button(self._toolbar, image=self._back_image, command=self._controller.return_back)
         self._back.grid(row=0, column=0)
         ttk.Label(self._toolbar, textvariable=self._path).grid(row=0, column=1, padx=10)
-
-        #TODO: aggiungi tasti per creare cartelle e file
+        Button(self._toolbar, image=self._add_folder_image, command=self._controller.create_folder).grid(row=0, column=2, sticky="e")
+        Button(self._toolbar, image=self._add_file_image, command=self._controller.create_file).grid(row=0, column=3, padx=(10, 0), sticky="e")
 
         # Eventi
         self._main.bind("<Button-3>", self.do_popup)
@@ -59,6 +70,10 @@ class View(Tk):
 
         #TODO: metti numero massimo di elementi per riga, poi va a capo
 
+        if index >= self._max:
+            index -= self._max
+            self._rows += 1
+
         if file_format == "folder":
             image = self._folder_image
         else:
@@ -68,7 +83,7 @@ class View(Tk):
         self.changeOnHover(button, "#D6EAF8", "#efefef")
         self._buttons.append(button)
         button.bind("<Button-3>", lambda event, i=index: self.do_popup(i))
-        button.grid(row=0, column=index, padx=5, pady=5, sticky="nw")
+        button.grid(row=self._rows, column=index, padx=5, pady=5, sticky="nw")
 
     #TODO: crea rinomiazione file e cartelle e aggiunta formato e contenuto testo
 
@@ -98,6 +113,7 @@ class View(Tk):
 
     # Elimina tutti gli elementi
     def clear(self):
+        self._rows = 0
         for button in self._buttons:
             button.destroy()
 

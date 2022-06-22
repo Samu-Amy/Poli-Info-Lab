@@ -6,6 +6,7 @@ class File:
         self._image = "file"
         self._data = ""
         # Argomento
+        # Crea file veri (open e read)
 
     #TODO: aggiungi formati e immagini corrispondenti
 
