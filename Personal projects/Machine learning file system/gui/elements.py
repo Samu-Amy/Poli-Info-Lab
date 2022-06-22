@@ -1,6 +1,6 @@
 class File:
 
-    def __init__(self, name="", format="txt"):
+    def __init__(self, name="", format=None):
         self._name = name
         self._format = format
         self._image = "file"
@@ -8,7 +8,9 @@ class File:
         # Argomento
         # Crea file veri (open e read)
 
-    #TODO: aggiungi formati e immagini corrispondenti
+    #TODO: aggiungi formati (sottoclassi apposta)
+
+    #TODO: aggiungi blocco file con password
 
     def set_name(self, name):
         self._name = name

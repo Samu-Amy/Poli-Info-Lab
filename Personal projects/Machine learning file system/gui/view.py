@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from elements import Desktop, Folder, File
 
 
 class View(Tk):
@@ -72,7 +73,7 @@ class View(Tk):
         self._controller.update()
 
     # Crea i tasti
-    def create(self, name, file_format, index):
+    def create(self, name, item, index):
 
         # Gestisce il layout
         if index in self._multiples:
@@ -83,8 +84,10 @@ class View(Tk):
 
         col = index - self._current_multiple
 
+        #TODO: crea funzione per restituire l'immagine giusta a seconda del file e formato
+
         # Gestisce le immagini
-        if file_format == "folder":
+        if isinstance(item, Folder):
             image = self._folder_image
         else:
             image = self._file_image

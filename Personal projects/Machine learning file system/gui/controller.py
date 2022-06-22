@@ -32,7 +32,7 @@ class Controller:
             items = item.get_items()
             for index in range(len(items)):
                 item = items[index]
-                self._view.create(item.name, item.format, index)
+                self._view.create(item.name, item, index)
 
             self._view.update_path(self._model.path)
 
