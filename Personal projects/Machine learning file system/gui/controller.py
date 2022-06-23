@@ -43,6 +43,12 @@ class Controller:
         if to_update:
             self.update()
 
+    # Apre un percorso
+    def open_path(self, path_mod):
+        path = path_mod.split("/")
+        print(path)
+        #TODO: segui percorso e apri l'ultimo elemento (se il percorso è giusto)
+
     # Torna all'elemento precedente
     def return_back(self):
         if len(self._model.path) > 1:

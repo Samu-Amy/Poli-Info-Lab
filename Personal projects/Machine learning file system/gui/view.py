@@ -12,6 +12,12 @@ class View(Tk):
         self._controller.set_view(self)
         self._buttons = []
         self._path = StringVar()
+        self._path_mod = StringVar()
+
+        # Colori
+        self._back_color = "#efefef"
+        self._blue = "#C0DFF4"
+        self._light_blue = "#D6EAF8"
 
         # Layout
         self._rows = 0
@@ -30,7 +36,7 @@ class View(Tk):
 
         # Impostazioni finestra
         self.title("File System")
-        self["background"] = "#efefef"
+        self["background"] = self._back_color
         self.geometry("+750+300")
         self.rowconfigure(1, weight=1)
         self.columnconfigure(0, weight=1)
@@ -39,9 +45,9 @@ class View(Tk):
         self._toolbar = Frame(self)
         self._toolbar.grid(row=0, column=0, padx=10, pady=(10, 0), sticky="we")
         self._toolbar.rowconfigure(0, weight=1)
-        self._toolbar.columnconfigure(2, weight=1)
+        self._toolbar.columnconfigure(1, weight=1)
 
-        self._main = Frame(self, background="#efefef")
+        self._main = Frame(self, background=self._back_color)
         self._main.grid(row=1, column=0, padx=10, pady=10, sticky="news")
 
         # Menu
@@ -54,17 +60,24 @@ class View(Tk):
         # Grafica toolbar
         self._back = Button(self._toolbar, image=self._back_image, width=20, height=20, borderwidth=0, command=self._controller.return_back)
         self._back.grid(row=0, column=0)
-        self.changeOnHover(self._back, "#C0DFF4", "#efefef")
-        ttk.Label(self._toolbar, textvariable=self._path).grid(row=0, column=1, padx=10)
+        self.change_on_hover(self._back, self._blue, self._back_color)
+
+        path_label = ttk.Label(self._toolbar, textvariable=self._path)
+        path_label.grid(row=0, column=1, padx=10, sticky="we")
+        path_label.bind("<Button-1>", lambda event: self.modify_path(path_label))
+
         button = Button(self._toolbar, image=self._add_folder_image, width=20, height=20, borderwidth=0, command=self._controller.create_folder)
         button.grid(row=0, column=2, sticky="e")
-        self.changeOnHover(button, "#C0DFF4", "#efefef")
+        self.change_on_hover(button, self._blue, self._back_color)
+
         button = Button(self._toolbar, image=self._add_file_image, width=20, height=20, borderwidth=0, command=self._controller.create_file)
         button.grid(row=0, column=3, padx=(10, 0), sticky="e")
-        self.changeOnHover(button, "#C0DFF4", "#efefef")
+        self.change_on_hover(button, self._blue, self._back_color)
+
+        #TODO: aggiungi tasti (o evento sulla label/entry (si alternano occupando lo stesso posto)) per copiare/incollare il path
 
         # Eventi
-        self._main.bind("<Button-3>", self.do_popup)
+        self._main.bind("<Button-3>", self.do_popup)  # Menu azioni
 
         # Inizializzazione
         self.initialize()
@@ -92,8 +105,29 @@ class View(Tk):
         else:
             image = self._file_image
 
+        # Grafica tasti
+
+        # button_frame = Frame(self._main, background=self._back_color)
+        # button = Button(button_frame, image=image, width=60, height=50, borderwidth=0)
+        # label = ttk.Label(button_frame, text=name)
+        #
+        # self.change_on_hover_multiples(button_frame, self._light_blue, self._back_color, button_frame, button, label)
+        #
+        # button_frame.bind("<Button-1>", lambda event: self._controller.open(index))
+        # button.bind("<Button-1>", lambda event: self._controller.open(index))
+        # label.bind("<Button-1>", lambda event: self._controller.open(index))
+        #
+        # button_frame.bind("<Button-3>", lambda event: self.do_popup(index))  #TODO: da sistemare
+        #
+        # button_frame.grid(row=self._rows, column=col, padx=8, pady=8, sticky="nw")
+        # button.grid(row=0, column=0, sticky="s")
+        # label.grid(row=1, column=0, sticky="n")
+        #
+        # self._buttons.append(button_frame)
+
+
         button = Button(self._main, text=name, image=image, width=60, height=60, compound=TOP, background="#efefef", borderwidth=0, command=lambda: self._controller.open(index))
-        self.changeOnHover(button, "#D6EAF8", "#efefef")
+        self.change_on_hover(button, "#D6EAF8", "#efefef")
         self._buttons.append(button)
         button.bind("<Button-3>", lambda event, i=index: self.do_popup(i))
         button.grid(row=self._rows, column=col, padx=5, pady=5, sticky="nw")
@@ -125,6 +159,13 @@ class View(Tk):
                 string += " > "
         self._path.set(string)
 
+        string = ""
+        for index in range(len(path)):
+            string += path[index].name
+            if index < len(path) - 1:
+                string += "/"
+        self._path_mod.set(string)
+
     # Elimina tutti gli elementi
     def clear(self):
         self._rows = 0
@@ -143,9 +184,31 @@ class View(Tk):
         finally:
             self._main_menu.grab_release()
 
+    # Selezione e modifica percorso
+    def modify_path(self, path_label):
+        if isinstance(path_label, ttk.Label):
+            path_label = Entry(self._toolbar, textvariable=self._path_mod, background=self._back_color, highlightthickness=0)
+            path_label.grid(row=0, column=1, padx=10, sticky="we")
+            path_label.focus_set()
+            path_label.bind("<Return>", lambda event: self.modify_path(path_label))
+        else:
+            self._controller.open_path(self._path_mod.get())
+            path_label = ttk.Label(self._toolbar, textvariable=self._path)
+            path_label.grid(row=0, column=1, padx=10, sticky="we")
+            path_label.bind("<Button-1>", lambda event: self.modify_path(path_label))
+
     # Cambio colore tasto se il mouse è in hover
-    def changeOnHover(self, button, colorOnHover, colorOnLeave):
+    def change_on_hover(self, button, colorOnHover, colorOnLeave):
         button.bind("<Enter>", func=lambda e: button.config(
             background=colorOnHover))
         button.bind("<Leave>", func=lambda e: button.config(
             background=colorOnLeave))
+
+    # Cambio colore a più elementi se il mouse è in hover
+    def change_on_hover_multiples(self, button, colorOnHover, colorOnLeave, *elements):
+        button.bind("<Enter>", func=lambda e: self.color_change(colorOnHover, *elements))
+        button.bind("<Leave>", func=lambda e: self.color_change(colorOnLeave, *elements))
+
+    def color_change(self, color, *elements):
+        for el in elements:
+            el["background"] = color
