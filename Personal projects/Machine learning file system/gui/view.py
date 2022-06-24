@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from elements import Desktop, Folder, File
 
 
@@ -15,9 +15,8 @@ class View(Tk):
         self._path_mod = StringVar()
 
         # Colori
-        self._back_color = "#efefef"
-        self._blue = "#C0DFF4"
-        self._light_blue = "#D6EAF8"
+        self._back_color = "#fff"
+        self._light_blue = "#d0f0ff"
 
         # Layout
         self._rows = 0
@@ -28,6 +27,7 @@ class View(Tk):
             self._multiples.append(self._max * i)
 
         # Assets
+        self._window_icon = r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\deep_learning.ico"
         self._folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
         self._add_folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_folder.png")
         self._file_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\file.png")
@@ -36,13 +36,14 @@ class View(Tk):
 
         # Impostazioni finestra
         self.title("File System")
+        self.iconbitmap(default=self._window_icon)
         self["background"] = self._back_color
         self.geometry("+750+300")
         self.rowconfigure(1, weight=1)
         self.columnconfigure(0, weight=1)
 
         # Frame
-        self._toolbar = Frame(self)
+        self._toolbar = Frame(self, background=self._back_color)
         self._toolbar.grid(row=0, column=0, padx=10, pady=(10, 0), sticky="we")
         self._toolbar.rowconfigure(0, weight=1)
         self._toolbar.columnconfigure(1, weight=1)
@@ -58,21 +59,21 @@ class View(Tk):
         self._menu_new.add_command(label="File", command= self._controller.create_file)
 
         # Grafica toolbar
-        self._back = Button(self._toolbar, image=self._back_image, width=20, height=20, borderwidth=0, command=self._controller.return_back)
+        self._back = Button(self._toolbar, image=self._back_image, width=20, height=20, background=self._back_color, borderwidth=0, command=self._controller.return_back)
         self._back.grid(row=0, column=0)
-        self.change_on_hover(self._back, self._blue, self._back_color)
+        self.change_on_hover(self._back, self._light_blue, self._back_color)
 
-        path_label = ttk.Label(self._toolbar, textvariable=self._path)
+        path_label = ttk.Label(self._toolbar, textvariable=self._path, background=self._back_color)
         path_label.grid(row=0, column=1, padx=10, sticky="we")
         path_label.bind("<Button-1>", lambda event: self.modify_path(path_label))
 
-        button = Button(self._toolbar, image=self._add_folder_image, width=20, height=20, borderwidth=0, command=self._controller.create_folder)
+        button = Button(self._toolbar, image=self._add_folder_image, width=20, height=20, background=self._back_color, borderwidth=0, command=self._controller.create_folder)
         button.grid(row=0, column=2, sticky="e")
-        self.change_on_hover(button, self._blue, self._back_color)
+        self.change_on_hover(button, self._light_blue, self._back_color)
 
-        button = Button(self._toolbar, image=self._add_file_image, width=20, height=20, borderwidth=0, command=self._controller.create_file)
+        button = Button(self._toolbar, image=self._add_file_image, width=20, height=20, background=self._back_color, borderwidth=0, command=self._controller.create_file)
         button.grid(row=0, column=3, padx=(10, 0), sticky="e")
-        self.change_on_hover(button, self._blue, self._back_color)
+        self.change_on_hover(button, self._light_blue, self._back_color)
 
         #TODO: aggiungi tasti (o evento sulla label/entry (si alternano occupando lo stesso posto)) per copiare/incollare il path
 
@@ -126,8 +127,8 @@ class View(Tk):
         # self._buttons.append(button_frame)
 
 
-        button = Button(self._main, text=name, image=image, width=60, height=60, compound=TOP, background="#efefef", borderwidth=0, command=lambda: self._controller.open(index))
-        self.change_on_hover(button, "#D6EAF8", "#efefef")
+        button = Button(self._main, text=name, image=image, width=60, height=60, compound=TOP, background=self._back_color, borderwidth=0, command=lambda: self._controller.open(index))
+        self.change_on_hover(button, self._light_blue, self._back_color)
         self._buttons.append(button)
         button.bind("<Button-3>", lambda event, i=index: self.do_popup(i))
         button.grid(row=self._rows, column=col, padx=5, pady=5, sticky="nw")
@@ -192,10 +193,14 @@ class View(Tk):
             path_label.focus_set()
             path_label.bind("<Return>", lambda event: self.modify_path(path_label))
         else:
-            self._controller.open_path(self._path_mod.get())
-            path_label = ttk.Label(self._toolbar, textvariable=self._path)
+            self._controller.open_path(self._path_mod.get())  # Modifica il percorso
+            path_label = ttk.Label(self._toolbar, textvariable=self._path, background=self._back_color)
             path_label.grid(row=0, column=1, padx=10, sticky="we")
             path_label.bind("<Button-1>", lambda event: self.modify_path(path_label))
+
+    # Mostra messaggio di errore
+    def show_error_box(self, title, message):
+        messagebox.showerror(title=title, message=message)
 
     # Cambio colore tasto se il mouse è in hover
     def change_on_hover(self, button, colorOnHover, colorOnLeave):

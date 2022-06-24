@@ -1,10 +1,14 @@
 class File:
 
+    _id = 0
+
     def __init__(self, name="", format=None):
         self._name = name
         self._format = format
         self._image = "file"
         self._data = ""
+        self._id = "fi" + str(File._id)
+        File._id += 1
         # Argomento
         # Crea file veri (open e read)
 
@@ -35,10 +39,14 @@ class File:
 
 class Folder:
 
+    _id = 0
+
     def __init__(self, name):
         self._name = name
         self._format = "folder"
         self._items = []
+        self._id = "fo" + str(Folder._id)
+        Folder._id += 1
 
     #TODO: aggiungi ordinamento alfabetico e altri tipi di file
 

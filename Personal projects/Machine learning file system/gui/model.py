@@ -71,3 +71,51 @@ class Model:
     # Crea una cartella
     def create_folder(self):
         self._current_item.add(Folder(""))
+
+    # Cerca un percorso
+    def search_path(self, path):
+        i = 0
+        current = None
+        error = False
+        found = False
+        finished = False
+
+        # Controllo primo elemento
+        if current is None:
+            if path[i] == self._desktop.name:
+                current = self._desktop
+        else:
+            error = True
+
+        #TODO: da sistemare (non funziona e servono gli id), usa gli oggetti nei path
+        while not error and not finished:
+            while i < len(path) - 1:
+                found = False
+                print(i, len(path))
+                for element in current.get_items():
+                    if path[i+1] == element.name:
+                        current = element
+                        found = True
+                        i += 1
+                        break
+                if not found:
+                    error = True
+                    break
+
+                if element.name == path[-1]:
+                    finished = True
+
+        # print(current.name)
+        #
+        # # Controllo elemento
+        # if current.name == path[-1]:
+        #     return error, current
+        # else:
+        #     if i < len(path) - 1 and not error:
+        #         print(i, len(path) -1)
+        #         for element in current.get_items():
+        #             # print(element.name)
+        #             if path[i+1] == element.name:
+        #                 current = element
+        #                 # print(element.name)
+        #                 return self.search_path(path, i+1, current)
