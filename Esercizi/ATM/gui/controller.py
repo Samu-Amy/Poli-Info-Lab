@@ -1,4 +1,4 @@
-from elements.classi import AccountError, AmountError, FoundError
+from elements.classi import Bank, SavingsAccount, AccountError, AmountError, FoundError
 
 
 class Controller:
@@ -10,16 +10,38 @@ class Controller:
     def set_view(self, view):
         self._view = view
 
+        # TODO: elimina
+        self.create_account("Samu", 123, 5000)
+        self.log_in("Samu", 123)
+
     def create_account(self, owner, pin, balance):
         self._model.create_account(owner, pin, balance)
         self._view.reset_var()
 
     def log_in(self, owner, pin):
         try:
-            self._model.log_in(owner, pin)
+            account = self._model.log_in(owner, pin)
             self._model.reset_attempts()
             self._view.reset_var()
-            self._view.main_page()
+            self._view.main_page(account.owner, account.balance)
         except AccountError:
             self._model.increment_attempts()
             self._view.show_error("Account error", "The credentials are wrong or the account doesn't exist")
+
+    def deposit(self, amount):
+        try:
+            self._model.deposit(amount)
+            self._view.reset_amount()
+            self._view.update_var()
+        except AmountError:
+            self._view.show_error("Input error", "The amount must be greater than 0")
+
+    def withdraw(self, amount):
+        try:
+            self._model.withdraw(amount)
+            self._view.reset_amount()
+            self._view.update_var()
+        except FoundError:
+            self._view.show_error("Amount error", "Insufficient founds")
+        except AmountError:
+            self._view.show_error("Input error", "The amount must be greater than 0")
