@@ -45,3 +45,6 @@ class Controller:
             self._view.show_error("Amount error", "Insufficient founds")
         except AmountError:
             self._view.show_error("Input error", "The amount must be greater than 0")
+
+    def delete_account(self):
+        self._model.delete_account()

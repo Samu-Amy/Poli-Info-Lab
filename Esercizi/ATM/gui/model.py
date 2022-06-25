@@ -26,6 +26,9 @@ class Model:
     def withdraw(self, amount):
         return self._account.withdraw(amount)
 
+    def delete_account(self):
+        print("deleting")
+
     def increment_attempts(self):
         self._attempts += 1
 
