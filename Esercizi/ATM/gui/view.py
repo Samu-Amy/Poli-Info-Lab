@@ -39,39 +39,46 @@ class View(Tk):
         self.create_form("Amount:", self._amount, 2, 0, 20, (10, 10))
         self.create_button("Deposit", 3, 0, (20, 10), 10, "w", lambda: self._controller.deposit(int(self._amount.get())))
         self.create_button("Withdraw", 3, 1, (10, 20), 10, "e", lambda: self._controller.withdraw(int(self._amount.get())))
-        self.create_button("Withdraw", 4, 0, (20, 10), 10, "e", lambda: self.delete_box())
+        self.create_button("Delete account", 4, 0, (20, 10), 10, "w", lambda: self.delete_box())
 
-    def create_form(self, text, variable, row, column, padx, pady, window=None):
-        if window in None:
-            window = self
-
-        frame = Frame(window)
+    def create_form(self, text, variable, row, column, padx, pady):
+        frame = Frame(self)
         frame.grid(row=row, column=column, padx=padx, pady=pady)
         label = ttk.Label(frame, text=text)
         label.grid(row=0, column=0, sticky="w")
         entry = ttk.Entry(frame, textvariable=variable)
         entry.grid(row=1, column=0)
 
-        if window == self:
-            self._components.append(label)
-            self._components.append(entry)
-            self._components.append(frame)
+        self._components.append(label)
+        self._components.append(entry)
+        self._components.append(frame)
 
-    def create_button(self, text, row, column, padx, pady, sticky, command, window=None):
-        if window in None:
-            window = self
-
-        button = ttk.Button(window, text=text, command=command)
+    def create_button(self, text, row, column, padx, pady, sticky, command):
+        button = ttk.Button(self, text=text, command=command)
         button.grid(row=row, column=column, padx=padx, pady=pady, sticky=sticky)
 
-        if window == self:
-            self._components.append(button)
+        self._components.append(button)
 
     def delete_box(self):
         window = Toplevel(self)
-        self.create_form("Name:", self._owner, 0, 0, (20, 10), (20, 10), window)
-        self.create_form("Pin:", self._pin, 0, 1, (10, 20), (20, 10), window)
-        self.create_button("Log in", 2, 1, (10, 20), (10, 20), "e", lambda: self._controller.delete_account(), window)
+        window.title("Delete account")
+
+        frame = Frame(window)
+        frame.grid(row=0, column=0, padx=(20, 10), pady=(20, 10))
+        label = ttk.Label(frame, text="Name:")
+        label.grid(row=0, column=0, sticky="w")
+        entry = ttk.Entry(frame, textvariable=self._owner)
+        entry.grid(row=1, column=0)
+        frame = Frame(window)
+
+        frame.grid(row=0, column=1, padx=(10, 20), pady=(20, 10))
+        label = ttk.Label(frame, text="Pin:")
+        label.grid(row=0, column=0, sticky="w")
+        entry = ttk.Entry(frame, textvariable=self._pin)
+        entry.grid(row=1, column=0)
+
+        button = ttk.Button(self, text="Delete", command=self._controller.delete_account)
+        button.grid(row=2, column=1, padx=(10, 20), pady=(10, 20), sticky="e")
 
     def reset(self):
         for component in self._components:
