@@ -26,8 +26,10 @@ class Model:
     def withdraw(self, amount):
         return self._account.withdraw(amount)
 
-    def delete_account(self):
-        print("deleting")
+    def delete_account(self, owner, pin):
+        print(owner, pin)
+        print(self._account.owner, self._account.pin)
+        return self._bank.remove(owner, pin)
 
     def increment_attempts(self):
         self._attempts += 1

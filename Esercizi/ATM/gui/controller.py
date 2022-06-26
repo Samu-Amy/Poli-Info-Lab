@@ -23,7 +23,7 @@ class Controller:
             account = self._model.log_in(owner, pin)
             self._model.reset_attempts()
             self._view.reset_var()
-            self._view.main_page(account.owner, account.balance)
+            self._view.main_page()
         except AccountError:
             self._model.increment_attempts()
             self._view.show_error("Account error", "The credentials are wrong or the account doesn't exist")
@@ -46,5 +46,10 @@ class Controller:
         except AmountError:
             self._view.show_error("Input error", "The amount must be greater than 0")
 
-    def delete_account(self):
-        self._model.delete_account()
+    def delete_account(self, owner, pin):
+        try:
+            self._model.delete_account(owner, pin)
+            self._view.log_in_page()
+            self._view.destroy_window()
+        except AccountError:
+            self._view.show_error("Account error", "The credentials are wrong.")

@@ -18,7 +18,6 @@ class Bank:
     def remove(self, name, pin):
         account = self.search(name, pin)
         self._accounts.remove(account)
-        return account
 
     def get(self, name, pin):
         account = self.search(name, pin)
