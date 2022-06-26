@@ -26,3 +26,10 @@ s = {a, b}
 print(s)  # {12, 13}
 a.dato = 13
 print(s)  # {13, 13} (non sono la stessa cosa)
+
+
+c = (1, 2, 3)
+d = (1, 2, 3)
+
+print(str(hash(a)))
+print(str(hash(b)))
