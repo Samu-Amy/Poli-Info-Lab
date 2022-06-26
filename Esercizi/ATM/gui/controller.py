@@ -11,8 +11,8 @@ class Controller:
         self._view = view
 
         # TODO: elimina
-        # self.create_account("Samu", "123", 5000)
-        # self.log_in("Samu", "123")
+        self.create_account("Samu", "123", 5000)
+        self.log_in("Samu", "123")
 
     def create_account(self, owner, pin, balance):
         try:

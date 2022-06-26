@@ -21,7 +21,6 @@ class Bank:
 
     def get(self, name, pin):
         account = self.search(name, pin)
-        print(account)
 
     def compute_interest(self):
         for account in self._accounts:

@@ -35,12 +35,30 @@ class View(Tk):
         self.title("Bank account")
         self.update_var()
 
+        # Menu
+        menubar = Menu(self)
+        self["menu"] = menubar
+
+        menu_options = Menu(menubar, tearoff=0)
+        menubar.add_cascade(menu=menu_options, label="Options")
+
+        menu_bank = Menu(menu_options, tearoff=0)
+        menu_options.add_cascade(menu=menu_bank, label="Bank")
+        menu_bank.add_command(label="View info")
+        menu_bank.add_command(label="Compute interest")
+
+        menu_account = Menu(menu_options, tearoff=0)
+        menu_options.add_cascade(menu=menu_account, label="Account")
+        menu_account.add_command(label="View info")
+        menu_account.add_command(label="Exit from account")
+        menu_account.add_command(label="Delete account", command=self.delete_box)
+
+        # Pagina
         ttk.Label(self, textvariable=self._owner_title, font=("", 10)).grid(row=0, column=0, padx=20, pady=(20, 5), sticky="w")
         ttk.Label(self, textvariable=self._balance_title, font=("", 10)).grid(row=1, column=0, padx=20, pady=(5, 10), sticky="w")
         self.create_form("Amount:", self._amount, 2, 0, 20, (10, 10))
         self.create_button("Deposit", 3, 0, (20, 10), 10, "w", lambda: self._controller.deposit(self._amount.get()))
         self.create_button("Withdraw", 3, 1, (10, 20), 10, "e", lambda: self._controller.withdraw(self._amount.get()))
-        self.create_button("Delete account", 0, 1, (10, 20), (20, 10), "e", lambda: self.delete_box())
 
     def create_form(self, text, variable, row, column, padx, pady):
         frame = Frame(self)
@@ -64,7 +82,7 @@ class View(Tk):
         self._window = Toplevel(self)
         self._window.title("Delete account")
         self._window.geometry("+525+300")
-        # self._window.attributes("-topmost", True)
+        self._window.attributes("-topmost", True)
 
         frame = Frame(self._window)
         frame.grid(row=0, column=0, padx=(20, 10), pady=(20, 10))
@@ -80,8 +98,15 @@ class View(Tk):
         entry = ttk.Entry(frame, textvariable=self._pin)
         entry.grid(row=1, column=0)
 
+        button = ttk.Button(self._window, text="Cancel", command=self.close_delete_box)
+        button.grid(row=2, column=0, padx=(20, 10), pady=(10, 20), sticky="w")
         button = ttk.Button(self._window, text="Delete", command=lambda: self._controller.delete_account(self._owner.get(), self._pin.get()))
         button.grid(row=2, column=1, padx=(10, 20), pady=(10, 20), sticky="e")
+
+    def close_delete_box(self):
+        self.reset_var()
+        self.update_var()
+        self._window.destroy()
 
     def reset(self):
         for component in self._components:
@@ -114,4 +139,4 @@ class View(Tk):
         self._window.destroy()
 
 
-    #TODO: elimina account, informazioni account e banca(di tutti gli account), interessi (banca)
+    #TODO: esci dall'account, informazioni account e banca(di tutti gli account), interessi (banca)
