@@ -6,7 +6,6 @@ class Model:
     def __init__(self):
         self._bank = Bank()
         self._account = None
-        self._attempts = 0
 
     @property
     def account(self):
@@ -30,9 +29,3 @@ class Model:
         print(owner, pin)
         print(self._account.owner, self._account.pin)
         return self._bank.remove(owner, pin)
-
-    def increment_attempts(self):
-        self._attempts += 1
-
-    def reset_attempts(self):
-        self._attempts = 0

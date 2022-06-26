@@ -17,7 +17,7 @@ class View(Tk):
         self._balance_title = StringVar()
         self._window = None
 
-        self.geometry("+500+250")
+        self.geometry("+540+260")
         self.log_in_page()
 
     def log_in_page(self):
@@ -27,7 +27,7 @@ class View(Tk):
         self.create_form("Name:", self._owner, 0, 0, (20, 10), (20, 10))
         self.create_form("Pin:", self._pin, 0, 1, (10, 20), (20, 10))
         self.create_form("Balance (new account):", self._balance, 1, 0, (20, 10), (10, 10))
-        self.create_button("Create account", 2, 0, (20, 10), (10, 20), "w", lambda: self._controller.create_account(self._owner.get(), self._pin.get(), int(self._balance.get())))
+        self.create_button("Create account", 2, 0, (20, 10), (10, 20), "w", lambda: self._controller.create_account(self._owner.get(), self._pin.get(), self._balance.get()))
         self.create_button("Log in", 2, 1, (10, 20), (10, 20), "e", lambda: self._controller.log_in(self._owner.get(), self._pin.get()))
 
     def main_page(self):
@@ -38,8 +38,8 @@ class View(Tk):
         ttk.Label(self, textvariable=self._owner_title, font=("", 10)).grid(row=0, column=0, padx=20, pady=(20, 5), sticky="w")
         ttk.Label(self, textvariable=self._balance_title, font=("", 10)).grid(row=1, column=0, padx=20, pady=(5, 10), sticky="w")
         self.create_form("Amount:", self._amount, 2, 0, 20, (10, 10))
-        self.create_button("Deposit", 3, 0, (20, 10), 10, "w", lambda: self._controller.deposit(int(self._amount.get())))
-        self.create_button("Withdraw", 3, 1, (10, 20), 10, "e", lambda: self._controller.withdraw(int(self._amount.get())))
+        self.create_button("Deposit", 3, 0, (20, 10), 10, "w", lambda: self._controller.deposit(self._amount.get()))
+        self.create_button("Withdraw", 3, 1, (10, 20), 10, "e", lambda: self._controller.withdraw(self._amount.get()))
         self.create_button("Delete account", 0, 1, (10, 20), (20, 10), "e", lambda: self.delete_box())
 
     def create_form(self, text, variable, row, column, padx, pady):
@@ -63,7 +63,8 @@ class View(Tk):
     def delete_box(self):
         self._window = Toplevel(self)
         self._window.title("Delete account")
-        self._window.geometry("+485+280")
+        self._window.geometry("+525+300")
+        # self._window.attributes("-topmost", True)
 
         frame = Frame(self._window)
         frame.grid(row=0, column=0, padx=(20, 10), pady=(20, 10))
@@ -102,8 +103,12 @@ class View(Tk):
         self._owner_title.set(f"Owner: {self._owner.get()}")
         self._balance_title.set(f"Balance: {self._balance.get()}")
 
-    def show_error(self, title, message):
-        messagebox.showerror(title=title, message=message)
+    def show_error(self, title, message, parent=None):
+        if parent is None:
+            parent = self
+        elif parent == "window":
+            parent = self._window
+        messagebox.showerror(title=title, message=message, parent=parent)
 
     def destroy_window(self):
         self._window.destroy()
