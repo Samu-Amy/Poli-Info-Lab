@@ -19,9 +19,6 @@ class Bank:
         account = self.search(name, pin)
         self._accounts.remove(account)
 
-    def get(self, name, pin):
-        account = self.search(name, pin)
-
     def compute_interest(self):
         for account in self._accounts:
             account.compute_interest()
@@ -30,7 +27,7 @@ class Bank:
         string = ""
         for account in self._accounts:
             string += str(account)
-            string += "\n"
+            string += "\n\n"
         return string
 
 

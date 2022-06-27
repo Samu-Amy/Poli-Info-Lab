@@ -44,13 +44,13 @@ class View(Tk):
 
         menu_bank = Menu(menu_options, tearoff=0)
         menu_options.add_cascade(menu=menu_bank, label="Bank")
-        menu_bank.add_command(label="View info")
-        menu_bank.add_command(label="Compute interest")
+        menu_bank.add_command(label="View info", command=self._controller.view_bank_info)
+        menu_bank.add_command(label="Compute interest", command=self._controller.compute)
 
         menu_account = Menu(menu_options, tearoff=0)
         menu_options.add_cascade(menu=menu_account, label="Account")
-        menu_account.add_command(label="View info")
-        menu_account.add_command(label="Exit from account")
+        menu_account.add_command(label="View info", command=self._controller.view_account_info)
+        menu_account.add_command(label="Exit from account", command=self._controller.exit_account)
         menu_account.add_command(label="Delete account", command=self.delete_box)
 
         # Pagina
@@ -135,8 +135,19 @@ class View(Tk):
             parent = self._window
         messagebox.showerror(title=title, message=message, parent=parent)
 
+    def show_info(self, info):
+        self._window = Toplevel(self)
+        self._window.title("Delete account")
+        self._window.geometry("+350+180")
+        self._window.attributes("-topmost", True)
+
+        text_box = Text(self._window)
+        text_box.insert("end", info)
+        text_box.grid(row=0, column=0)
+
+    @staticmethod
+    def message_box():
+        messagebox.showinfo(title="Option completed successfully", message="Interests computed successfully.")
+
     def destroy_window(self):
         self._window.destroy()
-
-
-    #TODO: esci dall'account, informazioni account e banca(di tutti gli account), interessi (banca)

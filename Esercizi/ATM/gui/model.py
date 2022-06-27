@@ -11,6 +11,9 @@ class Model:
     def account(self):
         return self._account
 
+    def exit(self):
+        self._account = None
+
     def create_account(self, owner, pin, balance):
         self._account = SavingsAccount(owner, pin, balance)
         self._bank.add(self._account)
@@ -25,7 +28,14 @@ class Model:
     def withdraw(self, amount):
         return self._account.withdraw(amount)
 
+    def view_account_info(self):
+        return str(self._account)
+
+    def view_bank_info(self):
+        return str(self._bank)
+
+    def compute(self):
+        self._bank.compute_interest()
+
     def delete_account(self, owner, pin):
-        print(owner, pin)
-        print(self._account.owner, self._account.pin)
         return self._bank.remove(owner, pin)
