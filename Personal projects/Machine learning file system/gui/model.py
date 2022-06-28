@@ -78,7 +78,9 @@ class Model:
         print(path)
         i = 1
         current = None
+        last = path[-1]
         error = False
+        new_path = []
 
         # Controllo primo elemento
         if current is None:
@@ -88,15 +90,28 @@ class Model:
                 error = True
 
         if len(path) > 1:
-            while i < len(path):
-                print(path[i])
-                i+=1
+            current, new_path, error = self.search_rec(current, i, path, new_path, last, error)
 
-        return error
+        return current, new_path, error
 
+    def search_rec(self, current, index, path, new_path, last, error):
+        print(index, last, path)  #TODO: elimina
 
-    def search_rec(self):
-        pass
+        for element in current.get_items():
+            if element == path[index]:
+                current = element
+                new_path.append(element)
+                error = False
+                break
+            else:
+                error = True
+
+        if not error:
+            if index != len(path) - 1:
+                current, new_path, error = self.search_rec(current, index + 1, path, new_path, last, error)
+            else:
+                return current, new_path, error
+
 
         # while not error and not finished:
         #     if len(path)
