@@ -26,7 +26,7 @@ class Controller:
         if isinstance(item, File):
             self._view.show(item.data, item.name)
 
-        # Elimina gli elementi e apre la cartella
+        # Elimina gli elementi grafici e apre la cartella
         elif isinstance(item, Folder):
             self._view.clear()
             items = item.get_items()
@@ -46,11 +46,10 @@ class Controller:
     # Apre un percorso
     def open_path(self, path_mod):
         path = path_mod.split("/")
-        # print(path)
         error = self._model.search_path(path)
-        # print(error, item.name)
         if error:
             self._view.show_error_box("Path error", "Path not found")
+            self._view.update_path(self._model.path)
 
     # Torna all'elemento precedente
     def return_back(self):

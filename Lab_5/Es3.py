@@ -114,6 +114,7 @@ def remove():
         while i < len(list):
             object = list[i]
             if object.passed:
+                object.destroy()
                 list.remove(object) # NON FUNZIONA (distrugge gli oggetti solo alla fine)
                 del object
                 i = 0

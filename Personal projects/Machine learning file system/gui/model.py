@@ -7,6 +7,7 @@ class Model:
         self._desktop = Desktop()
         self._path = [self._desktop]
         self._current_item = self._desktop
+        self._elements = []
 
         if not isinstance(self._current_item, File):
             self._items = self._current_item.get_items()
@@ -74,36 +75,46 @@ class Model:
 
     # Cerca un percorso
     def search_path(self, path):
-        i = 0
+        print(path)
+        i = 1
         current = None
         error = False
-        found = False
-        finished = False
 
         # Controllo primo elemento
         if current is None:
-            if path[i] == self._desktop.name:
+            if path[0] == self._desktop.name:
                 current = self._desktop
-        else:
-            error = True
+            else:
+                error = True
 
-        #TODO: da sistemare (non funziona e servono gli id), usa gli oggetti nei path
-        while not error and not finished:
-            while i < len(path) - 1:
-                found = False
-                print(i, len(path))
-                for element in current.get_items():
-                    if path[i+1] == element.name:
-                        current = element
-                        found = True
-                        i += 1
-                        break
-                if not found:
-                    error = True
-                    break
+        if len(path) > 1:
+            while i < len(path):
+                print(path[i])
+                i+=1
 
-                if element.name == path[-1]:
-                    finished = True
+        return error
+
+
+    def search_rec(self):
+        pass
+
+        # while not error and not finished:
+        #     if len(path)
+        #     while i < len(path):
+        #         found = False
+        #         print(i, len(path))
+        #         for element in current.get_items():
+        #             if path[i+1] == element.name:
+        #                 current = element
+        #                 found = True
+        #                 i += 1
+        #                 break
+        #         if not found:
+        #             error = True
+        #             break
+        #
+        #         if element.name == path[-1]:
+        #             finished = True
 
         # print(current.name)
         #

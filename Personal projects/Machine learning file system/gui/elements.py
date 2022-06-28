@@ -7,6 +7,7 @@ class File:
         self._format = format
         self._image = "file"
         self._data = ""
+        self._path = []  #TODO: implementa (se serve)
         self._id = "fi" + str(File._id)
         File._id += 1
         # Argomento
@@ -15,6 +16,8 @@ class File:
     #TODO: aggiungi formati (sottoclassi apposta)
 
     #TODO: aggiungi blocco file con password
+
+    #TODO: controllo nomi per elementi nella stessa cartella
 
     def set_name(self, name):
         self._name = name
@@ -45,6 +48,7 @@ class Folder:
         self._name = name
         self._format = "folder"
         self._items = []
+        self._path = []  # TODO: implementa (se serve)
         self._id = "fo" + str(Folder._id)
         Folder._id += 1
 
