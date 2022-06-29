@@ -54,10 +54,10 @@ def main():
     info = player2.get_values()
     print(f"Dettagli giocatore 2: {info[0]} {info[1]}, {info[2]} anni")
 
-    print(f"Fanno parte della squadra: {player1.get_team().get_info()[0]}")
+    print(f"\nFanno parte della squadra {player1.get_team().get_info()[0]}")
 
     teamInfo = team1.get_info()
-    print(f"Dettagli squadra: nome {teamInfo[0]}, città {teamInfo[1]}")
+    print(f"\nDettagli squadra:\nNome: {teamInfo[0]}\nCittà: {teamInfo[1]}\n")
 
     teamPlayers = team1.get_players()
     print(f"Di cui fanno parte: {teamPlayers[0].get_values()[0]} {teamPlayers[0].get_values()[1]} e {teamPlayers[1].get_values()[0]} {teamPlayers[1].get_values()[1]}")
