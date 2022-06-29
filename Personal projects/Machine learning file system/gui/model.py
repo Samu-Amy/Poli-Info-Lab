@@ -7,7 +7,6 @@ class Model:
         self._desktop = Desktop()
         self._path = [self._desktop]
         self._current_item = self._desktop
-        self._elements = []
 
         if not isinstance(self._current_item, File):
             self._items = self._current_item.get_items()
@@ -48,6 +47,12 @@ class Model:
                 self._path.append(self._current_item)
             to_update = True
         return to_update
+
+    # Aggiorna gli elementi
+    def open_folder(self, folder, path):
+        self._current_item = folder
+        self.update_items()
+        self._path = path
 
     # Torna indietro nel percorso e lo aggiorna
     def pop_path(self):
@@ -101,7 +106,7 @@ class Model:
     def search_rec(self, current, index, path, new_path, last, error):
 
         for element in current.get_items():
-            if element.name == path[index]:
+            if element.name == path[index] and not isinstance(element, File):
                 current = element
                 new_path.append(element)
                 error = False

@@ -37,21 +37,30 @@ class Controller:
             self._view.update_path(self._model.path)
 
     # Apre una cartella o un file
-    def open(self, index):
-        to_update = self._model.set_current_item(index)
-        self._model.update_items()
-        if to_update:
-            self.update()
+    def open(self, element, item=False):
+        if item:
+            pass
+        else:
+            to_update = self._model.set_current_item(element)
+            self._model.update_items()
+            if to_update:
+                self.update()
 
     # Apre un percorso
     def open_path(self, path_mod):
         path = path_mod.split("/")
         result = self._model.search_path(path)
-        if result[2]:
+
+        current = result[0]
+        path = result[1]
+        error = result[2]
+
+        if error:
             self._view.show_error_box("Path error", "Path not found")
             self._view.update_path(self._model.path)
         else:
-            print(result[0], result[0].name, result[1])
+            self._model.open_folder(current, path)
+            self.update()
 
     # Torna all'elemento precedente
     def return_back(self):
