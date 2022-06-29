@@ -230,21 +230,21 @@ class View(Tk):
 
     # Mostra la finestra con le informazioni sul funzionamento
     def show_info(self):
-        text = ["CREAZIONE FILE E CARTELLE: tasto destro o pulsante in alto a destra", "RICERCA PERCORSO: tasto sinistro sul percorso > inserimento percorso > Invio", "ANNULLAMENTO RICERCA PERCORSO: tasto destro sul percorso o tasto sinistro in un punto vuoto"]
+        text = ["CREAZIONE FILE E CARTELLE: tasto destro in un punto vuoto o pulsanti in alto a destra", "RICERCA PERCORSO: tasto sinistro sul percorso > inserimento percorso > invio", "ANNULLAMENTO RICERCA PERCORSO: tasto destro sul percorso o tasto sinistro in un punto vuoto"]
         window = Toplevel(self)
         window.title("Informazioni sul software")
         window.geometry("+800+350")
 
         for i in range(len(text)):
             if i == 0:
-                col = (20, 5)
+                pad = (20, 5)
             elif i == len(text) - 1:
-                col = (5, 20)
+                pad = (5, 20)
             else:
-                col = 5
+                pad = 5
 
             label = ttk.Label(window, text=text[i], font=("", 10), justify="left")
-            label.grid(row=i, column=col, padx=20, pady=5, sticky="news")
+            label.grid(row=i, column=0, padx=20, pady=pad, sticky="news")
 
     # Cambio colore tasto se il mouse è in hover
     def change_on_hover(self, button, colorOnHover, colorOnLeave):
