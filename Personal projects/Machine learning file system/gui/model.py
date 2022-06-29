@@ -86,19 +86,21 @@ class Model:
         if current is None:
             if path[0] == self._desktop.name:
                 current = self._desktop
+                new_path.append(current)
             else:
                 error = True
 
         if len(path) > 1:
-            current, new_path, error = self.search_rec(current, i, path, new_path, last, error)
+            result = self.search_rec(current, i, path, new_path, last, error)
+        else:
+            result = (current, new_path, error)
 
-        return current, new_path, error
+        return result
 
     def search_rec(self, current, index, path, new_path, last, error):
-        print(index, last, path)  #TODO: elimina
 
         for element in current.get_items():
-            if element == path[index]:
+            if element.name == path[index]:
                 current = element
                 new_path.append(element)
                 error = False
@@ -108,40 +110,8 @@ class Model:
 
         if not error:
             if index != len(path) - 1:
-                current, new_path, error = self.search_rec(current, index + 1, path, new_path, last, error)
-            else:
-                return current, new_path, error
+                return self.search_rec(current, index + 1, path, new_path, last, error)
 
+        result = (current, new_path, error)
 
-        # while not error and not finished:
-        #     if len(path)
-        #     while i < len(path):
-        #         found = False
-        #         print(i, len(path))
-        #         for element in current.get_items():
-        #             if path[i+1] == element.name:
-        #                 current = element
-        #                 found = True
-        #                 i += 1
-        #                 break
-        #         if not found:
-        #             error = True
-        #             break
-        #
-        #         if element.name == path[-1]:
-        #             finished = True
-
-        # print(current.name)
-        #
-        # # Controllo elemento
-        # if current.name == path[-1]:
-        #     return error, current
-        # else:
-        #     if i < len(path) - 1 and not error:
-        #         print(i, len(path) -1)
-        #         for element in current.get_items():
-        #             # print(element.name)
-        #             if path[i+1] == element.name:
-        #                 current = element
-        #                 # print(element.name)
-        #                 return self.search_path(path, i+1, current)
+        return result

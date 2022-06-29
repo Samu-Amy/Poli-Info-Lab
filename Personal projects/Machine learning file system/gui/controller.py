@@ -46,12 +46,12 @@ class Controller:
     # Apre un percorso
     def open_path(self, path_mod):
         path = path_mod.split("/")
-        element, new_path, error = self._model.search_path(path)
-        if error:
+        result = self._model.search_path(path)
+        if result[2]:
             self._view.show_error_box("Path error", "Path not found")
             self._view.update_path(self._model.path)
         else:
-            print("ok")
+            print(result[0], result[0].name, result[1])
 
     # Torna all'elemento precedente
     def return_back(self):
