@@ -4,7 +4,7 @@ con registrazione dell'organizzazione e creazione di una tabella per addestrare
 il machine learning che può archiviare i file automaticamente in base alle
 caratteristiche del file (formato, argomento, contenuto, ecc.).
 
->Per ora il machine learning non è ancora implementato, sto ancora creando l'interfaccia
+>Per ora il machine learning non è ancora implementato, sto ancora creando l'interfaccia (ci sono delle cartelle e file di default solo per i test, non saranno presenti nella verisone definitiva)
 
 ---
 
