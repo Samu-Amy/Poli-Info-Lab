@@ -57,10 +57,14 @@ class Controller:
 
         if error:
             self._view.show_error_box("Path error", "Path not found")
-            self._view.update_path(self._model.path)
+            self.update_view_path()
         else:
             self._model.open_folder(current, path)
             self.update()
+
+    # Aggiorna percorso view
+    def update_view_path(self):
+        self._view.update_path(self._model.path)
 
     # Torna all'elemento precedente
     def return_back(self):

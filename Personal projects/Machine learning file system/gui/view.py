@@ -61,12 +61,21 @@ class View(Tk):
         self._main = Frame(self, background=self._back_color)
         self._main.grid(row=1, column=0, padx=10, pady=10, sticky="news")
 
-        # Menu
+        # Menu pop up
         self._main_menu = Menu(self, tearoff=0)
         self._menu_new = Menu(self._main_menu, tearoff=0)
         self._main_menu.add_cascade(menu=self._menu_new, label="New")
         self._menu_new.add_command(label="Folder", command=self._controller.create_folder)
         self._menu_new.add_command(label="File", command= self._controller.create_file)
+
+        # Menu
+        menubar = Menu(self)
+        self["menu"] = menubar
+
+        menu_options = Menu(menubar, tearoff=0)
+        menubar.add_cascade(menu=menu_options, label="Options")
+
+        menu_options.add_command(label="Info", command=self.show_info)
 
         # Grafica toolbar
         self._back = Button(self._toolbar, image=self._back_image, width=20, height=20, background=self._back_color, borderwidth=0, command=self._controller.return_back)
@@ -84,8 +93,6 @@ class View(Tk):
         button = Button(self._toolbar, image=self._add_file_image, width=20, height=20, background=self._back_color, borderwidth=0, command=self._controller.create_file)
         button.grid(row=0, column=3, padx=(10, 0), sticky="e")
         self.change_on_hover(button, self._light_blue, self._back_color)
-
-        #TODO: aggiungi tasti (o evento sulla label/entry (si alternano occupando lo stesso posto)) per copiare/incollare il path
 
         # Eventi
         self._main.bind("<Button-3>", self.do_popup)  # Menu azioni
@@ -196,21 +203,48 @@ class View(Tk):
             self._main_menu.grab_release()
 
     # Selezione e modifica percorso
-    def modify_path(self, path_label):
+    def modify_path(self, path_label, open=False):
         if isinstance(path_label, ttk.Label):
             path_label = Entry(self._toolbar, textvariable=self._path_mod, background=self._back_color, highlightthickness=0)
             path_label.grid(row=0, column=1, padx=10, sticky="we")
             path_label.focus_set()
-            path_label.bind("<Return>", lambda event: self.modify_path(path_label))
+            path_label.bind("<Return>", lambda event: self.modify_path(path_label, True))  # Aggiorna il percorso
+            path_label.bind("<Button-3>", lambda event: self.modify_path(path_label))  # Non aggiorna il percorso
+            self._toolbar.bind("<Button-1>", lambda event: self.modify_path(path_label))  # Non aggiorna il percorso
+            self._main.bind("<Button-1>", lambda event: self.modify_path(path_label))  # Non aggiorna il percorso
         else:
-            self._controller.open_path(self._path_mod.get())  # Modifica il percorso
-            path_label = ttk.Label(self._toolbar, textvariable=self._path, background=self._back_color)
-            path_label.grid(row=0, column=1, padx=10, sticky="we")
-            path_label.bind("<Button-1>", lambda event: self.modify_path(path_label))
+            if open:
+                self._controller.open_path(self._path_mod.get())  # Modifica il percorso
+                path_label = ttk.Label(self._toolbar, textvariable=self._path, background=self._back_color)
+                path_label.grid(row=0, column=1, padx=10, sticky="we")
+                path_label.bind("<Button-1>", lambda event: self.modify_path(path_label))
+            else:
+                self._controller.update_view_path()
+                path_label = ttk.Label(self._toolbar, textvariable=self._path, background=self._back_color)
+                path_label.grid(row=0, column=1, padx=10, sticky="we")
+                path_label.bind("<Button-1>", lambda event: self.modify_path(path_label))
 
     # Mostra messaggio di errore
     def show_error_box(self, title, message):
         messagebox.showerror(title=title, message=message)
+
+    # Mostra la finestra con le informazioni sul funzionamento
+    def show_info(self):
+        text = ["CREAZIONE FILE E CARTELLE: tasto destro o pulsante in alto a destra", "RICERCA PERCORSO: tasto sinistro sul percorso > inserimento percorso > Invio", "ANNULLAMENTO RICERCA PERCORSO: tasto destro sul percorso o tasto sinistro in un punto vuoto"]
+        window = Toplevel(self)
+        window.title("Informazioni sul software")
+        window.geometry("+800+350")
+
+        for i in range(len(text)):
+            if i == 0:
+                col = (20, 5)
+            elif i == len(text) - 1:
+                col = (5, 20)
+            else:
+                col = 5
+
+            label = ttk.Label(window, text=text[i], font=("", 10), justify="left")
+            label.grid(row=i, column=col, padx=20, pady=5, sticky="news")
 
     # Cambio colore tasto se il mouse è in hover
     def change_on_hover(self, button, colorOnHover, colorOnLeave):
