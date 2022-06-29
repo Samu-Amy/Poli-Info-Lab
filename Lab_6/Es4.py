@@ -80,8 +80,8 @@ def main():
     matrice4 = Matrix(tabella1)
     matrice5 = matrice1
 
-    # matrice1.get_rows()
-    # matrice1.get_columns()
+    matrice1.get_rows()
+    matrice1.get_columns()
 
     matrice1.stampa()
     print()
