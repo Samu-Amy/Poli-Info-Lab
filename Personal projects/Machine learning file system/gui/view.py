@@ -26,13 +26,23 @@ class View(Tk):
         for i in range(50):
             self._multiples.append(self._max * i)
 
-        # Assets
-        self._window_icon = r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\deep_learning.ico"
-        self._folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
-        self._add_folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_folder.png")
-        self._file_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\file.png")
-        self._add_file_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_file.png")
-        self._back_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\back.png")
+        # Asset
+
+        # Percorsi desktop
+        # self._window_icon = r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\deep_learning.ico"
+        # self._folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
+        # self._add_folder_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_folder.png")
+        # self._file_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\file.png")
+        # self._add_file_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_file.png")
+        # self._back_image = PhotoImage(file=r"D:\Download\Lezioni\Materiale studio\Secondo anno\Secondo semestre\Algoritmi e programmazione a oggetti\Repository info lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\back.png")
+
+        # Percorsi laptop
+        self._window_icon = r"C:\Users\LENOVO\Desktop\Studio\Secondo anno - secondo semestre\Algoritmi e programmazione a oggetti\Repository lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\deep_learning.ico"
+        self._folder_image = PhotoImage(file=r"C:\Users\LENOVO\Desktop\Studio\Secondo anno - secondo semestre\Algoritmi e programmazione a oggetti\Repository lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\folder.png")
+        self._add_folder_image = PhotoImage(file=r"C:\Users\LENOVO\Desktop\Studio\Secondo anno - secondo semestre\Algoritmi e programmazione a oggetti\Repository lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_folder.png")
+        self._file_image = PhotoImage(file=r"C:\Users\LENOVO\Desktop\Studio\Secondo anno - secondo semestre\Algoritmi e programmazione a oggetti\Repository lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\file.png")
+        self._add_file_image = PhotoImage(file=r"C:\Users\LENOVO\Desktop\Studio\Secondo anno - secondo semestre\Algoritmi e programmazione a oggetti\Repository lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\add_file.png")
+        self._back_image = PhotoImage(file=r"C:\Users\LENOVO\Desktop\Studio\Secondo anno - secondo semestre\Algoritmi e programmazione a oggetti\Repository lab\Poli-Info-Lab\Personal projects\Machine learning file system\assets\back.png")
 
         # Impostazioni finestra
         self.title("File System")
