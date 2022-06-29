@@ -72,8 +72,8 @@ class Matrix:
 
 def main():
 
-    tabella1 = [[2,3], [8,5]]
-    tabella2 = [[4,6], [9,2]]
+    tabella1 = [[2, 3], [8, 5]]
+    tabella2 = [[4, 6], [9, 2]]
 
     matrice1 = Matrix(tabella1)
     matrice2 = Matrix(tabella2)
