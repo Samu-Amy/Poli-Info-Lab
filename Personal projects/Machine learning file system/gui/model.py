@@ -73,9 +73,8 @@ class Model:
     def create_folder(self):
         self._current_item.add(Folder(""))
 
-    # Cerca un percorso
+    # Cerca un percorso (con il metodo ricorsivo sotto)
     def search_path(self, path):
-        print(path)
         i = 1
         current = None
         last = path[-1]
@@ -90,6 +89,7 @@ class Model:
             else:
                 error = True
 
+        # Ricerca elementi (se il percorso ha più di un elemento)
         if len(path) > 1:
             result = self.search_rec(current, i, path, new_path, last, error)
         else:
@@ -97,6 +97,7 @@ class Model:
 
         return result
 
+    # Metodo ricorsivo di ricerca elementi
     def search_rec(self, current, index, path, new_path, last, error):
 
         for element in current.get_items():
