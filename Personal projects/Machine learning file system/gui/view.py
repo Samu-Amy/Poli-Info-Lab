@@ -13,6 +13,7 @@ class View(Tk):
         self._buttons = []
         self._path = StringVar()
         self._path_mod = StringVar()
+        self._file_name = StringVar()
 
         # Colori
         self._back_color = "#fff"
@@ -65,8 +66,8 @@ class View(Tk):
         self._main_menu = Menu(self, tearoff=0)
         self._menu_new = Menu(self._main_menu, tearoff=0)
         self._main_menu.add_cascade(menu=self._menu_new, label="New")
-        self._menu_new.add_command(label="Folder", command=self._controller.create_folder)
-        self._menu_new.add_command(label="File", command= self._controller.create_file)
+        self._menu_new.add_command(label="Folder", command=lambda: self._controller.create_folder(StringVar()))
+        self._menu_new.add_command(label="File", command=lambda: self._controller.create_file(StringVar()))
 
         # Menu
         menubar = Menu(self)
@@ -86,11 +87,11 @@ class View(Tk):
         path_label.grid(row=0, column=1, padx=10, sticky="we")
         path_label.bind("<Button-1>", lambda event: self.modify_path(path_label))
 
-        button = Button(self._toolbar, image=self._add_folder_image, width=20, height=20, background=self._back_color, borderwidth=0, command=self._controller.create_folder)
+        button = Button(self._toolbar, image=self._add_folder_image, width=20, height=20, background=self._back_color, borderwidth=0, command=lambda: self._controller.create_folder(StringVar()))
         button.grid(row=0, column=2, sticky="e")
         self.change_on_hover(button, self._light_blue, self._back_color)
 
-        button = Button(self._toolbar, image=self._add_file_image, width=20, height=20, background=self._back_color, borderwidth=0, command=self._controller.create_file)
+        button = Button(self._toolbar, image=self._add_file_image, width=20, height=20, background=self._back_color, borderwidth=0, command=lambda: self._controller.create_file(StringVar))
         button.grid(row=0, column=3, padx=(10, 0), sticky="e")
         self.change_on_hover(button, self._light_blue, self._back_color)
 
@@ -104,7 +105,7 @@ class View(Tk):
         self._controller.update()
 
     # Crea i tasti
-    def create(self, name, item, index):
+    def create(self, name, item, index, name_var):
 
         # Gestisce il layout
         if index in self._multiples:
@@ -124,30 +125,11 @@ class View(Tk):
             image = self._file_image
 
         # Grafica tasti
-
-        # button_frame = Frame(self._main, background=self._back_color)
-        # button = Button(button_frame, image=image, width=60, height=50, borderwidth=0)
-        # label = ttk.Label(button_frame, text=name)
-        #
-        # self.change_on_hover_multiples(button_frame, self._light_blue, self._back_color, button_frame, button, label)
-        #
-        # button_frame.bind("<Button-1>", lambda event: self._controller.open(index))
-        # button.bind("<Button-1>", lambda event: self._controller.open(index))
-        # label.bind("<Button-1>", lambda event: self._controller.open(index))
-        #
-        # button_frame.bind("<Button-3>", lambda event: self.do_popup(index))  #TODO: da sistemare
-        #
-        # button_frame.grid(row=self._rows, column=col, padx=8, pady=8, sticky="nw")
-        # button.grid(row=0, column=0, sticky="s")
-        # label.grid(row=1, column=0, sticky="n")
-        #
-        # self._buttons.append(button_frame)
-
-
-        button = Button(self._main, text=name, image=image, width=60, height=60, compound=TOP, background=self._back_color, borderwidth=0, command=lambda: self._controller.open(index))
+        button = Button(self._main, textvariable=name_var, image=image, width=60, height=60, compound=TOP,
+                        background=self._back_color, borderwidth=0, command=lambda: self._controller.open(index))
         self.change_on_hover(button, self._light_blue, self._back_color)
         self._buttons.append(button)
-        button.bind("<Button-3>", lambda event, i=index: self.do_popup(i))
+        button.bind("<Button-3>", lambda event, ind=index: self.do_popup(ind))
         button.grid(row=self._rows, column=col, padx=5, pady=5, sticky="nw")
 
     #TODO: crea rinomiazione file e cartelle e aggiunta formato e contenuto testo
@@ -245,6 +227,10 @@ class View(Tk):
 
             label = ttk.Label(window, text=text[i], font=("", 10), justify="left")
             label.grid(row=i, column=0, padx=20, pady=pad, sticky="news")
+
+    # Nomina i file
+    def rename_file(self):  #TODO: implementa (prova a nascondere la entry non usando .grid (se funziona comunque))
+        pass
 
     # Cambio colore tasto se il mouse è in hover
     def change_on_hover(self, button, colorOnHover, colorOnLeave):

@@ -1,9 +1,13 @@
+from tkinter import *
+
+
 class File:
 
     _id = 0
 
     def __init__(self, name="", format=None):
         self._name = name
+        self._name_var = None
         self._format = format
         self._image = "file"
         self._data = ""
@@ -23,6 +27,10 @@ class File:
         self._name = name
         return self
 
+    def set_name_var(self, name_var):
+        self._name_var = name_var
+        return self
+
     def set_data(self, data):
         self._data = data
         return self
@@ -30,6 +38,14 @@ class File:
     @property
     def name(self):
         return self._name
+
+    @property
+    def name_var(self):
+        return self._name_var
+
+    @name_var.setter
+    def name_var(self, name):
+        self._name_var.set(str(name))
 
     @property
     def format(self):
@@ -46,6 +62,7 @@ class Folder:
 
     def __init__(self, name):
         self._name = name
+        self._name_var = None
         self._format = "folder"
         self._items = []
         self._path = []  # TODO: implementa (se serve)
@@ -58,6 +75,10 @@ class Folder:
         self._name = name
         return self
 
+    def set_name_var(self, name_var):
+        self._name_var = name_var
+        return self
+
     def add(self, *folders):
         for folder in folders:
             self._items.append(folder)
@@ -66,6 +87,14 @@ class Folder:
     @property
     def name(self):
         return self._name
+
+    @property
+    def name_var(self):
+        return self._name_var
+
+    @name_var.setter
+    def name_var(self, name):
+        self._name_var.set(str(name))
 
     @property
     def format(self):

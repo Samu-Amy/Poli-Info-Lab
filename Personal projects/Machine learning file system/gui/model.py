@@ -71,12 +71,16 @@ class Model:
             self._items = self._current_item.get_items()
 
     # Crea un file
-    def create_file(self):
-        self._current_item.add(File(""))
+    def create_file(self, name_var):
+        file = File("")
+        file.set_name_var(name_var)
+        self._current_item.add(file)
 
     # Crea una cartella
-    def create_folder(self):
-        self._current_item.add(Folder(""))
+    def create_folder(self, name_var):
+        folder = Folder("")
+        folder.set_name_var(name_var)
+        self._current_item.add()
 
     # Cerca un percorso (con il metodo ricorsivo sotto)
     def search_path(self, path):

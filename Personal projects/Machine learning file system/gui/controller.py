@@ -32,7 +32,7 @@ class Controller:
             items = item.get_items()
             for index in range(len(items)):
                 item = items[index]
-                self._view.create(item.name, item, index)
+                self._view.create(item.name, item, index, item.name_var)
 
             self._view.update_path(self._model.path)
 
@@ -78,11 +78,13 @@ class Controller:
         self.update()
 
     # Crea un file
-    def create_file(self):
-        self._model.create_file()
+    def create_file(self, name_var):
+        self._model.create_file(name_var)
         self.update()
+        self._view.rename_file()
 
     # Crea una cartella
-    def create_folder(self):
-        self._model.create_folder()
+    def create_folder(self, name_var):
+        self._model.create_folder(name_var)
         self.update()
+        self._view.rename_file()
